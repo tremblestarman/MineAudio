@@ -1,0 +1,5 @@
+C:\Users\Administrator\documents\visual studio 2015\Projects\Audio2MinecraftScore\dll\Audio2MinecraftScore\obj\Debug\Audio2MinecraftScore.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\dll\Audio2MinecraftScore\bin\Debug\Audio2Minecraft.dll
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\dll\Audio2MinecraftScore\bin\Debug\Audio2Minecraft.pdb
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\dll\Audio2MinecraftScore\obj\Debug\Audio2Minecraft.dll
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\dll\Audio2MinecraftScore\obj\Debug\Audio2Minecraft.pdb

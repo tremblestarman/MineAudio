@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Audio2Minecraft;
+using Newtonsoft.Json;
+
+namespace WpfApplication1
+{
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+			//生成TimeLine(时间序列)
+            var a = new TimeLine().Serialize(MidiPath.Text, WavePath.Text, 0, 10, 10, 4);
+
+			//设定音轨及其音色
+            a.Sound_StopSound(true);	//启用/stopsound
+            a.Sound_ExtraDelay(3);		//所有音轨的发生发声延长3tick 
+            a.Sound_SoundName("9", "9");	//用法：timeLine.Sound_SoundName("音色名称","音轨名称","乐器名称")
+            a.Sound_SoundName("33c", "33"); a.Sound_ExtraDelay(4, "33");	//用法：timeLine.Sound_SoundName(延长时间[刻],"音轨名称","乐器名称")
+            a.Sound_SoundName("39", "39");
+            a.Sound_SoundName("51c", "51");
+            a.Sound_SoundName("7", "7"); a.Sound_StopSound(false, "7");
+            a.Sound_SoundName("1", "1"); a.Sound_PercVolume(110, "1"); a.Sound_StopSound(false, "1");	//对"1"(钢琴)禁用/stopsound
+            a.Sound_SoundName("5c", "5"); a.Sound_ExtraDelay(4, "5");
+            a.Sound_SoundName("8", "8");
+            a.Sound_SoundName("26c", "26");
+            a.Sound_SoundName("0.44", "Pedal Hi-Hat");
+            a.Sound_SoundName("0.36", "Bass Drum1");
+            a.Sound_SoundName("0.47", "Low-Mid Tom");
+            a.Sound_SoundName("0.59", "Ride Cymbal2");
+            a.Sound_SoundName("0.58", "Vibra-slap"); a.Sound_ExtraDelay(10, "Vibra-slap");
+            //禁用&启用特定的音轨
+            a.EnableMidi(false);	//Midi序列全部禁用
+            a.EnableWave(false, -1, "Right");	//Wave序列的右声道全部禁用
+            a.EnableMidi(true, "", "", -1, "PlaySound");	//启用Midi序列的/playsound
+            a.EnableMidi(false, "D", "", -1, "PlaySound");		//禁用下列音轨的/playsound
+            a.EnableMidi(false, "X", "", -1, "PlaySound");
+            a.EnableMidi(false, "R", "", -1, "PlaySound");
+            a.EnableMidi(false, "F", "", -1, "PlaySound");
+            a.EnableMidi(true, "D", "", -1, "Pitch");
+            a.EnableMidi(true, "X", "", -1, "Pitch");
+            a.EnableMidi(true, "R", "", -1, "Pitch");
+            a.EnableMidi(true, "F", "", -1, "Pitch");		//这些音轨用于输出它们音高值到计分板
+            a.EnableMidi(true, "Low-Mid Tom", "", -1, "Velocity");
+            a.EnableMidi(true, "Pedal Hi-Hat", "", -1, "Velocity");
+            a.EnableMidi(true, "Ride Cymbal2", "", -1, "Velocity");
+            a.EnableMidi(true, "Vibra-slap", "", -1, "Velocity");		//这些音轨除了用于/playsound还将输出它们速率(力度)到计分板
+
+			//生成CommnandLine(命令序列)
+			var b = new CommandLine().Serialize(a);
+
+			//读取AMLrc(命令序列)嵌入命令序列
+			var lrc = new AMLrc().Serialize(LrcPath.Text).AMLrcLine;
+            b = b.Combine(b, lrc);
+
+			//生成schematic文件
+            new Schematic().ExportSchematic(b, new ExportSetting() { AlwaysActive = true, AlwaysLoadEntities = false, Direction = 0, Width = 5 }, "E:\\time.schematic"); 
+        }
+
+        private void MidiSelect(object sender, MouseButtonEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Midi|*.mid";
+            fileDialog.FilterIndex = 1;
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) { MidiPath.Text = fileDialog.FileName; }
+        }
+
+        private void WaveSelect(object sender, MouseButtonEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Wave|*.wav";
+            fileDialog.FilterIndex = 1;
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) { WavePath.Text = fileDialog.FileName; }
+        }
+
+		private void LrcSelect(object sender, MouseButtonEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Lrc|*.lrc;*.amlrc;*.txt";
+            fileDialog.FilterIndex = 1;
+            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) { LrcPath.Text = fileDialog.FileName; }
+        }
+	}
+}

@@ -1,0 +1,10 @@
+C:\Users\Administrator\documents\visual studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\bin\Debug\Audio2MinecraftScore_test.exe.config
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\bin\Debug\Audio2MinecraftScore_test.exe
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\bin\Debug\Audio2MinecraftScore_test.pdb
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\bin\Debug\NAudio.xml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\obj\Debug\Audio2MinecraftScore_test.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\obj\Debug\Audio2MinecraftScore.Form1.resources
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\obj\Debug\Audio2MinecraftScore.Properties.Resources.resources
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\obj\Debug\Audio2MinecraftScore_test.csproj.GenerateResource.Cache
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\obj\Debug\Audio2MinecraftScore_test.exe
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2MinecraftScore\Audio2MinecraftScore\obj\Debug\Audio2MinecraftScore_test.pdb
