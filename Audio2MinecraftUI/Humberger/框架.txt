@@ -1,0 +1,4 @@
+﻿MidiSetting
+-音轨设置
+-乐器设置
+-PlaySound设置

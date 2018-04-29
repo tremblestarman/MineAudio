@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="Audio2MinecraftUI.Humberger.MidiSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Audio2MinecraftUI.Humberger"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             MinHeight="250" MinWidth="620" MaxHeight="250" MaxWidth="620"
+             
+             Initialized="UserControl_Initialized">
+    <UserControl.Resources>
+        <local:SlidConverter x:Key="SlidConverter"/>
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Left" Height="250" Margin="6,2,0,0" VerticalAlignment="Top" Width="600">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,0,385,10">
+            <TreeView DataContext="{Binding}"  ItemsSource="{Binding Instruments}" x:Name="TracksView" Height="228" Width="202"  SelectedItemChanged="TracksView_SelectedItemChanged">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type local:MidiSetting}" ItemsSource="{Binding Instruments}">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding Enable}" Click="Enable_Click">
+                                <TextBlock Text="{Binding Name}" />
+                            </CheckBox>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </ScrollViewer>
+        <Grid Margin="220,0,0,10">
+            <TextBlock x:Name="SelectedName" FontSize="12px" Margin="0,10,83,211" HorizontalAlignment="Center"/>
+            <Button HorizontalAlignment="Left" Margin="347,1,0,0" VerticalAlignment="Top" Height="32" Width="32" MouseLeftButtonDown="SwitchViewType" PreviewMouseLeftButtonDown="SwitchViewType">
+                <Image x:Name="SwitcherViewType" Source="/img/track_view.png"  Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-5" Y="-7"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Button>
+            <Button x:Name="Done" HorizontalAlignment="Left" Margin="319,6,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
+                <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-5" Y="-7"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Button>
+            <Grid x:Name="Plat" Margin="0,33,0,0">
+                <CheckBox x:Name="计分板输出" Uid="EnableScore" Margin="8,6,271,183" IsChecked="{x:Null}" Click="Elements_Click">
+                    <TextBlock Text="计分板输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray"/>
+                </CheckBox>
+                <Grid x:Name="KeyScore" Margin="0,1,0,109">
+                    <CheckBox x:Name="键起始时间" Uid="DeltaTickStart" Margin="20,27,271,51" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="键起始时间" FontSize="12px"/>
+                    </CheckBox>
+                    <CheckBox x:Name="小节索引" Uid="BarIndex" Margin="140,27,152,51" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="小节索引" FontSize="12px"/>
+                    </CheckBox>
+                    <CheckBox x:Name="键持续时间" Uid="DeltaTickDuration" Margin="260,27,35,51" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="键持续时间" FontSize="12px"/>
+                    </CheckBox>
+                    <CheckBox x:Name="键起始刻数" Uid="MinecraftTickStart" Margin="20,47,271,31" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="键起始刻数" FontSize="12px"/>
+                    </CheckBox>
+                    <CheckBox x:Name="小节长度" Uid="BeatDuration" Margin="140,47,152,31" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="小节长度" FontSize="12px"/>
+                    </CheckBox>
+                    <CheckBox x:Name="键持续刻数" Uid="MinecraftTickDuration" Margin="260,47,35,31" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="键持续刻数" FontSize="12px"/>
+                    </CheckBox>
+                    <CheckBox x:Name="频道" Uid="Channel" Margin="20,67,271,11" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="频道" FontSize="12px"/>
+                    </CheckBox>
+                    <CheckBox x:Name="音高" Uid="Pitch" Margin="140,67,152,11" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="音高" FontSize="12px"/>
+                    </CheckBox>
+                    <CheckBox x:Name="力度" Uid="Velocity" Margin="260,67,35,11" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="力度" FontSize="12px"/>
+                    </CheckBox>
+                    <Border BorderThickness="1" BorderBrush="DarkGray"/>
+                </Grid>
+                <CheckBox x:Name="Playsound输出" Uid="EnablePlaysound" Margin="8,103,256,86" IsChecked="{x:Null}" Click="Elements_Click">
+                    <TextBlock Text="Playsound输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray"/>
+                </CheckBox>
+                <Grid x:Name="PlaySound" Margin="0,105,0,0">
+                    <CheckBox x:Name="Stopsound" Uid="StopSound" Margin="282,-4,10,82" IsChecked="{x:Null}" Click="Elements_Click">
+                        <TextBlock Text="Stopsound" FontSize="12px"/>
+                    </CheckBox>
+                    <TextBlock Text="音色名" FontSize="12px" Margin="24,24,310,58" x:Name="C1"/>
+                    <ComboBox Controls:TextBoxHelper.Watermark=""  x:Name="音色名称" Uid="SoundName" Margin="65,17,215,57" Height="24" IsEditable="True" SelectionChanged="音色名称_SelectionChanged" TextInput="音色名称_TextInput" PreviewTextInput="音色名称_TextInput" KeyDown="音色名称_KeyBackDown" PreviewKeyDown="音色名称_KeyBackDown" ItemsSource="{Binding OptionalInstrument}"/>
+                    <Border BorderThickness="1" BorderBrush="DarkGray" Margin="0,-9,0,0"/>
+                    <TextBlock Text="播放相对坐标" FontSize="12px" Margin="179,24,124,58" x:Name="C2"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标X" Uid="ExecuteCood1" Margin="257,17,86,57" Height="24" KeyDown="播放相对坐标X_KeyDown" PreviewKeyDown="播放相对坐标X_KeyDown" TextChanged="播放相对坐标X_TextChanged"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标Y" Uid="ExecuteCood2" Margin="295,17,48,57" Height="24" KeyDown="播放相对坐标Y_KeyDown" PreviewKeyDown="播放相对坐标Y_KeyDown" TextChanged="播放相对坐标Y_TextChanged"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标Z" Uid="ExecuteCood3" Margin="333,17,10,57" Height="24" KeyDown="播放相对坐标Z_KeyDown" PreviewKeyDown="播放相对坐标Z_KeyDown" TextChanged="播放相对坐标Z_TextChanged"/>
+                    <TextBlock Text="相对玩家" FontSize="12px" Margin="12,51,308,31" x:Name="C3"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="相对玩家" Uid="ExecuteTarget" Margin="65,44,245,32" Height="24" TextChanged="TextChanged" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
+                    <TextBlock Text="播放对象" FontSize="12px" Margin="150,51,153,31" x:Name="C4"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放对象" Uid="PlayTarget" Margin="204,44,106,32" Height="24" TextChanged="TextChanged" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
+                    <TextBlock Text="源" FontSize="12px" Margin="288,51,15,31" x:Name="C5"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="源" Uid="PlaySource" Margin="305,44,10,32" Height="24" TextChanged="TextChanged" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
+                    <TextBlock Text="子表达式" FontSize="12px" Margin="12,76,308,6" x:Name="C6"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="子表达式" Uid="InheritExpression" Margin="65,69,245,5" Height="24" TextChanged="TextChanged" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
+                    <TextBlock Text="额外延时" FontSize="12px" Margin="150,76,153,6" x:Name="C7"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="额外延时" Uid="ExtraDelay" Margin="204,69,139,5" Height="24" KeyDown="额外延时_KeyDown" PreviewKeyDown="额外延时_KeyDown" TextChanged="额外延时_TextChanged"/>
+                    <TextBlock Text="Ticks" FontSize="12px" Margin="244,77,59,5" x:Name="C8"/>
+                    <TextBlock Text="音量" FontSize="12px" Margin="278,76,25,6" x:Name="C9"/>
+                    <Slider Margin="306,75,5,7" x:Name="音量增益" Uid="PercVolume" Value="50" ValueChanged="音量增益_ValueChanged" MouseLeftButtonDown="音量增益_MouseDown" PreviewMouseLeftButtonDown="音量增益_MouseDown"/>
+                    <TextBlock Text="{Binding ElementName=音量增益,Path=Value,Converter={StaticResource SlidConverter}}" FontSize="7px" x:Name="音量大小" Margin="266,89,66,-7" HorizontalAlignment="Center"/>
+                    <Border BorderThickness="1" BorderBrush="DarkGray" Margin="0,-9,0,0"/>
+                </Grid>
+            </Grid>
+            <Border BorderThickness="1" BorderBrush="DarkGray"/>
+        </Grid>
+    </Grid>
+</UserControl>

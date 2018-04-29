@@ -23,7 +23,8 @@ namespace Audio2Minecraft
                 scoreboards = Param2ScoreboardsList(timeLine.Param, scoreboards);
                 foreach (string param in timeLine.Param.Keys)
                 {
-                    commandLine.Start.Add(setCommand("GenParam", timeLine.Param[param].Name, timeLine.Param[param].Value, version));
+                    if (timeLine.Param[param].Enable == true)
+                        commandLine.Start.Add(setCommand("GenParam", timeLine.Param[param].Name, timeLine.Param[param].Value, version));
                 }
                 if (timeLine.OutPutTick)
                     scoreboards.Add("CurrentTick");
@@ -81,12 +82,12 @@ namespace Audio2Minecraft
                                         }
                                     }
                                     #region Playsound & Stopsound
-                                    //PlaySound
-                                    var playsound = node.PlaySound;
-                                    //Set Pitch (or Overlapped Pitch)
-                                    var pitch = (playsound.OverlapPitch == null) ? ((node.Param["Pitch"].Value < 1) ? null : "." + node.Param["Pitch"].Value.ToString()) : "." + playsound.OverlapPitch;
-                                    if (node.PlaySound.Enable)//Enable Playsound
-                                    {
+                                    if (node.PlaySound.Enable && node.PlaySound.PlaySource != "" && node.PlaySound.PlaySource != null)//Enable Playsound
+                                    {                                    
+                                        //PlaySound
+                                        var playsound = node.PlaySound;
+                                        //Set Expression
+                                        var subName = InheritExpression.Expression(playsound.InheritExpression, node.Param["Pitch"].Value, node.Param["MinecraftTickDuration"].Value); 
                                         if (playsound.StopSound)//Enable Stopsound
                                         {
                                             var endtick = node.Param["MinecraftTickStart"].Value + node.Param["MinecraftTickDuration"].Value + node.PlaySound.ExtraDelay;
@@ -95,7 +96,7 @@ namespace Audio2Minecraft
                                                 var nowCount = commandLine.Keyframe.Count;
                                                 for (int m = 0; m < endtick - nowCount + 1; m++) commandLine.Keyframe.Add(new Command());
                                             }
-                                            var command1 = "execute " + playsound.ExecuteTarget + " ~ ~ ~ stopsound " + playsound.PlayTarget + " " + playsound.PlaySource + " " + playsound.SoundName + pitch;
+                                            var command1 = "execute " + playsound.ExecuteTarget + " ~ ~ ~ stopsound " + playsound.PlayTarget + " " + playsound.PlaySource + " " + playsound.SoundName + "." + subName;
                                             for (int _t = node.Param["MinecraftTickStart"].Value + 1; _t < endtick; _t++)//Avoid Stopping Ahead
                                             {
                                                 if (commandLine.Keyframe[_t].Commands.Contains(command1)) commandLine.Keyframe[_t].Commands.Remove(command1);
@@ -107,7 +108,7 @@ namespace Audio2Minecraft
                                         //Set Volume
                                         double vp = ((playsound.PercVolume < 0) ? (double)100 : (double)playsound.PercVolume) / 100;
                                         var volume = (playsound.MandaVolume == -1) ? (((double)node.Param["Velocity"].Value * vp / 100 > 2) ? 2 : (double)node.Param["Velocity"].Value / 100 * vp) : (((double)playsound.MandaVolume * vp > 2) ? 2 : (double)playsound.MandaVolume * vp);
-                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + pitch + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume;
+                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + "." + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume;
                                         commandLine.Keyframe[i].Commands.Add(command);
                                     }
                                     #endregion

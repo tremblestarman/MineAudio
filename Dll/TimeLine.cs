@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NAudio;
+using Newtonsoft.Json;
 
 namespace Audio2Minecraft
 {
@@ -18,7 +21,7 @@ namespace Audio2Minecraft
     }
     public class PlaySoundInfo
     {
-        private string _timbre = "1";
+        private string _timbre = "";
         public string SoundName { get { return _timbre; } set { _timbre = value; } }
         private double[] _cood = new double[] { 0, 0, 0 };
         public double[] ExecuteCood { get { return _cood; } set { _cood = value; } }
@@ -30,8 +33,8 @@ namespace Audio2Minecraft
         private string _source = "record";
         public string PlaySource { get { return _source; } set { _source = value; } }
         //Extra Definations
-        private string _overlap = null;
-        public string OverlapPitch { get { return _overlap; } set { _overlap = value; } }
+        private string _inheritExpression = null;
+        public string InheritExpression { get { return _inheritExpression; } set { _inheritExpression = value; } }
         private int _delay = -1;
         public int ExtraDelay { get { return _delay; } set { _delay = value; } }
         private int _volume = -1;
@@ -321,7 +324,7 @@ namespace Audio2Minecraft
                 }
             }
         }
-        public void Sound_OverlapPitch(string overlapPitch = null, string track = "", string instrument = "", int index = -1)
+        public void Sound_InheritExpression(string inheritExpressionPitch = null, string track = "", string instrument = "", int index = -1)
         {
             foreach (TickNode tickNode in TickNodes)
             {
@@ -334,17 +337,17 @@ namespace Audio2Minecraft
                             foreach (string i in tickNode.MidiTracks[t].Keys)
                             {
                                 if (index == -1)
-                                    for (int m = 0; m < tickNode.MidiTracks[t][i].Count; m++) tickNode.MidiTracks[t][i][m].PlaySound.OverlapPitch = overlapPitch;
+                                    for (int m = 0; m < tickNode.MidiTracks[t][i].Count; m++) tickNode.MidiTracks[t][i][m].PlaySound.InheritExpression = inheritExpressionPitch;
                                 else
-                                    tickNode.MidiTracks[t][i][index].PlaySound.OverlapPitch = overlapPitch;
+                                    tickNode.MidiTracks[t][i][index].PlaySound.InheritExpression = inheritExpressionPitch;
                             }
                         }
                         else if (tickNode.MidiTracks[t].ContainsKey(instrument))
                         {
                             if (index == -1)
-                                for (int m = 0; m < tickNode.MidiTracks[t][instrument].Count; m++) tickNode.MidiTracks[t][instrument][m].PlaySound.OverlapPitch = overlapPitch;
+                                for (int m = 0; m < tickNode.MidiTracks[t][instrument].Count; m++) tickNode.MidiTracks[t][instrument][m].PlaySound.InheritExpression = inheritExpressionPitch;
                             else
-                                tickNode.MidiTracks[t][instrument][index].PlaySound.OverlapPitch = overlapPitch;
+                                tickNode.MidiTracks[t][instrument][index].PlaySound.InheritExpression = inheritExpressionPitch;
                         }
                     }
                 }
@@ -355,17 +358,17 @@ namespace Audio2Minecraft
                         foreach (string i in tickNode.MidiTracks[track].Keys)
                         {
                             if (index == -1)
-                                for (int m = 0; m < tickNode.MidiTracks[track][i].Count; m++) tickNode.MidiTracks[track][i][m].PlaySound.OverlapPitch = overlapPitch;
+                                for (int m = 0; m < tickNode.MidiTracks[track][i].Count; m++) tickNode.MidiTracks[track][i][m].PlaySound.InheritExpression = inheritExpressionPitch;
                             else
-                                tickNode.MidiTracks[track][i][index].PlaySound.OverlapPitch = overlapPitch;
+                                tickNode.MidiTracks[track][i][index].PlaySound.InheritExpression = inheritExpressionPitch;
                         }
                     }
                     else if (tickNode.MidiTracks[track].ContainsKey(instrument))
                     {
                         if (index == -1)
-                            for (int m = 0; m < tickNode.MidiTracks[track][instrument].Count; m++) tickNode.MidiTracks[track][instrument][m].PlaySound.OverlapPitch = overlapPitch;
+                            for (int m = 0; m < tickNode.MidiTracks[track][instrument].Count; m++) tickNode.MidiTracks[track][instrument][m].PlaySound.InheritExpression = inheritExpressionPitch;
                         else
-                            tickNode.MidiTracks[track][instrument][index].PlaySound.OverlapPitch = overlapPitch;
+                            tickNode.MidiTracks[track][instrument][index].PlaySound.InheritExpression = inheritExpressionPitch;
                     }
                 }
             }
@@ -586,10 +589,311 @@ namespace Audio2Minecraft
             {"MidiDeltaTicksPerQuarterNote", new _Node_INT() { Name = "MidiDeltaTdiv4" } } ,
             {"MidiBeatPerMinute", new _Node_INT() { Name = "MidiBPM" } } ,
             {"AudioFileFormat", new _Node_INT() { Name = "AudioFileFormat" } } ,
+            {"TotalTicks", new _Node_INT() { Name = "TotalTicks" } } ,
         };
         public List<TickNode> TickNodes = new List<TickNode>();
+        //Elements List & Enable List
+        public ObservableCollection<MidiSettingInspector> TrackList = new ObservableCollection<MidiSettingInspector>();
+        public ObservableCollection<MidiSettingInspector> InstrumentList = new ObservableCollection<MidiSettingInspector>();
         private bool _tick_out = true;
         public bool OutPutTick { get { return _tick_out; } set { _tick_out = value; } }
+        public class MidiSettingInspector : INotifyPropertyChanged
+        {
+            public Guid Uid;
+            private List<Guid> _TracksUid = new List<Guid>();
+            public List<Guid> TracksUid { get { return _TracksUid; } set { _TracksUid = value;  } }
+            private List<Guid> _InstrumentsUid = new List<Guid>();
+            public List<Guid> InstrumentsUid { get { return _InstrumentsUid; } set { _InstrumentsUid = value; } }
+            public MidiSettingInspector()
+            {
+                Tracks = new ObservableCollection<MidiSettingInspector>();
+                Instruments = new ObservableCollection<MidiSettingInspector>();
+                Uid = Guid.NewGuid();
+            }
+            public MidiSettingInspector(Guid TracksUid)
+            {
+                Tracks = new ObservableCollection<MidiSettingInspector>();
+                Instruments = new ObservableCollection<MidiSettingInspector>();
+                Uid = Guid.NewGuid();
+                if (this.TracksUid == null)
+                    this.TracksUid = new List<Guid>();
+                this.TracksUid.Add(TracksUid);
+            }
+
+            bool _isEnable;
+            public bool Enable
+            {
+                get { return _isEnable; }
+                set
+                {
+                    _isEnable = value;
+                    RaisePropertyChanged("Enable");
+                    if (_isEnable == false)
+                        unCheckOthers();
+                }
+            }
+            void unCheckOthers()
+            {
+                if (_instruments != null)
+                    foreach (var node in _instruments)
+                        node.Enable = false;
+            }
+
+            ObservableCollection<MidiSettingInspector> _instruments = new ObservableCollection<MidiSettingInspector>();
+            public ObservableCollection<MidiSettingInspector> Instruments { get { return _instruments; } set { _instruments = value; RaisePropertyChanged("Instruments");} }
+            ObservableCollection<MidiSettingInspector> _tracks = new ObservableCollection<MidiSettingInspector>();
+            public ObservableCollection<MidiSettingInspector> Tracks { get { return _tracks; } set { _tracks = value; RaisePropertyChanged("Tracks"); } }
+
+            string _name;
+            public string Name { get { return _name; } set { _name = value; RaisePropertyChanged("Name"); } }
+
+            public MidiSettingType Type = MidiSettingType.Track;
+            public PlaysoundSettingInspector PlaysoundSetting = new PlaysoundSettingInspector();
+
+            private bool _enableScore;
+            public bool EnableScore { get { return _enableScore; } set { _enableScore = value; } }
+            private bool _enablePlaysound;
+            public bool EnablePlaysound { get { return _enablePlaysound; } set { _enablePlaysound = value; } }
+
+            private bool _deltaTickStart;
+            public bool DeltaTickStart { get { return _deltaTickStart; } set { _deltaTickStart = value; } }
+            private bool _minecraftTickStart;
+            public bool MinecraftTickStart { get { return _minecraftTickStart; } set { _minecraftTickStart = value; } }
+            private bool _deltaTickDuration;
+            public bool DeltaTickDuration { get { return _deltaTickDuration; } set { _deltaTickDuration = value; } }
+            private bool _minecraftTickDuration;
+            public bool MinecraftTickDuration { get { return _minecraftTickDuration; } set { _minecraftTickDuration = value; } }
+            //Bar-related
+            private bool _barIndex;
+            public bool BarIndex { get { return _barIndex; } set { _barIndex = value; } }
+            private bool _beatDuration;
+            public bool BeatDuration { get { return _beatDuration; } set { _beatDuration = value; } }
+            //Note-related
+            private bool _channel;
+            public bool Channel { get { return _channel; } set { _channel = value; } }
+            private bool _pitch;
+            public bool Pitch { get { return _pitch; } set { _pitch = value; } }
+            private bool _velocity;
+            public bool Velocity { get { return _velocity; } set { _velocity = value; } }
+            public class PlaysoundSettingInspector
+            {
+                private string _timbre = "1";
+                public string SoundName { get { return _timbre; } set { _timbre = value; } }
+                private double[] _cood = new double[] { 0, 0, 0 };
+                public double[] ExecuteCood { get { return _cood; } set { _cood = value; } }
+
+                private string _target_0 = "@a";
+                public string ExecuteTarget { get { return _target_0; } set { _target_0 = value; } }
+                private string _target = "@a";
+                public string PlayTarget { get { return _target; } set { _target = value; } }
+                private string _source = "record";
+                public string PlaySource { get { return _source; } set { _source = value; } }
+                //Extra Definations
+                private string _inheritExpression = null;
+                public string InheritExpression { get { return _inheritExpression; } set { _inheritExpression = value; } }
+                private int _delay = -1;
+                public int ExtraDelay { get { return _delay; } set { _delay = value; } }
+                private int _volume = -1;
+                public int MandaVolume { get { return _volume; } set { _volume = value; } }
+                private int _evolume = -1;
+                public int PercVolume { get { return _evolume; } set { _evolume = value; } }
+                private bool en = true;
+                public bool Enable { get { return en; } set { en = value; } }
+                private bool _stopsound = false;
+                public bool StopSound { get { return _stopsound; } set { _stopsound = value; } }
+            }
+
+            public void Update()
+            {
+                if (Type == MidiSettingType.Track)
+                {
+                    UpdateTrackOnly();
+                }
+                else
+                {
+                    foreach (var t in Tracks)
+                    {
+                        foreach (var i in t.Instruments)
+                        {
+                            if (i.Name == Name)
+                            {
+                                i.Enable = Enable;
+                                i.EnableScore = EnableScore;
+                                i.EnablePlaysound = EnablePlaysound;
+                                i.BarIndex = BarIndex;
+                                i.BeatDuration = BeatDuration;
+                                i.Channel = Channel;
+                                i.DeltaTickDuration = DeltaTickDuration;
+                                i.DeltaTickStart = DeltaTickStart;
+                                i.Velocity = Velocity;
+                                i.Pitch = Pitch;
+                                i.MinecraftTickDuration = MinecraftTickDuration;
+                                i.MinecraftTickStart = MinecraftTickStart;
+                                i.PlaysoundSetting.ExecuteCood = PlaysoundSetting.ExecuteCood;
+                                i.PlaysoundSetting.ExecuteTarget = PlaysoundSetting.ExecuteTarget;
+                                i.PlaysoundSetting.ExtraDelay = PlaysoundSetting.ExtraDelay;
+                                i.PlaysoundSetting.MandaVolume = PlaysoundSetting.MandaVolume;
+                                i.PlaysoundSetting.InheritExpression = PlaysoundSetting.InheritExpression;
+                                i.PlaysoundSetting.PercVolume = PlaysoundSetting.PercVolume;
+                                i.PlaysoundSetting.PlaySource = PlaysoundSetting.PlaySource;
+                                i.PlaysoundSetting.PlayTarget = PlaysoundSetting.PlayTarget;
+                                i.PlaysoundSetting.SoundName = PlaysoundSetting.SoundName;
+                                i.PlaysoundSetting.StopSound = PlaysoundSetting.StopSound;
+                            }
+                        }
+                    }
+                }
+            }
+            public void UpdateTrackOnly()
+            {
+                if (Type == MidiSettingType.Track)
+                {
+                    foreach (var i in Instruments)
+                    {
+                        i.Enable = Enable;
+                        i.EnableScore = EnableScore;
+                        i.EnablePlaysound = EnablePlaysound;
+                        i.BarIndex = BarIndex;
+                        i.BeatDuration = BeatDuration;
+                        i.Channel = Channel;
+                        i.DeltaTickDuration = DeltaTickDuration;
+                        i.DeltaTickStart = DeltaTickStart;
+                        i.Velocity = Velocity;
+                        i.Pitch = Pitch;
+                        i.MinecraftTickDuration = MinecraftTickDuration;
+                        i.MinecraftTickStart = MinecraftTickStart;
+                        i.PlaysoundSetting.ExecuteCood = PlaysoundSetting.ExecuteCood;
+                        i.PlaysoundSetting.ExecuteTarget = PlaysoundSetting.ExecuteTarget;
+                        i.PlaysoundSetting.ExtraDelay = PlaysoundSetting.ExtraDelay;
+                        i.PlaysoundSetting.MandaVolume = PlaysoundSetting.MandaVolume;
+                        i.PlaysoundSetting.InheritExpression = PlaysoundSetting.InheritExpression;
+                        i.PlaysoundSetting.PercVolume = PlaysoundSetting.PercVolume;
+                        i.PlaysoundSetting.PlaySource = PlaysoundSetting.PlaySource;
+                        i.PlaysoundSetting.PlayTarget = PlaysoundSetting.PlayTarget;
+                        i.PlaysoundSetting.SoundName = PlaysoundSetting.SoundName;
+                        i.PlaysoundSetting.StopSound = PlaysoundSetting.StopSound;
+                    }
+                }
+            }
+            public event PropertyChangedEventHandler PropertyChanged;
+            void RaisePropertyChanged(string propname)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
+            }
+        }
+        public enum MidiSettingType
+        {
+            Track,
+            Instrument
+        }
+        /// <summary>
+        /// Confirm Changes from TrackList
+        /// </summary>
+        public void UpdateByTrackList()
+        {
+            foreach (var t in TrackList)
+            {
+                foreach (var i in t.Instruments)
+                {
+                    EnableMidi(i.Enable, t.Name, i.Name, -1, "");
+                    EnableMidi(i.BarIndex, t.Name, i.Name, -1, "BarIndex");
+                    EnableMidi(i.BeatDuration, t.Name, i.Name, -1, "BeatDuration");
+                    EnableMidi(i.Channel, t.Name, i.Name, -1, "Channel");
+                    EnableMidi(i.DeltaTickDuration, t.Name, i.Name, -1, "DeltaTickDuration");
+                    EnableMidi(i.DeltaTickStart, t.Name, i.Name, -1, "DeltaTickStart");
+                    EnableMidi(i.Velocity, t.Name, i.Name, -1, "Velocity");
+                    EnableMidi(i.Pitch, t.Name, i.Name, -1, "Pitch");
+                    EnableMidi(i.MinecraftTickDuration, t.Name, i.Name, -1, "MinecraftTickDuration");
+                    EnableMidi(i.MinecraftTickStart, t.Name, i.Name, -1, "MinecraftTickStart");
+                    Sound_ExecuteCood(i.PlaysoundSetting.ExecuteCood, t.Name, i.Name, -1);
+                    Sound_ExecuteTarget(i.PlaysoundSetting.ExecuteTarget, t.Name, i.Name, -1);
+                    Sound_ExtraDelay(i.PlaysoundSetting.ExtraDelay, t.Name, i.Name, -1);
+                    Sound_MandaVolume(i.PlaysoundSetting.MandaVolume, t.Name, i.Name, -1);
+                    Sound_InheritExpression(i.PlaysoundSetting.InheritExpression, t.Name, i.Name, -1);
+                    Sound_PercVolume(i.PlaysoundSetting.PercVolume, t.Name, i.Name, -1);
+                    Sound_PlaySource(i.PlaysoundSetting.PlaySource, t.Name, i.Name, -1);
+                    Sound_PlayTarget(i.PlaysoundSetting.PlayTarget, t.Name, i.Name, -1);
+                    Sound_SoundName(i.PlaysoundSetting.SoundName, t.Name, i.Name, -1);
+                    Sound_StopSound(i.PlaysoundSetting.StopSound, t.Name, i.Name, -1);
+                }
+            }
+        }
+        /// <summary>
+        /// Confirm Changes from TrackList
+        /// Also Update TrackList
+        /// </summary>
+        public void UpdateInstrumentList()
+        {
+            foreach (var i in InstrumentList)
+            {
+                EnableMidi(i.Enable, "", i.Name, -1, "");
+                EnableMidi(i.BarIndex, "", i.Name, -1, "BarIndex");
+                EnableMidi(i.BeatDuration, "", i.Name, -1, "BeatDuration");
+                EnableMidi(i.Channel, "", i.Name, -1, "Channel");
+                EnableMidi(i.DeltaTickDuration, "", i.Name, -1, "DeltaTickDuration");
+                EnableMidi(i.DeltaTickStart, "", i.Name, -1, "DeltaTickStart");
+                EnableMidi(i.Velocity, "", i.Name, -1, "Velocity");
+                EnableMidi(i.Pitch, "", i.Name, -1, "Pitch");
+                EnableMidi(i.MinecraftTickDuration, "", i.Name, -1, "MinecraftTickDuration");
+                EnableMidi(i.MinecraftTickStart, "", i.Name, -1, "MinecraftTickStart");
+                Sound_ExecuteCood(i.PlaysoundSetting.ExecuteCood, "", i.Name, -1);
+                Sound_ExecuteTarget(i.PlaysoundSetting.ExecuteTarget, "", i.Name, -1);
+                Sound_ExtraDelay(i.PlaysoundSetting.ExtraDelay, "", i.Name, -1);
+                Sound_MandaVolume(i.PlaysoundSetting.MandaVolume, "", i.Name, -1);
+                Sound_InheritExpression(i.PlaysoundSetting.InheritExpression, "", i.Name, -1);
+                Sound_PercVolume(i.PlaysoundSetting.PercVolume, "", i.Name, -1);
+                Sound_PlaySource(i.PlaysoundSetting.PlaySource, "", i.Name, -1);
+                Sound_PlayTarget(i.PlaysoundSetting.PlayTarget, "", i.Name, -1);
+                Sound_SoundName(i.PlaysoundSetting.SoundName, "", i.Name, -1);
+                Sound_StopSound(i.PlaysoundSetting.StopSound, "", i.Name, -1);
+                foreach (var t in i.Tracks)
+                {
+                    t.BarIndex = i.BarIndex;
+                    t.BeatDuration = i.BeatDuration;
+                    t.Channel = i.Channel;
+                    t.DeltaTickDuration = i.DeltaTickDuration;
+                    t.DeltaTickStart = i.DeltaTickStart;
+                    t.Velocity = i.Velocity;
+                    t.Pitch = i.Pitch;
+                    t.MinecraftTickDuration = i.MinecraftTickDuration;
+                    t.MinecraftTickStart = i.MinecraftTickStart;
+                    t.PlaysoundSetting = i.PlaysoundSetting;
+                }
+            }
+        }
+        public WaveSettingInspector LeftWaveSetting = new WaveSettingInspector();
+        public WaveSettingInspector RightWaveSetting = new WaveSettingInspector() { Enable = false, Frequency = false, Volume = false };
+        public class WaveSettingInspector
+        {
+            private bool _enable = true;
+            public bool Enable { get { return _enable; } set { _enable = value; if (value == false) { Frequency = false; Volume = false; } } }
+            private bool _fre = true;
+            public bool Frequency { get { return _fre; } set { _fre = value; } }
+            private bool _vol = true;
+            public bool Volume { get { return _vol; } set { _vol = value; } }
+        }
+        public void UpdateWave()
+        {
+            if (LeftWaveSetting.Enable == false)
+            {
+                EnableWave(LeftWaveSetting.Enable, -1, "Left");
+            }
+            else
+            {
+                EnableWave(LeftWaveSetting.Frequency, -1, "Left", "FrequencyPerTick");
+                EnableWave(LeftWaveSetting.Volume, -1, "Left", "VolumePerTick");
+            }
+
+            if (RightWaveSetting.Enable == false)
+            {
+                EnableWave(RightWaveSetting.Enable, -1, "Right");
+            }
+            else
+            {
+                EnableWave(RightWaveSetting.Frequency, -1, "Right", "FrequencyPerTick");
+                EnableWave(RightWaveSetting.Volume, -1, "Right", "VolumePerTick");
+            }
+        }
     }
 
     public class TickNode
@@ -768,5 +1072,4 @@ namespace Audio2Minecraft
         private bool _isleft = true;
         public bool IsLeft { get { return _isleft; } set { _isleft = value; } }
     }
-
 }

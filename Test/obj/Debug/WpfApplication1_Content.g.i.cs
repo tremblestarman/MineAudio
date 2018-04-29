@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("%e5%b0%91%e5%a5%b3%e7%bb%88%e6%9c%ab%e6%97%85%e8%a1%8c.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("%e8%a1%a8%e8%be%be%e5%bc%8f.txt")]
 
 

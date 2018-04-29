@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="Audio2MinecraftUI.Humberger.WavSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Audio2MinecraftUI.Humberger"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             MinHeight="250" MinWidth="620" MaxHeight="250" MaxWidth="620"
+             
+             Initialized="UserControl_Initialized">
+    <Grid HorizontalAlignment="Left" Height="250" Margin="6,2,0,0" VerticalAlignment="Top" Width="600">
+        <TextBlock Text="采样周期" FontSize="12px" Margin="31,14,518,213"/>
+        <TextBox x:Name="采样周期" Uid="采样周期" Text="5" Margin="86,8,454,216" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
+        <TextBlock Text="Ticks" FontSize="12px" Margin="149,14,400,213"/>
+        <TextBlock Text="单刻频率采样数" FontSize="12px" Margin="192,14,304,213"/>
+        <TextBox x:Name="单刻频率采样数" Uid="单刻频率采样数" Text="5" Margin="283,8,257,216" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
+        <TextBlock Text="单刻振幅采样数" FontSize="12px" Margin="359,14,137,213"/>
+        <TextBox x:Name="单刻振幅采样数" Uid="单刻振幅采样数" Text="5" Margin="449,8,91,216" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
+        <Button x:Name="Done" HorizontalAlignment="Left" Margin="571,6,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
+            <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-5" Y="-7"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <Grid x:Name="左" Margin="0,40,300,0">
+            <CheckBox x:Name="左声道" Uid="EnableLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="84,6,91,183" IsChecked="True" Click="Elements_Click" Width="125" Height="21">
+                <TextBlock Text="左声道 计分板输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray"/>
+            </CheckBox>
+            <Grid x:Name="左声道栏" Margin="10,29,10,5">
+                <CheckBox x:Name="当刻频率L" Uid="FrequencyPerTickL" Margin="27,8,176,147" IsChecked="True" Click="Elements_Click">
+                    <TextBlock Text="当刻频率" FontSize="12px"/>
+                </CheckBox>
+                <Grid x:Name="左频率栏" Margin="10,31,10,92">
+                    <TextBlock Text="最小频率" x:Name="C1" FontSize="12px" Margin="28,9,176,24"/>
+                    <TextBlock Text="" x:Name="最小频率L" FontSize="12px" Margin="28,25,185,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <TextBlock Text="平均频率" x:Name="C2" FontSize="12px" Margin="102,9,102,24"/>
+                    <TextBlock Text="" x:Name="平均频率L" FontSize="12px" Margin="102,25,102,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <TextBlock Text="最大频率" x:Name="C3" FontSize="12px" Margin="176,9,28,24"/>
+                    <TextBlock Text="" x:Name="最大频率L" FontSize="12px" Margin="185,25,28,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <Border BorderThickness="1" BorderBrush="DarkGray"/>
+                </Grid>
+                <CheckBox x:Name="当刻振幅L" Uid="FrequencyPerTickL" Margin="27,88,176,67" IsChecked="True" Click="Elements_Click">
+                    <TextBlock Text="当刻振幅" FontSize="12px"/>
+                </CheckBox>
+                <Grid x:Name="左振幅栏" Margin="10,111,10,10">
+                    <TextBlock Text="最小振幅" x:Name="C4" FontSize="12px" Margin="28,9,176,24"/>
+                    <TextBlock Text="" x:Name="最小振幅L" FontSize="12px" Margin="28,25,185,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <TextBlock Text="平均振幅" x:Name="C5" FontSize="12px" Margin="102,9,102,24"/>
+                    <TextBlock Text="" x:Name="平均振幅L" FontSize="12px" Margin="102,25,102,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <TextBlock Text="最大振幅" x:Name="C6" FontSize="12px" Margin="176,9,28,24"/>
+                    <TextBlock Text="" x:Name="最大振幅L" FontSize="12px" Margin="185,25,28,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <Border BorderThickness="1" BorderBrush="DarkGray"/>
+                </Grid>
+                <Border BorderThickness="1" BorderBrush="DarkGray"/>
+            </Grid>
+            <Border BorderThickness="1" BorderBrush="DarkGray"/>
+        </Grid>
+        <Grid x:Name="右" Margin="300,40,0,0">
+            <CheckBox x:Name="右声道" Uid="EnableLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="84,6,91,183" IsChecked="False" Click="Elements_Click" Width="125" Height="21">
+                <TextBlock Text="右声道 计分板输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray"/>
+            </CheckBox>
+            <Grid x:Name="右声道栏" Margin="10,29,10,5">
+                <CheckBox x:Name="当刻频率R" Uid="FrequencyPerTickL" Margin="27,8,176,147" IsChecked="False" Click="Elements_Click">
+                    <TextBlock Text="当刻频率" FontSize="12px"/>
+                </CheckBox>
+                <Grid x:Name="右频率栏" Margin="10,31,10,92">
+                    <TextBlock Text="最小频率" x:Name="C7" FontSize="12px" Margin="28,9,176,24"/>
+                    <TextBlock Text="" x:Name="最小频率R" FontSize="12px" Margin="28,25,185,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <TextBlock Text="平均频率" x:Name="C8" FontSize="12px" Margin="102,9,102,24"/>
+                    <TextBlock Text="" x:Name="平均频率R" FontSize="12px" Margin="102,25,102,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <TextBlock Text="最大频率" x:Name="C9" FontSize="12px" Margin="176,9,28,24"/>
+                    <TextBlock Text="" x:Name="最大频率R" FontSize="12px" Margin="185,25,28,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <Border BorderThickness="1" BorderBrush="DarkGray"/>
+                </Grid>
+                <CheckBox x:Name="当刻振幅R" Uid="FrequencyPerTickL" Margin="27,88,176,67" IsChecked="False" Click="Elements_Click">
+                    <TextBlock Text="当刻振幅" FontSize="12px"/>
+                </CheckBox>
+                <Grid x:Name="右振幅栏" Margin="10,111,10,10">
+                    <TextBlock Text="最小振幅" x:Name="C10" FontSize="12px" Margin="28,9,176,24"/>
+                    <TextBlock Text="" x:Name="最小振幅R" FontSize="12px" Margin="28,25,185,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <TextBlock Text="平均振幅" x:Name="C11" FontSize="12px" Margin="102,9,102,24"/>
+                    <TextBlock Text="" x:Name="平均振幅R" FontSize="12px" Margin="102,25,102,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <TextBlock Text="最大振幅" x:Name="C12" FontSize="12px" Margin="176,9,28,24"/>
+                    <TextBlock Text="" x:Name="最大振幅R" FontSize="12px" Margin="185,25,28,8" HorizontalAlignment="Center" Foreground="DarkGray"/>
+                    <Border BorderThickness="1" BorderBrush="DarkGray"/>
+                </Grid>
+                <Border BorderThickness="1" BorderBrush="DarkGray"/>
+            </Grid>
+            <Border BorderThickness="1" BorderBrush="DarkGray"/>
+        </Grid>
+        <Grid Margin="0,240,0,0">
+            <Border BorderThickness="1" BorderBrush="DarkGray"/>
+        </Grid>
+        <Border BorderThickness="1" BorderBrush="DarkGray"/>
+    </Grid>
+</UserControl>

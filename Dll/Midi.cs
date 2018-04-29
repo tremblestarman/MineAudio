@@ -38,6 +38,7 @@ namespace Audio2Minecraft
                         if (new Regex("(?<=SequenceTrackName ).+(?=$)").Match(midiEvent.ToString()).Success) track = new Regex("(?<=SequenceTrackName ).+(?=$)").Match(midiEvent.ToString()).Value;
                         //Get Instrument Name
                         if (new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Success) instrument = new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Value;
+
                         if (!MidiEvent.IsNoteOff(midiEvent))
                         {
                             var nowTick = 0;
@@ -64,6 +65,15 @@ namespace Audio2Minecraft
                                 //Track-related
                                 MidiNode.Instrument = EventAnalysis.Instrument;
                                 MidiNode.TrackName = track;
+                                //Generate Track & Instrument List
+                                var currentTrack = timeLine.TrackList.AsEnumerable().FirstOrDefault(t => t.Name == track);
+                                if (currentTrack == null) { currentTrack = new TimeLine.MidiSettingInspector { Name = track, Type = TimeLine.MidiSettingType.Track, Enable = true }; timeLine.TrackList.Add(currentTrack); } //Add new Track
+                                var currentInstrument = timeLine.InstrumentList.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument);
+                                if (currentInstrument == null) { currentInstrument = new TimeLine.MidiSettingInspector { Name = EventAnalysis.Instrument, Type = TimeLine.MidiSettingType.Instrument, Enable = true }; timeLine.InstrumentList.Add(currentInstrument); } //Add new Instrument
+                                var _currentInstrument = currentTrack.Instruments.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument);
+                                if (_currentInstrument == null) { _currentInstrument = new TimeLine.MidiSettingInspector(currentTrack.Uid) { Name = EventAnalysis.Instrument, Type = TimeLine.MidiSettingType.Instrument, Enable = true, Tracks = new System.Collections.ObjectModel.ObservableCollection<TimeLine.MidiSettingInspector>() { currentTrack } }; currentTrack.Instruments.Add(_currentInstrument); } //Add new Instrument for a Track
+                                if (currentTrack != null && !currentTrack.Instruments.Any(ins => ins.Name == EventAnalysis.Instrument)) { currentTrack.Instruments.Add(_currentInstrument); } //Add new Instrument for the Track
+                                if (currentInstrument != null && !currentInstrument.Tracks.Any(t => t.Name == track)) { currentTrack.InstrumentsUid.Add(currentInstrument.Uid); currentInstrument.Tracks.Add(currentTrack); currentInstrument.TracksUid.Add(currentTrack.Uid); } //Add new Track for the Instrument
                                 #endregion
                                 MidiNodes.Add(MidiNode);
                                 nowTick = (int)toMinecraftTick(EventAnalysis.StartTick, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm);
@@ -94,6 +104,7 @@ namespace Audio2Minecraft
                     timeLine.TickNodes[index].CurrentTick = index;
                 }
                 #endregion
+                timeLine.Param["TotalTicks"].Value = timeLine.TickNodes.Count;
                 return timeLine;
                 //minecraft tick  = AbsoluteTime / (bpm * ticksPerBeat) * 1200
                 #endregion
@@ -203,12 +214,12 @@ namespace Audio2Minecraft
 
     class MidiEventParameter
     {
-        public long StartTick { get; set;}
+        public long StartTick { get; set; }
         public long Channel { get; set; }
         public long Velocity { get; set; }
         public long Length { get; set; }
         public long Pitch { get; set; }
         public string Instrument { get; set; }
     }
-        
+
 }

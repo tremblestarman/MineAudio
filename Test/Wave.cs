@@ -8,12 +8,12 @@ using System.Windows.Forms;
 
 namespace Audio2Minecraft
 {
-    class AudioStreamWave
+    public class AudioStreamWave
     {
         public TimeLine Serialize(string fileName, TimeLine timeLine, int fre_count = 1, int vol_count = 1, int tick_cycle = 1)
         {
-            //try
-            //{
+            try
+            {
                 //Read Waves
                 var reader = new WaveFileReader(fileName);
                 reader.Position = 0;
@@ -120,12 +120,13 @@ namespace Audio2Minecraft
                     timeLine.TickNodes[waveNodeR.TickStart].WaveNodesRight.Add(waveNodeR);
                 }
                 #endregion
+                timeLine.Param["TotalTicks"].Value = timeLine.TickNodes.Count;
                 return timeLine;
-            //}
-            //catch
-            //{
-            //    return null;
-            //}
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

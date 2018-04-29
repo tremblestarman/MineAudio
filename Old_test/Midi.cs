@@ -5,144 +5,116 @@ using System.Text.RegularExpressions;
 using NAudio.Midi;
 using System.Windows.Forms;
 
-namespace Audio2MinecraftScore
+namespace Audio2Minecraft
 {
     public class AudioStreamMidi
     {
-        public TimeLine Serialize(string fileName, TimeLine timeLine, int tBpm = 160)
+        public TimeLine Serialize(string fileName, TimeLine timeLine, int tBpm = -1)
         {
-            var midiFile = new MidiFile(fileName, false);
-            var maxTick = 0;
-            #region Head
-            /*Midi Head*/
-            timeLine.MidiFileFormat = midiFile.FileFormat;
-            timeLine.MidiTracksCount = midiFile.Tracks;
-            timeLine.MidiDeltaTicksPerQuarterNote = midiFile.DeltaTicksPerQuarterNote;
-            #endregion
-            #region Nodes
-            /* Wirte in Midi Nodes */
-            var timeSignature = midiFile.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault();
-            /*When SetTempo*/
-            List<MidiNode> MidiNodes = new List<MidiNode>();
-            for (int i = 0; i < midiFile.Tracks; i++)
+            try
             {
-                var bpm = returnBpm(midiFile.Events, tBpm);
-                var name = "";
-                var instrument = "";
-                foreach (MidiEvent midiEvent in midiFile.Events[i])
+                var midiFile = new MidiFile(fileName, false);
+                var maxTick = 0;
+                #region HeadParam
+                timeLine.Param["MidiFileFormat"].Value = midiFile.FileFormat;
+                timeLine.Param["MidiTracksCount"].Value = midiFile.Tracks;
+                timeLine.Param["MidiDeltaTicksPerQuarterNote"].Value = midiFile.DeltaTicksPerQuarterNote;
+                #endregion
+                #region Nodes
+                var timeSignature = midiFile.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault();
+                var bpm = tBpm;
+                #region MidiFile -> MidiNodes(Unordered)
+                List<MidiNode> MidiNodes = new List<MidiNode>();
+                //Foreach Events in MidiFile
+                for (int i = 0; i < midiFile.Tracks; i++)
                 {
-                    //Get Track Name
-                    if (new Regex("(?<=SequenceTrackName ).+(?=$)").Match(midiEvent.ToString()).Success) name = new Regex("(?<=SequenceTrackName ).+(?=$)").Match(midiEvent.ToString()).Value;
-                    //Get Instrument Name
-                    if (new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Success) instrument = new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Value;
-                    /*When not End*/
-                    if (!MidiEvent.IsNoteOff(midiEvent))
+                    var track = "";
+                    var instrument = "";
+                    foreach (MidiEvent midiEvent in midiFile.Events[i])
                     {
-                        var nowTick = 0;
-                        /*  
-                         *  long barIndex
-                         *  long beatDuration
-                         *  long tickDuration
-                        */
-                        var MBT = GetMBT(midiEvent.AbsoluteTime, midiFile.DeltaTicksPerQuarterNote, timeSignature);
+                        //Get BPM
+                        if (tBpm <= 0 && new Regex("(?<=SetTempo )\\d+(?=bpm \\(\\d+\\))").Match(midiEvent.ToString()).Success) bpm = Int32.Parse(new Regex("(?<=SetTempo )\\d+(?=bpm \\(\\d+\\))").Match(midiEvent.ToString()).Value);
+                        //Get Track Name
+                        if (new Regex("(?<=SequenceTrackName ).+(?=$)").Match(midiEvent.ToString()).Success) track = new Regex("(?<=SequenceTrackName ).+(?=$)").Match(midiEvent.ToString()).Value;
+                        //Get Instrument Name
+                        if (new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Success) instrument = new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Value;
 
-                        /*  
-                         *  int startTick
-                         *  int MinecraftStartTick
-                         *  int channel
-                         *  int pitch
-                         *  int velocity
-                         *  int MinecraftDurationTick
-                         *  string instrument
-                         *  string track_name
-                        */
-                        var EventAnalysis = AnalysisEvent(midiEvent, instrument);
-                        if (EventAnalysis != null)
+                        if (!MidiEvent.IsNoteOff(midiEvent))
                         {
-                            MidiNodes.Add(new MidiNode
+                            var nowTick = 0;
+                            //Get Param
+                            var MBT = GetMBT(midiEvent.AbsoluteTime, midiFile.DeltaTicksPerQuarterNote, timeSignature);
+                            var EventAnalysis = AnalysisEvent(midiEvent, instrument);
+                            //Write into MidiNodes
+                            if (EventAnalysis != null)
                             {
-                                barIndex = MBT[0],
-                                beatDuration = MBT[1],
-                                tickDuration = MBT[2],
-                                startTick = EventAnalysis.StartTick,
-                                MinecraftStartTick = (int)toMinecraftTick(EventAnalysis.StartTick, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm),
-                                channel = (int)EventAnalysis.Channel,
-                                pitch = (int)EventAnalysis.Pitch,
-                                velocity = (int)EventAnalysis.Velocity,
-                                MinecraftDurationTick = (int)toMinecraftTick(EventAnalysis.Length, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm),
-                                instrument = EventAnalysis.Instrument,
-                                track_name = name
-                            });
-                            nowTick = (int)toMinecraftTick(EventAnalysis.StartTick, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm);
-                        }
-                        else
-                            continue;
-                        if (nowTick > maxTick) maxTick = nowTick;
-                    }
-                }
-            }
-            /* Dynamicly creat and set lenth for TickNodes */
-            if (timeLine.TickNodes == null) timeLine.TickNodes = new List<TickNode>();
-            if (maxTick >= timeLine.TickNodes.Count)
-            {
-                var nowCount = timeLine.TickNodes.Count;
-                for (int i = 0; i < maxTick - nowCount + 1; i++) timeLine.TickNodes.Add(new TickNode());
-            }
-            /* Write MidiNodes into TickNodes.MidiNodes */
-            foreach(MidiNode n in MidiNodes)
-            {
-                if (timeLine.TickNodes[n.MinecraftStartTick].MidiNodes == null) timeLine.TickNodes[n.MinecraftStartTick].MidiNodes = new List<MidiNode>();
-                timeLine.TickNodes[n.MinecraftStartTick].MidiNodes.Add(new MidiNode
-                {
-                    barIndex = n.barIndex,
-                    beatDuration = n.beatDuration,
-                    tickDuration = n.tickDuration,
-                    startTick = n.startTick,
-                    MinecraftStartTick = n.MinecraftStartTick,
-                    channel = n.channel,
-                    pitch = n.pitch,
-                    velocity = n.velocity,
-                    MinecraftDurationTick = n.MinecraftDurationTick,
-                    track_name = n.track_name,
-                });
-            }
-            /* WriteIn pitch_end */
-            for (int i = 0; i < timeLine.TickNodes.Count; i++)
-            {
-                if (timeLine.TickNodes[i].MidiNodes != null)
-                {
-                    for (int j = 0; j < timeLine.TickNodes[i].MidiNodes.Count; j++)
-                    {
-                        if (timeLine.TickNodes[i].MidiNodes[j].MinecraftDurationTick != 0)
-                        {
-                            //get end_index and create new tick 
-                            int endDuration = (timeLine.TickNodes[i].MidiNodes[j].MinecraftDurationTick == 0) ? 1 : timeLine.TickNodes[i].MidiNodes[j].MinecraftDurationTick;
-                            int end_index =  + timeLine.TickNodes[i].MidiNodes[j].MinecraftStartTick;
-                            if (end_index >= timeLine.TickNodes.Count)
-                            {
-                                var nowTick = timeLine.TickNodes.Count;
-                                for (int t = 0; t < end_index - nowTick + 1; t++) timeLine.TickNodes.Add(new TickNode());
+                                var MidiNode = new MidiNode();
+                                #region Param
+                                //Time-related
+                                MidiNode.Param["DeltaTickStart"].Value = (int)EventAnalysis.StartTick;
+                                MidiNode.Param["MinecraftTickStart"].Value = (int)toMinecraftTick(EventAnalysis.StartTick, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm);
+                                MidiNode.Param["DeltaTickDuration"].Value = (int)EventAnalysis.Length;
+                                MidiNode.Param["MinecraftTickDuration"].Value = (int)toMinecraftTick(EventAnalysis.Length, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm);
+                                //Bar-related
+                                MidiNode.Param["BarIndex"].Value = (int)MBT[0];
+                                MidiNode.Param["BeatDuration"].Value = (int)MBT[1];
+                                //Note-related
+                                MidiNode.Param["Channel"].Value = (int)EventAnalysis.Channel;
+                                MidiNode.Param["Pitch"].Value = (int)EventAnalysis.Pitch;
+                                MidiNode.Param["Velocity"].Value = (int)EventAnalysis.Velocity;
+                                //Track-related
+                                MidiNode.Instrument = EventAnalysis.Instrument;
+                                MidiNode.TrackName = track;
+                                //Generate Track & Instrument List
+                                var currentTrack = timeLine.TrackList.AsEnumerable().FirstOrDefault(t => t.Name == track);
+                                if (currentTrack == null) { currentTrack = new TimeLine.MidiSettingInspector { Name = track, Type = TimeLine.MidiSettingType.Track, Enable = true }; timeLine.TrackList.Add(currentTrack); } //Add new Track
+                                var currentInstrument = timeLine.InstrumentList.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument);
+                                if (currentInstrument == null) { currentInstrument = new TimeLine.MidiSettingInspector { Name = EventAnalysis.Instrument, Type = TimeLine.MidiSettingType.Instrument, Enable = true }; timeLine.InstrumentList.Add(currentInstrument); } //Add new Instrument
+                                var _currentInstrument = currentTrack.Instruments.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument);
+                                if (_currentInstrument == null) { _currentInstrument = new TimeLine.MidiSettingInspector(currentTrack.Uid) { Name = EventAnalysis.Instrument, Type = TimeLine.MidiSettingType.Instrument, Enable = true, Tracks = new System.Collections.ObjectModel.ObservableCollection<TimeLine.MidiSettingInspector>() { currentTrack } }; currentTrack.Instruments.Add(_currentInstrument); } //Add new Instrument for a Track
+                                if (currentTrack != null && !currentTrack.Instruments.Any(ins => ins.Name == EventAnalysis.Instrument)) { currentTrack.Instruments.Add(_currentInstrument); } //Add new Instrument for the Track
+                                if (currentInstrument != null && !currentInstrument.Tracks.Any(t => t.Name == track)) { currentTrack.InstrumentsUid.Add(currentInstrument.Uid); currentInstrument.Tracks.Add(currentTrack); currentInstrument.TracksUid.Add(currentTrack.Uid); } //Add new Track for the Instrument
+                                #endregion
+                                MidiNodes.Add(MidiNode);
+                                nowTick = (int)toMinecraftTick(EventAnalysis.StartTick, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm);
                             }
-                            //find the target and writeIn pitch_end
-                            if (timeLine.TickNodes[end_index].MidiNodes == null)
-                            {
-                                timeLine.TickNodes[end_index].MidiNodes = new List<MidiNode>();
-
-                            }
-                            timeLine.TickNodes[end_index].MidiNodes.Add(new MidiNode() { pitch_end = timeLine.TickNodes[i].MidiNodes[j].pitch });
+                            if (nowTick > maxTick) maxTick = nowTick;
                         }
                     }
+                    timeLine.Param["MidiBeatPerMinute"].Value = bpm;
                 }
+                #endregion
+                #region MidiNodes -> TickNodes
+                //Creat and Set Lenth of TickNodes
+                if (timeLine.TickNodes == null) timeLine.TickNodes = new List<TickNode>();
+                if (maxTick >= timeLine.TickNodes.Count)
+                {
+                    var nowCount = timeLine.TickNodes.Count;
+                    for (int i = 0; i < maxTick - nowCount + 1; i++) timeLine.TickNodes.Add(new TickNode());
+                }
+                //MidiNodes -> TickNodes
+                foreach (MidiNode node in MidiNodes)
+                {
+                    var index = node.Param["MinecraftTickStart"].Value;
+                    var track = node.TrackName;
+                    var instrument = node.Instrument;
+                    if (timeLine.TickNodes[index].MidiTracks.ContainsKey(track) == false) timeLine.TickNodes[index].MidiTracks.Add(track, new Dictionary<string, List<MidiNode>>());
+                    if (timeLine.TickNodes[index].MidiTracks[track].ContainsKey(instrument) == false) timeLine.TickNodes[index].MidiTracks[track].Add(instrument, new List<MidiNode>());
+                    timeLine.TickNodes[index].MidiTracks[track][instrument].Add(node);
+                    timeLine.TickNodes[index].CurrentTick = index;
+                }
+                #endregion
+                timeLine.Param["TotalTicks"].Value = timeLine.TickNodes.Count;
+                return timeLine;
+                //minecraft tick  = AbsoluteTime / (bpm * ticksPerBeat) * 1200
+                #endregion
             }
-            #endregion
-            return timeLine;
-            //minecraft tick  = AbsoluteTime / (bpm * ticksPerBeat) * 1200
+            catch
+            {
+                return null;
+            }
         }
-
-        /// <summary>
-        /// Get the number of bar, beat, tick
-        /// </summary>
-        /// <returns></returns>
+        #region Param
         private long[] GetMBT(long eventTime, int ticksPerQuarterNote, TimeSignatureEvent timeSignature)
         {
             int beatsPerBar = timeSignature == null ? 4 : timeSignature.Numerator;
@@ -155,11 +127,6 @@ namespace Audio2MinecraftScore
             long[] mbt = new[] { bar, beat, tick };
             return mbt;
         }
-        /// <summary>
-        /// Analysis an Event
-        /// </summary>
-        /// <param name="midiEvent">An MidiEvent</param>
-        /// <returns></returns>
         private MidiEventParameter AnalysisEvent(MidiEvent midiEvent, string instrument)
         {
             MidiEventParameter para = new MidiEventParameter();
@@ -199,9 +166,6 @@ namespace Audio2MinecraftScore
             else
                 return null;
         }
-        /// <summary>
-        /// Get the number of beats per measure
-        /// </summary>
         private int GetBeatsPerMeasure(IEnumerable<MidiEvent> midiEvents)
         {
             int beatsPerMeasure = 4;
@@ -215,47 +179,14 @@ namespace Audio2MinecraftScore
             }
             return beatsPerMeasure;
         }
-
-        #region functional
-        /// <summary>
-        /// Simply convert absolute tick to Minecraft Tick
-        /// </summary>
-        /// <param name="eventTime"></param>
-        /// <param name="ticksPerQuarterNote"></param>
-        /// <param name="timeSignature"></param>
-        /// <param name="bpm"></param>
-        /// <returns></returns>
+        #endregion
+        #region Functional
         private long toMinecraftTick(long eventTime, int ticksPerQuarterNote, TimeSignatureEvent timeSignature, int bpm)
         {
             int beatsPerBar = timeSignature == null ? 4 : timeSignature.Numerator;
             int ticksPerBar = timeSignature == null ? ticksPerQuarterNote * 4 : (timeSignature.Numerator * ticksPerQuarterNote * 4) / (1 << timeSignature.Denominator);
             int ticksPerBeat = ticksPerBar / beatsPerBar;
             return (long)(((double)eventTime) * 1200 / ((double)(ticksPerBeat * bpm)));
-        }
-        /// <summary>
-        /// return BPM of the EventsCollection
-        /// </summary>
-        /// <param name="midiEvents">the String Contains Bmp</param>
-        /// <returns></returns>
-        private int returnBpm(MidiEventCollection Events, int tBpm)
-        {
-            if (tBpm != 160)
-                return tBpm;
-            else
-            {
-                foreach (MidiEvent avent in Events)
-                {
-                    var EventString = avent.ToString();
-                    if (EventString.Contains("SetTempo"))
-                    {
-                        if (EventString.Split(' ')[2].Replace("bpm", "") != null)
-                            return Int32.Parse(EventString.Split(' ')[2].Replace("bpm", ""));
-                    }
-                    else
-                        return 160;
-                }
-                return 160;
-            }
         }
         private long returnPitch(string NoteName)
         {
@@ -283,12 +214,12 @@ namespace Audio2MinecraftScore
 
     class MidiEventParameter
     {
-        public long StartTick { get; set;}
+        public long StartTick { get; set; }
         public long Channel { get; set; }
         public long Velocity { get; set; }
         public long Length { get; set; }
         public long Pitch { get; set; }
         public string Instrument { get; set; }
     }
-        
+
 }

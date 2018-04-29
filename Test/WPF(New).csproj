@@ -70,6 +70,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CommandLine.cs" />
+    <Compile Include="Expression.cs" />
     <Compile Include="Lyrics.cs" />
     <Compile Include="Midi.cs" />
     <Compile Include="Schematic.cs" />
@@ -106,6 +107,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -117,6 +120,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="少女终末旅行.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="表达式.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Sincerely.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

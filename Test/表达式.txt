@@ -1,0 +1,19 @@
+﻿音色名(音乐命名空间)
++
+'.'
++
+表达式：
+
+%t - 继承持续时间
+%p - 继承音高
+%pt[CustomPitch.json] - 继承自定义持续时间
+%pc[CustomTickName.json] - 继承自定义音高
+
+例：
+soma： 音色名 + "%p"
+雾雨： piano + "%tt.%pc[xx.json]"
+
+CustomPitch.json:
+{
+	"1" : "fa"
+}
