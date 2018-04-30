@@ -6,14 +6,19 @@
 
 %t - 继承持续时间
 %p - 继承音高
+%p[min..max] - 继承音高范围
+%t[min..max] - 继承持续时间范围
 %pt[CustomPitch.json] - 继承自定义持续时间
 %pc[CustomTickName.json] - 继承自定义音高
 
 例：
-soma： 音色名 + "%p"
-雾雨： piano + "%tt.%pc[xx.json]"
+soma： 音色名 + "%p"		=>	例：1.108
+SteinwaySoft： xwj + "pno.%pf"	=>	例：xwj.pno.108f
+		     "pno.%p.st"=>	例：xwj.pno.108.st
 
+例：
 CustomPitch.json:
 {
 	"1" : "fa"
+	...
 }

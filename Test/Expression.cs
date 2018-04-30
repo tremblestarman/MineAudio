@@ -70,10 +70,59 @@ namespace Audio2Minecraft
                 }
             }
             //%p
+            var pr = new Regex(@"(?<=%p\[)([^\[\]])*(?=\])").Matches(Expression);
+            foreach (var p in pr)
+            {
+                var _p = p as Match;
+                var min = getMin(_p.Value);
+                var max = getMax(_p.Value);
+                if (max != null && Pitch > max) Expression = Expression.Replace("%p[" + _p.Value + "]", max.ToString());
+                else if (min != null && Pitch < min) Expression = Expression.Replace("%p[" + _p.Value + "]", min.ToString());
+                else Expression = Expression.Replace("%t[" + _p.Value + "]", Pitch.ToString());
+            }
             Expression = Expression.Replace("%p", Pitch.ToString());
             //%t
+            var tr = new Regex(@"(?<=%t\[)([^\[\]])*(?=\])").Matches(Expression);
+            foreach (var t in tr)
+            {
+                var _t = t as Match;
+                var min = getMin(_t.Value);
+                var max = getMax(_t.Value);
+                if (max != null && MinecraftTickDuration > max) Expression = Expression.Replace("%t[" + _t.Value + "]", max.ToString());
+                else if (min != null && MinecraftTickDuration < min) Expression = Expression.Replace("%t[" + _t.Value + "]", min.ToString());
+                else Expression = Expression.Replace("%t[" + _t.Value + "]", MinecraftTickDuration.ToString());
+            }
             Expression = Expression.Replace("%t", MinecraftTickDuration.ToString());
             return Expression;
+        }
+
+        private static int? getMin(string rngexp)
+        {
+            var min = Regex.Match(rngexp, @"(?<=^)\d+(?=\.\.)").Value;
+            var r = 0;
+            if (min != null & Int32.TryParse(min, out r))
+            {
+                if (r != 0)
+                {
+                    return r;
+                }
+                else return null;
+            }
+            else return null;
+        }
+        private static int? getMax(string rngexp)
+        {
+            var max = Regex.Match(rngexp, @"(?<=\.\.)\d+(?=$)").Value;
+            var r = 0;
+            if (max != null & Int32.TryParse(max, out r))
+            {
+                if (r != 0)
+                {
+                    return r;
+                }
+                else return null;
+            }
+            else return null;
         }
     }
 }

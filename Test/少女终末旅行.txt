@@ -30,10 +30,11 @@ namespace WpfApplication1
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-			//生成TimeLine(时间序列)
+            InheritExpression.SetCompareLists(System.Windows.Forms.Application.StartupPath + "\\test");
+	        //生成TimeLine(时间序列)
             var a = new TimeLine().Serialize(MidiPath.Text, WavePath.Text, 0, 10, 10, 4);
-			a.Sound_InheritExpression("%p");    //设置子表达式
-			//设定音轨及其音色
+	        a.Sound_InheritExpression("%p");    //设置子表达式
+	        //设定音轨及其音色
             a.Sound_StopSound(true);	//启用/stopsound
             a.Sound_ExtraDelay(3);		//所有音轨的发生发声延长3tick 
             a.Sound_SoundName("9", "9");	//用法：timeLine.Sound_SoundName("音色名称","音轨名称","乐器名称")

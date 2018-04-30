@@ -30,6 +30,7 @@ namespace WpfApplication1
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            InheritExpression.SetCompareLists(System.Windows.Forms.Application.StartupPath + "\\test");
             //生成TimeLine(时间序列)
             var a = new TimeLine().Serialize(MidiPath.Text, WavePath.Text, 72);
             //var a = new AudioStreamMidi().Serialize(MidiPath.Text, new TimeLine()); Console.Write(new List<string>()[0]);

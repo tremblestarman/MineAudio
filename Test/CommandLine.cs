@@ -87,7 +87,8 @@ namespace Audio2Minecraft
                                         //PlaySound
                                         var playsound = node.PlaySound;
                                         //Set Expression
-                                        var subName = InheritExpression.Expression(playsound.InheritExpression, node.Param["Pitch"].Value, node.Param["MinecraftTickDuration"].Value); 
+                                        var subName = InheritExpression.Expression(playsound.InheritExpression, node.Param["Pitch"].Value, node.Param["MinecraftTickDuration"].Value);
+                                        var rxp = (playsound.SoundName != "" && subName != "") ? "." : "";
                                         if (playsound.StopSound)//Enable Stopsound
                                         {
                                             var endtick = node.Param["MinecraftTickStart"].Value + node.Param["MinecraftTickDuration"].Value + node.PlaySound.ExtraDelay;
@@ -96,7 +97,7 @@ namespace Audio2Minecraft
                                                 var nowCount = commandLine.Keyframe.Count;
                                                 for (int m = 0; m < endtick - nowCount + 1; m++) commandLine.Keyframe.Add(new Command());
                                             }
-                                            var command1 = "execute " + playsound.ExecuteTarget + " ~ ~ ~ stopsound " + playsound.PlayTarget + " " + playsound.PlaySource + " " + playsound.SoundName + "." + subName;
+                                            var command1 = "execute " + playsound.ExecuteTarget + " ~ ~ ~ stopsound " + playsound.PlayTarget + " " + playsound.PlaySource + " " + playsound.SoundName + rxp + subName;
                                             for (int _t = node.Param["MinecraftTickStart"].Value + 1; _t < endtick; _t++)//Avoid Stopping Ahead
                                             {
                                                 if (commandLine.Keyframe[_t].Commands.Contains(command1)) commandLine.Keyframe[_t].Commands.Remove(command1);
@@ -108,7 +109,7 @@ namespace Audio2Minecraft
                                         //Set Volume
                                         double vp = ((playsound.PercVolume < 0) ? (double)100 : (double)playsound.PercVolume) / 100;
                                         var volume = (playsound.MandaVolume == -1) ? (((double)node.Param["Velocity"].Value * vp / 100 > 2) ? 2 : (double)node.Param["Velocity"].Value / 100 * vp) : (((double)playsound.MandaVolume * vp > 2) ? 2 : (double)playsound.MandaVolume * vp);
-                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + "." + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume;
+                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume;
                                         commandLine.Keyframe[i].Commands.Add(command);
                                     }
                                     #endregion

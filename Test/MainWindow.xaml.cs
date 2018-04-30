@@ -32,7 +32,6 @@ namespace WpfApplication1
         {
             InheritExpression.SetCompareLists(System.Windows.Forms.Application.StartupPath + "\\test");
             var a = new TimeLine().Serialize(MidiPath.Text, null, 72);
-            Console.Write(new List<string>()[0]);
             //所有音轨的发生发声延长3tick
             a.Sound_ExtraDelay(3);
             a.Sound_StopSound(false);   //禁用/stopsound
