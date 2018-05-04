@@ -30,6 +30,7 @@ namespace Audio2Minecraft
                 {
                     var track = "";
                     var instrument = "";
+                    var vol = 0;
                     foreach (MidiEvent midiEvent in midiFile.Events[i])
                     {
                         //Get BPM
@@ -38,7 +39,8 @@ namespace Audio2Minecraft
                         if (new Regex("(?<=SequenceTrackName ).+(?=$)").Match(midiEvent.ToString()).Success) track = new Regex("(?<=SequenceTrackName ).+(?=$)").Match(midiEvent.ToString()).Value;
                         //Get Instrument Name
                         if (new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Success) instrument = new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Value;
-
+                        //Get Track Volume
+                        if (new Regex("(?<=MainVolume Value )\\d*(?=$)").Match(midiEvent.ToString()).Success) Int32.TryParse(new Regex("(?<=MainVolume Value )\\d*(?=$)").Match(midiEvent.ToString()).Value, out vol);
                         if (!MidiEvent.IsNoteOff(midiEvent))
                         {
                             var nowTick = 0;
@@ -65,6 +67,9 @@ namespace Audio2Minecraft
                                 //Track-related
                                 MidiNode.Instrument = EventAnalysis.Instrument;
                                 MidiNode.TrackName = track;
+                                //PlaySound-related
+                                MidiNode.PlaySound = new PlaySoundInfo();
+                                MidiNode.PlaySound.MandaVolume = vol;
                                 //Generate Track & Instrument List
                                 var currentTrack = timeLine.TrackList.AsEnumerable().FirstOrDefault(t => t.Name == track);
                                 if (currentTrack == null) { currentTrack = new TimeLine.MidiSettingInspector { Name = track, Type = TimeLine.MidiSettingType.Track, Enable = true }; timeLine.TrackList.Add(currentTrack); } //Add new Track

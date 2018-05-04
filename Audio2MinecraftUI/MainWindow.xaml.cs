@@ -431,8 +431,11 @@ namespace Audio2MinecraftUI
                         LeftWaveSetting = preTimeLine.LeftWaveSetting,
                         RightWaveSetting = preTimeLine.RightWaveSetting,
                         Midipath = Midipath,
+                        rMidipath = (Midipath != "") ? new Uri(fileDialog.FileName).MakeRelativeUri(new Uri(Midipath)) : null,
                         Wavepath = Wavepath,
+                        rWavepath = (Wavepath != "") ? new Uri(fileDialog.FileName).MakeRelativeUri(new Uri(Wavepath)) : null,
                         Lrcpath = Lrcpath,
+                        rLrcpath = (Lrcpath != "") ? new Uri(fileDialog.FileName).MakeRelativeUri(new Uri(Lrcpath)) : null,
                         ExportSetting = ExportSetting,
                         PublicSetting = new FileOutPut._PublicSetting()
                         {
@@ -458,7 +461,6 @@ namespace Audio2MinecraftUI
                         },
                         wav_COMMIT = new int[] { Int32.Parse(WavSetting.采样周期.Text), Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text) }
                     };
-                    Clipboard.SetText(JsonConvert.SerializeObject(f));
                     File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f)));
                 }
                 else if (new FileInfo(fileDialog.FileName).Extension == ".schematic")
@@ -496,6 +498,13 @@ namespace Audio2MinecraftUI
             if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
             {
                 var o = JsonConvert.DeserializeObject<FileOutPut>(Decompress(File.ReadAllText(fileDialog.FileName)));
+                //relative or absolute
+                if (MessageBox.Show("是否使用相对路径导入？", "使用相对路径导入", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    o.Midipath = (o.rMidipath != null) ? new Uri(new Uri(fileDialog.FileName), o.rMidipath).LocalPath : "";
+                    o.Wavepath = (o.rWavepath != null) ? new Uri(new Uri(fileDialog.FileName), o.rWavepath).LocalPath : "";
+                    o.Lrcpath = (o.rLrcpath != null) ? new Uri(new Uri(fileDialog.FileName), o.rLrcpath).LocalPath : "";
+                }
                 var tracks = o.MidiTracks;
                 var instruments = o.MidiInstruments;
                 foreach (var T in tracks)
@@ -682,8 +691,11 @@ namespace Audio2MinecraftUI
         public TimeLine.WaveSettingInspector LeftWaveSetting;
         public TimeLine.WaveSettingInspector RightWaveSetting;
         public string Midipath = "";
+        public Uri rMidipath;
         public string Wavepath = "";
+        public Uri rWavepath;
         public string Lrcpath = "";
+        public Uri rLrcpath;
         public int BPM = -1;
         public ExportSetting ExportSetting;
         public _PublicSetting PublicSetting;

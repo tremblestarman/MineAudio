@@ -37,7 +37,7 @@ namespace Audio2Minecraft
         public string InheritExpression { get { return _inheritExpression; } set { _inheritExpression = value; } }
         private int _delay = -1;
         public int ExtraDelay { get { return _delay; } set { _delay = value; } }
-        private int _volume = -1;
+        private int _volume = 100;
         public int MandaVolume { get { return _volume; } set { _volume = value; } }
         private int _evolume = -1;
         public int PercVolume { get { return _evolume; } set { _evolume = value; } }
