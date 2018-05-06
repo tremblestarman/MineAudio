@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.IO.Compression;
 using fNbt;
 
 namespace Audio2Minecraft
@@ -16,7 +18,10 @@ namespace Audio2Minecraft
             {
                 var Schematic = Serialize(commandLine, SettingParam);
                 //Export Schematic
-                new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.None);
+                if (SettingParam.Type == ExportSetting.ExportType.Universal)
+                    new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.None);
+                else if (SettingParam.Type == ExportSetting.ExportType.WorldEdit)
+                    new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.ZLib);
             }
             catch {}
         }
@@ -35,6 +40,17 @@ namespace Audio2Minecraft
                 Schematic.Add(blockInfo.Data);
                 Schematic.Add(blockInfo.Blocks);
                 Schematic.Add(blockInfo.TileEntities);
+                if (SettingParam.Type == ExportSetting.ExportType.WorldEdit)
+                {
+                    var weInfo = BlockInfo2WorldEditBlockInfo(blockInfo, SettingParam.Direction);
+                    Schematic.Add(weInfo.Materials);
+                    Schematic.Add(weInfo.WEOriginX);
+                    Schematic.Add(weInfo.WEOriginY);
+                    Schematic.Add(weInfo.WEOriginZ);
+                    Schematic.Add(weInfo.WEOffsetX);
+                    Schematic.Add(weInfo.WEOffsetY);
+                    Schematic.Add(weInfo.WEOffsetZ);
+                }
                 return Schematic;
             }
             catch
@@ -205,6 +221,35 @@ namespace Audio2Minecraft
             NodePoint.Add(new NbtInt("z", z));
             return NodePoint;
         }
+        private WorldEditBlockInfo BlockInfo2WorldEditBlockInfo(BlockInfo blockInfo, int direction)
+        {
+            var weInfo = new WorldEditBlockInfo();
+            weInfo.Blocks = blockInfo.Blocks;
+            weInfo.Data = blockInfo.Data;
+            weInfo.Height = blockInfo.Height;
+            weInfo.Length = blockInfo.Length;
+            weInfo.TileEntities = blockInfo.TileEntities;
+            weInfo.Width = blockInfo.Height;
+
+            switch (direction)
+            {
+                case 0:
+                    weInfo.WEOffsetZ.Value = 1;
+                    break;
+                case 1:
+                    weInfo.WEOffsetX.Value = weInfo.Length.IntValue - 1;
+                    weInfo.WEOffsetZ.Value = weInfo.Width.IntValue - 2;
+                    break;
+                case 2:
+                    weInfo.WEOffsetZ.Value = -1;
+                    break;
+                case 3:
+                    weInfo.WEOffsetX.Value = -(weInfo.Length.IntValue - 2);
+                    weInfo.WEOffsetZ.Value = weInfo.Width.IntValue - 1;
+                    break;
+            } 
+            return weInfo;
+        }
     }
     public class ExportSetting
     {
@@ -229,6 +274,13 @@ namespace Audio2Minecraft
         /// Whether the Entities Always Loaded
         /// </summary>
         public bool AlwaysLoadEntities { get { return _AlwaysLoadEntities; } set { _AlwaysLoadEntities = value; } }
+        private ExportType _exportType = ExportType.Universal;
+        public ExportType Type { get { return _exportType; } set { _exportType = value; } }
+        public enum ExportType
+        {
+            Universal,
+            WorldEdit
+        }
     }
 
     class BlockInfo
@@ -239,5 +291,15 @@ namespace Audio2Minecraft
         public NbtShort Height = new NbtShort("Height", 0);
         public NbtShort Length = new NbtShort("Length", 0);
         public NbtShort Width = new NbtShort("Width", 0);
+    }
+    class WorldEditBlockInfo : BlockInfo
+    {
+        public NbtInt WEOriginX = new NbtInt("WEOriginX", 0);
+        public NbtInt WEOriginY = new NbtInt("WEOriginY", 0);
+        public NbtInt WEOriginZ = new NbtInt("WEOriginZ", 0);
+        public NbtInt WEOffsetX = new NbtInt("WEOffsetX", 0);
+        public NbtInt WEOffsetY = new NbtInt("WEOffsetY", 0);
+        public NbtInt WEOffsetZ = new NbtInt("WEOffsetZ", 0);
+        public NbtString Materials = new NbtString("Materials", "Alpha");
     }
 }

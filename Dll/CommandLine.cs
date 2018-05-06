@@ -108,7 +108,7 @@ namespace Audio2Minecraft
                                         string cood = "~" + playsound.ExecuteCood[0] + " ~" + playsound.ExecuteCood[1] + " ~" + playsound.ExecuteCood[2];
                                         //Set Volume
                                         double vp = ((playsound.PercVolume < 0) ? (double)100 : (double)playsound.PercVolume) / 100;
-                                        double manda_vol = playsound.MandaVolume / 100;
+                                        double manda_vol = (playsound.MandaVolume < 0) ? 1 : playsound.MandaVolume / 100;
                                         var volume = (node.Param["Velocity"].Value * manda_vol * vp / 100 > 2) ? 2 : (node.Param["Velocity"].Value * manda_vol * vp / 100 < 0) ? 0 : (double)node.Param["Velocity"].Value * vp * manda_vol / 100;
                                         var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume;
                                         commandLine.Keyframe[i].Commands.Add(command);

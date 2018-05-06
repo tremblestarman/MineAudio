@@ -411,7 +411,7 @@ namespace Audio2MinecraftUI
         public void Save(object sender, MouseButtonEventArgs e)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "A2M Project(*.amproj)|*.amproj|Schematic(*.schematic)|*.schematic";
+            fileDialog.Filter = "A2M Project(*.amproj)|*.amproj|Universal Schematic(*.schematic)|*.schematic|WorldEdit Schematic(*.schematic)|*.schematic";
             fileDialog.FilterIndex = 1;
             foreach (var t in preTimeLine.TrackList)
             {
@@ -422,7 +422,7 @@ namespace Audio2MinecraftUI
             }
             if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
             {
-                if (new FileInfo(fileDialog.FileName).Extension == ".amproj")
+                if (fileDialog.FilterIndex == 1)
                 {
                     var f = new FileOutPut()
                     {
@@ -463,7 +463,7 @@ namespace Audio2MinecraftUI
                     };
                     File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f)));
                 }
-                else if (new FileInfo(fileDialog.FileName).Extension == ".schematic")
+                else
                 {
                     InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "CompareList");
                     var exportLine = new TimeLine().Serialize(Midipath, Wavepath, BPM, Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text), Int32.Parse(WavSetting.采样周期.Text));
@@ -486,6 +486,7 @@ namespace Audio2MinecraftUI
                         commandLine = commandLine.Combine(commandLine, lrcLine);
                     }
                     var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width };
+                    //if (fileDialog.FilterIndex == 2) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WE
                     new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName);
                 }
             }
@@ -511,7 +512,7 @@ namespace Audio2MinecraftUI
                 {
                     foreach (var i in T.Instruments)
                     {
-                        foreach (var _t in (from t in tracks where t.Uid.ToString() == i.TracksUid.ToString() select t))
+                        foreach (var _t in (from t in tracks where i.TracksUid.Contains(t.Uid) select t))
                         {
                             i.Tracks.Add(_t);
                         }
@@ -519,7 +520,7 @@ namespace Audio2MinecraftUI
                 }
                 foreach (var i in instruments)
                 {
-                    foreach (var _t in (from t in tracks where t.Uid.ToString() == i.TracksUid.ToString() select t))
+                    foreach (var _t in (from t in tracks where i.TracksUid.Contains(t.Uid) select t))
                     {
                         i.Tracks.Add(_t);
                     }

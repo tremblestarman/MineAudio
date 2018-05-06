@@ -69,7 +69,7 @@ namespace Audio2Minecraft
                                 MidiNode.TrackName = track;
                                 //PlaySound-related
                                 MidiNode.PlaySound = new PlaySoundInfo();
-                                MidiNode.PlaySound.MandaVolume = vol;
+                                MidiNode.PlaySound.MandaVolume = (vol < 0) ? 100 : vol;
                                 //Generate Track & Instrument List
                                 var currentTrack = timeLine.TrackList.AsEnumerable().FirstOrDefault(t => t.Name == track);
                                 if (currentTrack == null) { currentTrack = new TimeLine.MidiSettingInspector { Name = track, Type = TimeLine.MidiSettingType.Track, Enable = true }; timeLine.TrackList.Add(currentTrack); } //Add new Track

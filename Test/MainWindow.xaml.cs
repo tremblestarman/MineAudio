@@ -32,7 +32,6 @@ namespace WpfApplication1
         {
             InheritExpression.SetCompareLists(System.Windows.Forms.Application.StartupPath + "\\test");
             var a = new TimeLine().Serialize(MidiPath.Text, null, 72);
-            
             //所有音轨的发生发声延长3tick
             a.Sound_ExtraDelay(3);
             a.Sound_StopSound(false);   //禁用/stopsound
@@ -60,7 +59,6 @@ namespace WpfApplication1
             //生成CommandLine(命令序列)
             var b = new CommandLine().Serialize(a);
             b.Start.Clear(); b.End.Clear();
-            //Console.Write(new List<string>()[0]);
             new Schematic().ExportSchematic(b, new ExportSetting() { AlwaysActive = true, AlwaysLoadEntities = false, Direction = 0, Width = 5 }, "E:\\timet.schematic");
         }
 
