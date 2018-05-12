@@ -31,6 +31,7 @@ namespace Audio2Minecraft
                     var track = "";
                     var instrument = "";
                     var vol = 0;
+                    var pan = -1;
                     foreach (MidiEvent midiEvent in midiFile.Events[i])
                     {
                         //Get BPM
@@ -41,6 +42,8 @@ namespace Audio2Minecraft
                         if (new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Success) instrument = new Regex("(?<=PatchChange Ch: \\d+ ).+(?=$)").Match(midiEvent.ToString()).Value;
                         //Get Track Volume
                         if (new Regex("(?<=MainVolume Value )\\d*(?=$)").Match(midiEvent.ToString()).Success) Int32.TryParse(new Regex("(?<=MainVolume Value )\\d*(?=$)").Match(midiEvent.ToString()).Value, out vol);
+                        //Get Track Pan
+                        if (new Regex("(?<=Pan Value )\\d*(?=$)").Match(midiEvent.ToString()).Success) Int32.TryParse(new Regex("(?<=Pan Value )\\d*(?=$)").Match(midiEvent.ToString()).Value, out pan);
                         if (!MidiEvent.IsNoteOff(midiEvent))
                         {
                             var nowTick = 0;
@@ -70,6 +73,7 @@ namespace Audio2Minecraft
                                 //PlaySound-related
                                 MidiNode.PlaySound = new PlaySoundInfo();
                                 MidiNode.PlaySound.MandaVolume = (vol < 0) ? 100 : vol;
+                                MidiNode.PlaySound.SetPan(pan);
                                 //Generate Track & Instrument List
                                 var currentTrack = timeLine.TrackList.AsEnumerable().FirstOrDefault(t => t.Name == track);
                                 if (currentTrack == null) { currentTrack = new TimeLine.MidiSettingInspector { Name = track, Type = TimeLine.MidiSettingType.Track, Enable = true }; timeLine.TrackList.Add(currentTrack); } //Add new Track
@@ -135,6 +139,7 @@ namespace Audio2Minecraft
         private MidiEventParameter AnalysisEvent(MidiEvent midiEvent, string instrument)
         {
             MidiEventParameter para = new MidiEventParameter();
+            if (instrument == "") instrument = "Default";
             para.Instrument = instrument; //default instrument
             if (new Regex("(?<=^\\d+ )NoteOn(?= Ch:)").Match(midiEvent.ToString()).Success)
             {

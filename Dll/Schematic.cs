@@ -21,7 +21,7 @@ namespace Audio2Minecraft
                 if (SettingParam.Type == ExportSetting.ExportType.Universal)
                     new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.None);
                 else if (SettingParam.Type == ExportSetting.ExportType.WorldEdit)
-                    new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.ZLib);
+                    new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.GZip);
             }
             catch {}
         }

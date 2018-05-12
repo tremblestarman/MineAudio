@@ -128,7 +128,7 @@
                 </Image.RenderTransform>
             </Image>
         </Button>
-        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="24" Margin="89,110,0,0" VerticalAlignment="Top" Width="537" Content=""/>
+        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,110,0,0" VerticalAlignment="Top" Width="537" Content=""/>
         <Grid HorizontalAlignment="Left" Height="300" Margin="7.5,140,0,0" VerticalAlignment="Top" Width="620" >
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
             <Button x:Name="Midi设置" Content="Midi设置" HorizontalAlignment="Left" Margin="39,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="Midi设置显示" PreviewMouseLeftButtonDown="Midi设置显示"/>

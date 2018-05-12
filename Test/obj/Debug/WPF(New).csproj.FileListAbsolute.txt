@@ -12,5 +12,4 @@ C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Tes
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Test\obj\Debug\WpfApplication1.g.resources
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Test\obj\Debug\WpfApplication1.Properties.Resources.resources
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Test\obj\Debug\WPF(New).csproj.GenerateResource.Cache
-C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Test\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Test\obj\Debug\WPF(New).csprojResolveAssemblyReference.cache

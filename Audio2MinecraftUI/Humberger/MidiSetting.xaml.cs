@@ -492,6 +492,7 @@ namespace Audio2MinecraftUI.Humberger
             if (音量大小.Visibility == Visibility.Visible) i.PlaysoundSetting.PercVolume = (音量增益.Value != -1) ? (int)(音量增益.Value * 2) : -1;
         }
 
+
         private int oldIndex = 0;
         private string oldText = String.Empty;
         private void 音色名称_SelectionChanged(object sender, SelectionChangedEventArgs e)

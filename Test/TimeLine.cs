@@ -45,6 +45,26 @@ namespace Audio2Minecraft
         public bool Enable { get { return en; } set { en = value; } }
         private bool _stopsound = false;
         public bool StopSound { get { return _stopsound; } set { _stopsound = value; } }
+        private int _pan = -1;
+        public void SetPan(int pan)
+        {
+            _pan = pan;
+        }
+        public void Stereo(int facing)
+        {
+            if (facing == -1) return;
+            var fi =
+                (facing == 0) ? 0 :
+                (facing == 1) ? 180 :
+                (facing == 2) ? 90 :
+                (facing == 3) ? 270 : 0;
+            if (_pan != 64)
+            {
+                var theta = (double)_pan / 127;
+                _cood[0] = Math.Cos((theta + fi) / 180 * Math.PI) * 0.2;
+                _cood[2] = Math.Sin((theta + fi) / 180 * Math.PI) * 0.2;
+            }
+        }
     }
     public class TimeLine
     {
@@ -565,6 +585,59 @@ namespace Audio2Minecraft
                             for (int m = 0; m < tickNode.MidiTracks[track][instrument].Count; m++) tickNode.MidiTracks[track][instrument][m].PlaySound.StopSound = stop;
                         else
                             tickNode.MidiTracks[track][instrument][index].PlaySound.StopSound = stop;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Which Direction the Player is Facing.
+        /// X+:0, X-:1, Z+:2, Z-:3
+        /// </summary>
+        public void Sound_Stereo(int facing, string track = "", string instrument = "", int index = -1)
+        {
+            foreach (TickNode tickNode in TickNodes)
+            {
+                if (track == "")
+                {
+                    foreach (string t in tickNode.MidiTracks.Keys)
+                    {
+                        if (instrument == "")
+                        {
+                            foreach (string i in tickNode.MidiTracks[t].Keys)
+                            {
+                                if (index == -1)
+                                    for (int m = 0; m < tickNode.MidiTracks[t][i].Count; m++) tickNode.MidiTracks[t][i][m].PlaySound.Stereo(facing);
+                                else
+                                    tickNode.MidiTracks[t][i][index].PlaySound.Stereo(facing);
+                            }
+                        }
+                        else if (tickNode.MidiTracks[t].ContainsKey(instrument))
+                        {
+                            if (index == -1)
+                                for (int m = 0; m < tickNode.MidiTracks[t][instrument].Count; m++) tickNode.MidiTracks[t][instrument][m].PlaySound.Stereo(facing);
+                            else
+                                tickNode.MidiTracks[t][instrument][index].PlaySound.Stereo(facing);
+                        }
+                    }
+                }
+                else if (tickNode.MidiTracks.ContainsKey(track))
+                {
+                    if (instrument == "")
+                    {
+                        foreach (string i in tickNode.MidiTracks[track].Keys)
+                        {
+                            if (index == -1)
+                                for (int m = 0; m < tickNode.MidiTracks[track][i].Count; m++) tickNode.MidiTracks[track][i][m].PlaySound.Stereo(facing);
+                            else
+                                tickNode.MidiTracks[track][i][index].PlaySound.Stereo(facing);
+                        }
+                    }
+                    else if (tickNode.MidiTracks[track].ContainsKey(instrument))
+                    {
+                        if (index == -1)
+                            for (int m = 0; m < tickNode.MidiTracks[track][instrument].Count; m++) tickNode.MidiTracks[track][instrument][m].PlaySound.Stereo(facing);
+                        else
+                            tickNode.MidiTracks[track][instrument][index].PlaySound.Stereo(facing);
                     }
                 }
             }

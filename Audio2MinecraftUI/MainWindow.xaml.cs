@@ -49,6 +49,7 @@ namespace Audio2MinecraftUI
             static public bool BPM = false;
             static public bool Q = false;
             static public bool TC = false;
+            static public int ST = 0;
         }
         public static class LyricMode
         {
@@ -97,7 +98,6 @@ namespace Audio2MinecraftUI
             {
                 MidiPath.Text = fileDialog.FileName;
                 load.IsEnabled = true;
-                A2MSave.IsEnabled = true;
                 SetFileShow();
                 cancel0.Visibility = Visibility.Visible;
             }
@@ -124,7 +124,6 @@ namespace Audio2MinecraftUI
             {
                 WavePath.Text = fileDialog.FileName;
                 load.IsEnabled = true;
-                A2MSave.IsEnabled = true;
                 SetFileShow();
                 cancel1.Visibility = Visibility.Visible;
             }
@@ -151,7 +150,6 @@ namespace Audio2MinecraftUI
             {
                 LrcPath.Text = fileDialog.FileName;
                 load.IsEnabled = true;
-                A2MSave.IsEnabled = true;
                 SetFileShow();
                 cancel2.Visibility = Visibility.Visible;
             }
@@ -224,6 +222,7 @@ namespace Audio2MinecraftUI
             }
             PublicSetting.ItemChanged();
             Export.Update();
+            A2MSave.IsEnabled = true;
         }
 
         private void Midi设置显示(object sender, MouseButtonEventArgs e)
@@ -431,17 +430,18 @@ namespace Audio2MinecraftUI
                         LeftWaveSetting = preTimeLine.LeftWaveSetting,
                         RightWaveSetting = preTimeLine.RightWaveSetting,
                         Midipath = Midipath,
-                        rMidipath = (Midipath != "") ? new Uri(fileDialog.FileName).MakeRelativeUri(new Uri(Midipath)) : null,
+                        rMidipath = (Midipath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Midipath.Replace(" ", "*20"))) : null,
                         Wavepath = Wavepath,
-                        rWavepath = (Wavepath != "") ? new Uri(fileDialog.FileName).MakeRelativeUri(new Uri(Wavepath)) : null,
+                        rWavepath = (Wavepath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Wavepath.Replace(" ", "*20"))) : null,
                         Lrcpath = Lrcpath,
-                        rLrcpath = (Lrcpath != "") ? new Uri(fileDialog.FileName).MakeRelativeUri(new Uri(Lrcpath)) : null,
+                        rLrcpath = (Lrcpath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Lrcpath.Replace(" ", "*20"))) : null,
                         ExportSetting = ExportSetting,
                         PublicSetting = new FileOutPut._PublicSetting()
                         {
                             BPM = PublicSet.BPM,
                             Q = PublicSet.Q,
                             TC = PublicSet.TC,
+                            ST = PublicSet.ST,
                             TBPM = preTimeLine.Param["MidiBeatPerMinute"].Value,
                             TTC = preTimeLine.Param["MidiTracksCount"].Value,
                             TQ = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value
@@ -479,6 +479,7 @@ namespace Audio2MinecraftUI
                     exportLine.Param["MidiBeatPerMinute"].Enable = PublicSet.BPM;
                     exportLine.Param["MidiTracksCount"].Enable = PublicSet.TC;
                     exportLine.Param["MidiDeltaTicksPerQuarterNote"].Enable = PublicSet.Q;
+                    exportLine.Sound_Stereo(PublicSet.ST - 1);
                     var commandLine = new CommandLine().Serialize(exportLine);
                     if (Lrcpath != "")
                     {
@@ -486,7 +487,7 @@ namespace Audio2MinecraftUI
                         commandLine = commandLine.Combine(commandLine, lrcLine);
                     }
                     var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width };
-                    //if (fileDialog.FilterIndex == 2) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WE
+                    if (fileDialog.FilterIndex == 3) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WE
                     new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName);
                 }
             }
@@ -502,9 +503,9 @@ namespace Audio2MinecraftUI
                 //relative or absolute
                 if (MessageBox.Show("是否使用相对路径导入？", "使用相对路径导入", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    o.Midipath = (o.rMidipath != null) ? new Uri(new Uri(fileDialog.FileName), o.rMidipath).LocalPath : "";
-                    o.Wavepath = (o.rWavepath != null) ? new Uri(new Uri(fileDialog.FileName), o.rWavepath).LocalPath : "";
-                    o.Lrcpath = (o.rLrcpath != null) ? new Uri(new Uri(fileDialog.FileName), o.rLrcpath).LocalPath : "";
+                    o.Midipath = (o.rMidipath != null) ? new Uri(new Uri(fileDialog.FileName.Replace(" ", "*20")), o.rMidipath).LocalPath.Replace("*20", " ") : "";
+                    o.Wavepath = (o.rWavepath != null) ? new Uri(new Uri(fileDialog.FileName.Replace(" ", "*20")), o.rWavepath).LocalPath.Replace("*20", " ") : "";
+                    o.Lrcpath = (o.rLrcpath != null) ? new Uri(new Uri(fileDialog.FileName.Replace(" ", "*20")), o.rLrcpath).LocalPath.Replace("*20", " ") : "";
                 }
                 var tracks = o.MidiTracks;
                 var instruments = o.MidiInstruments;
@@ -709,6 +710,7 @@ namespace Audio2MinecraftUI
             public int TBPM = 0;
             public int TQ = 0;
             public int TTC = 0;
+            public int ST = 0;
         }
         public class _LyricMode
         {
