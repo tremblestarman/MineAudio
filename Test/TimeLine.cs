@@ -56,13 +56,13 @@ namespace Audio2Minecraft
             var fi =
                 (facing == 0) ? 0 :
                 (facing == 1) ? 180 :
-                (facing == 2) ? 90 :
-                (facing == 3) ? 270 : 0;
+                (facing == 2) ? -90 :
+                (facing == 3) ? 90 : 0;
             if (_pan != 64)
             {
                 var theta = (double)_pan / 127;
-                _cood[0] = Math.Cos((theta + fi) / 180 * Math.PI) * 0.2;
-                _cood[2] = Math.Sin((theta + fi) / 180 * Math.PI) * 0.2;
+                _cood[0] = Math.Sin((theta + fi) * Math.PI) * 3;
+                _cood[2] = Math.Cos((theta + fi) * Math.PI) * 3;
             }
         }
     }

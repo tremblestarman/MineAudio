@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,9 +14,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Globalization;
 using MahApps.Metro.Controls;
 using Audio2Minecraft;
-using System.Globalization;
+using Newtonsoft.Json;
 
 namespace Audio2MinecraftUI.Humberger
 {
@@ -29,6 +31,9 @@ namespace Audio2MinecraftUI.Humberger
         private List<CheckBox> CheckElements;
         private List<TextBox> TextBoxElements;
         TimeLine.MidiSettingInspector SelectedItem;
+
+        static List<InstrumentDefault> InstrumentList = new List<InstrumentDefault>();
+
         public MidiSetting()
         {
             InitializeComponent();
@@ -44,6 +49,7 @@ namespace Audio2MinecraftUI.Humberger
             KeyScore.IsEnabled = false;
             PlaySound.IsEnabled = false;
             Done.IsEnabled = false;
+            GetInstrumentDefaults(AppDomain.CurrentDomain.BaseDirectory + "InstrumentList");
 
             TextBlockElements = new List<TextBlock>()
             {
@@ -85,6 +91,20 @@ namespace Audio2MinecraftUI.Humberger
                 额外延时
             };
             PlaySoundEnableUpdate();
+        }
+        private void GetInstrumentDefaults(string directoryPath)
+        {
+            FileInfo[] files = new DirectoryInfo(directoryPath).GetFiles();
+            DirectoryInfo[] directories = new DirectoryInfo(directoryPath).GetDirectories();
+            foreach (var file in files)
+            {
+                if (file.Extension == ".json")
+                    InstrumentList.AddRange(JsonConvert.DeserializeObject<List<InstrumentDefault>>(File.ReadAllText(file.FullName)));
+            }
+            foreach (var directory in directories)
+            {
+                GetInstrumentDefaults(directory.FullName);
+            }
         }
 
         private void SwitchViewType(object sender, MouseButtonEventArgs e)
@@ -379,16 +399,19 @@ namespace Audio2MinecraftUI.Humberger
             {
                 音色名称.Text = i.PlaysoundSetting.SoundName.ToString();
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
+                ComboDefaults(i.Name);
             }
             else if (SelectedItem.Type == TimeLine.MidiSettingType.Track && ViewType == MidiViewType.Track)
             {
                 if (i.Instruments.All(_i => _i.PlaysoundSetting.SoundName == i.Instruments[0].PlaysoundSetting.SoundName)) 音色名称.Text = i.Instruments[0].PlaysoundSetting.SoundName;
                 else { 音色名称.Text = ""; 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "――"); }
+                ComboDefaults(i);
             }
             else if (i.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Instrument)
             {
                 if (i.Tracks.All(t => (from v in t.Instruments where v.Name == i.Name select v).All(_i => _i.PlaysoundSetting.SoundName == i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.SoundName))) 音色名称.Text = (i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.SoundName != null) ? i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.SoundName : "";
                 else { 音色名称.Text = ""; 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "――"); }
+                ComboDefaults(i.Name);
             }
         }
         private void SlideSet(TimeLine.MidiSettingInspector i) //返回滑动栏是否一致
@@ -410,6 +433,20 @@ namespace Audio2MinecraftUI.Humberger
             }
         }
 
+        private void ComboDefaults(string instrument)
+        {
+            音色名称.Items.Clear();
+            var c = (from i in InstrumentList where i.Instrument == instrument select i);
+            foreach (var i in c) 音色名称.Items.Add(i.SoundName);
+        }
+        private void ComboDefaults(TimeLine.MidiSettingInspector track)
+        {
+            音色名称.Items.Clear();
+            foreach (var instrument in track.Instruments)
+            {
+                ComboDefaults(instrument.Name);
+            }
+        }
 
         private void Elements_Click(object sender, RoutedEventArgs e)
         {
@@ -501,6 +538,15 @@ namespace Audio2MinecraftUI.Humberger
             if (音色名称.GetValue(TextBoxHelper.WatermarkProperty).ToString() != "")
             {
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
+            }
+
+            if (SelectedItem.Type == TimeLine.MidiSettingType.Instrument)
+            {
+                子表达式.Text = ((from i in InstrumentList where i.Instrument == SelectedItem.Name && i.SoundName == 音色名称.Text select i).Count() == 0) ? "" : (from i in InstrumentList where i.Instrument == SelectedItem.Name && i.SoundName == 音色名称.Text select i).First().Expression;
+            }
+            else if (SelectedItem.Type == TimeLine.MidiSettingType.Track)
+            {
+                子表达式.Text = ((from i in InstrumentList where i.SoundName == 音色名称.Text select i).Count() == 0) ? "" : (from i in InstrumentList where i.SoundName == 音色名称.Text select i).First().Expression;
             }
         }
         private void 音色名称_TextInput(object sender, TextCompositionEventArgs e)
@@ -690,6 +736,13 @@ namespace Audio2MinecraftUI.Humberger
         {
             if (音量大小.Visibility == Visibility.Hidden)
                 音量大小.Visibility = Visibility.Visible;
+        }
+
+        class InstrumentDefault
+        {
+            public string Instrument = "";
+            public string SoundName = "";
+            public string Expression = "";
         }
     }
 

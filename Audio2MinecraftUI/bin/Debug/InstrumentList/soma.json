@@ -1,0 +1,1140 @@
+[{
+		"Instrument": "Hi Q",
+		"SoundName": "0.27",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Synth Slap",
+		"SoundName": "0.28",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Scratch 2",
+		"SoundName": "0.29",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Scratch 1",
+		"SoundName": "0.30",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Sticks",
+		"SoundName": "0.31",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Square Click",
+		"SoundName": "0.32",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Metronome Click",
+		"SoundName": "0.33",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Metronome Bell",
+		"SoundName": "0.34",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Acoustic Bass Drum",
+		"SoundName": "0.35",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Bass Drum 1",
+		"SoundName": "0.36",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Side Stick",
+		"SoundName": "0.37",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Acoustic Snare",
+		"SoundName": "0.38",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Hand Clap",
+		"SoundName": "0.39",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Electric Snare",
+		"SoundName": "0.40",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Low Floor Tom",
+		"SoundName": "0.41",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Closed Hi-Hat",
+		"SoundName": "0.42",
+		"Expression": ""
+	},
+	{
+		"Instrument": "High Floor Tom",
+		"SoundName": "0.43",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Pedal Hi-Hat",
+		"SoundName": "0.44",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Low Tom",
+		"SoundName": "0.45",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Open Hi-Hat",
+		"SoundName": "0.46",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Low-Mid Tom",
+		"SoundName": "0.47",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Hi-Mid Tom",
+		"SoundName": "0.48",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Crash Cymbal 1",
+		"SoundName": "0.49",
+		"Expression": ""
+	},
+	{
+		"Instrument": "High Tom",
+		"SoundName": "0.50",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Ride Cymbal 1",
+		"SoundName": "0.51",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Chinese Cymbal",
+		"SoundName": "0.52",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Ride Bell",
+		"SoundName": "0.53",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Tambourine",
+		"SoundName": "0.54",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Splash Cymbal",
+		"SoundName": "0.55",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Cowbell",
+		"SoundName": "0.56",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Crash Cymbal 2",
+		"SoundName": "0.57",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Vibraslap",
+		"SoundName": "0.58",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Ride Cymbal 2",
+		"SoundName": "0.59",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Hi Bongo",
+		"SoundName": "0.60",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Low Bongo",
+		"SoundName": "0.61",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Mute Hi Conga",
+		"SoundName": "0.62",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Open Hi Conga",
+		"SoundName": "0.63",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Low Conga",
+		"SoundName": "0.64",
+		"Expression": ""
+	},
+	{
+		"Instrument": "High Timbale",
+		"SoundName": "0.65",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Low Timbale",
+		"SoundName": "0.66",
+		"Expression": ""
+	},
+	{
+		"Instrument": "High Agogo",
+		"SoundName": "0.67",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Low Agogo",
+		"SoundName": "0.68",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Cabasa",
+		"SoundName": "0.69",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Maracas",
+		"SoundName": "0.70",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Short Whistle",
+		"SoundName": "0.71",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Long Whistle",
+		"SoundName": "0.72",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Short Guiro",
+		"SoundName": "0.73",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Long Guiro",
+		"SoundName": "0.74",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Claves",
+		"SoundName": "0.75",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Hi Wood Block",
+		"SoundName": "0.76",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Low Wood Block",
+		"SoundName": "0.77",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Mute Cuica",
+		"SoundName": "0.78",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Open Cuica",
+		"SoundName": "0.79",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Mute Triangle",
+		"SoundName": "0.80",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Open Triangle",
+		"SoundName": "0.81",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Shaker",
+		"SoundName": "0.82",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Jingle Bell",
+		"SoundName": "0.83",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Bell Tree",
+		"SoundName": "0.84",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Castanets",
+		"SoundName": "0.85",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Mute Surdo",
+		"SoundName": "0.86",
+		"Expression": ""
+	},
+	{
+		"Instrument": "Open Surdo",
+		"SoundName": "0.87",
+		"Expression": ""
+	}, {
+		"Instrument": "Acoustic Grand Piano",
+		"SoundName": "1c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Bright Acoustic Piano",
+		"SoundName": "2c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Grand Piano",
+		"SoundName": "3c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Honky-Tonk Piano",
+		"SoundName": "4c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Piano 1",
+		"SoundName": "5c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Piano 2",
+		"SoundName": "5c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Harpsichord",
+		"SoundName": "7c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Clavinet",
+		"SoundName": "8c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Celesta",
+		"SoundName": "9c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Glockenspiel",
+		"SoundName": "10c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Music Box",
+		"SoundName": "11c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Vibraphone",
+		"SoundName": "12c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Marimba",
+		"SoundName": "13c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Xylophone",
+		"SoundName": "14c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Tubular Bells",
+		"SoundName": "15c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Dulcimer",
+		"SoundName": "16c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Drawbar Organ",
+		"SoundName": "17c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Percussive Organ",
+		"SoundName": "18c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Rock Organ",
+		"SoundName": "19c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Church Organ",
+		"SoundName": "20c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Reed Organ",
+		"SoundName": "21c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Accordion",
+		"SoundName": "22c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Harmonica",
+		"SoundName": "23c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Tango Accordian",
+		"SoundName": "24c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Acoustic Guitar (nylon)",
+		"SoundName": "25c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Acoustic Guitar(steel)",
+		"SoundName": "26c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Guitar (jazz)",
+		"SoundName": "27c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Guitar (clean)",
+		"SoundName": "28c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Guitar (muted)",
+		"SoundName": "29c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Overdriven Guitar",
+		"SoundName": "30c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Distortion Guitar",
+		"SoundName": "31c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Guitar Harmonics",
+		"SoundName": "32c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Acoustic Bass",
+		"SoundName": "33c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Bass(finger)",
+		"SoundName": "34c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Bass(pick)",
+		"SoundName": "35c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Fretless Bass",
+		"SoundName": "36c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Slap Bass 1",
+		"SoundName": "37c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Slap Bass 2",
+		"SoundName": "38c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Bass 1",
+		"SoundName": "39c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Bass 2",
+		"SoundName": "40c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Violin",
+		"SoundName": "41c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Viola",
+		"SoundName": "42c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Cello",
+		"SoundName": "43c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Contrabass",
+		"SoundName": "44c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Tremolo Strings",
+		"SoundName": "45c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pizzicato Strings",
+		"SoundName": "46c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Orchestral Harp",
+		"SoundName": "47c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Timpani",
+		"SoundName": "48c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "String Ensemble 1",
+		"SoundName": "49c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "String Ensemble 2",
+		"SoundName": "50c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "SynthStrings 1",
+		"SoundName": "51c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "SynthStrings 2",
+		"SoundName": "52c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Choir Aahs",
+		"SoundName": "53c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Voice Oohs",
+		"SoundName": "54c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Voice",
+		"SoundName": "55c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Orchestra Hit",
+		"SoundName": "56c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Trumpet",
+		"SoundName": "57c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Trombone",
+		"SoundName": "58c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Tuba",
+		"SoundName": "59c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Muted Trumpet",
+		"SoundName": "60c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "French Horn",
+		"SoundName": "61c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Brass Section",
+		"SoundName": "62c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Brass 1",
+		"SoundName": "63c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Brass 2",
+		"SoundName": "64c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Soprano Sax",
+		"SoundName": "65c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Alto Sax",
+		"SoundName": "66c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Tenor Sax",
+		"SoundName": "67c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Baritone Sax",
+		"SoundName": "68c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Oboe",
+		"SoundName": "69c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "English Horn",
+		"SoundName": "70c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Bassoon",
+		"SoundName": "71c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Clarinet",
+		"SoundName": "72c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Piccolo",
+		"SoundName": "73c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Flute",
+		"SoundName": "74c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Recorder",
+		"SoundName": "75c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pan Flute",
+		"SoundName": "76c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Bottle Blow",
+		"SoundName": "77c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Skakuhachi",
+		"SoundName": "78c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Whistle",
+		"SoundName": "79c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Ocarina",
+		"SoundName": "80c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Lead 1 (square)",
+		"SoundName": "81c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Lead 2 (sawtooth)",
+		"SoundName": "82c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Lead 3 (calliope lead)",
+		"SoundName": "83c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Lead 4 (chiff lead)",
+		"SoundName": "84c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Lead 5 (charang)",
+		"SoundName": "85c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Lead 6 (voice)",
+		"SoundName": "86c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Lead 7 (fifths)",
+		"SoundName": "87c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Lead 8 (bass+lead)",
+		"SoundName": "88c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pad 1 (new age) ",
+		"SoundName": "89c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pad 2 (warm) ",
+		"SoundName": "90c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pad 3 (polysynth) ",
+		"SoundName": "91c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pad 4 (choir) ",
+		"SoundName": "92c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pad 5 (bowed) ",
+		"SoundName": "93c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pad 6 (metallic) ",
+		"SoundName": "94c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pad 7 (halo) ",
+		"SoundName": "95c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pad 8 (sweep) ",
+		"SoundName": "96c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "FX 1 (rain)",
+		"SoundName": "97c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "FX 2 (soundtrack)",
+		"SoundName": "98c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "FX 3 (crystal)",
+		"SoundName": "99c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "FX 4 (atmosphere)",
+		"SoundName": "100c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "FX 5 (brightness)",
+		"SoundName": "101c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "FX 6 (goblins)",
+		"SoundName": "102c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "FX 7 (echoes)",
+		"SoundName": "103c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "FX 8 (sci-fi)",
+		"SoundName": "104c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Sitar",
+		"SoundName": "105c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Banjo",
+		"SoundName": "106c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Shamisen",
+		"SoundName": "107c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Koto",
+		"SoundName": "108c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Kalimba",
+		"SoundName": "109c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Bagpipe",
+		"SoundName": "110c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Fiddle",
+		"SoundName": "111c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Shanai",
+		"SoundName": "112c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Tinkle Bell",
+		"SoundName": "113c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Agogo",
+		"SoundName": "114c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Steel Drums",
+		"SoundName": "115c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Woodblock",
+		"SoundName": "116c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Taiko Drum",
+		"SoundName": "117c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Melodic Tom",
+		"SoundName": "118c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Drum",
+		"SoundName": "119c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Reverse Cymbal",
+		"SoundName": "120c",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Acoustic Grand Piano",
+		"SoundName": "1",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Bright Acoustic Piano",
+		"SoundName": "2",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Grand Piano",
+		"SoundName": "3",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Honky-Tonk Piano",
+		"SoundName": "4",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Piano 1",
+		"SoundName": "5",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Piano 2",
+		"SoundName": "5",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Harpsichord",
+		"SoundName": "7",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Clavinet",
+		"SoundName": "8",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Celesta",
+		"SoundName": "9",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Glockenspiel",
+		"SoundName": "10",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Music Box",
+		"SoundName": "11",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Vibraphone",
+		"SoundName": "12",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Marimba",
+		"SoundName": "13",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Xylophone",
+		"SoundName": "14",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Tubular Bells",
+		"SoundName": "15",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Dulcimer",
+		"SoundName": "16",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Acoustic Guitar (nylon)",
+		"SoundName": "25",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Acoustic Guitar(steel)",
+		"SoundName": "26",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Guitar (jazz)",
+		"SoundName": "27",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Guitar (clean)",
+		"SoundName": "28",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Guitar (muted)",
+		"SoundName": "29",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Overdriven Guitar",
+		"SoundName": "30",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Distortion Guitar",
+		"SoundName": "31",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Guitar Harmonics",
+		"SoundName": "32",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Acoustic Bass",
+		"SoundName": "33",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Bass(finger)",
+		"SoundName": "34",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Electric Bass(pick)",
+		"SoundName": "35",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Fretless Bass",
+		"SoundName": "36",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Slap Bass 1",
+		"SoundName": "37",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Slap Bass 2",
+		"SoundName": "38",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Bass 1",
+		"SoundName": "39",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Bass 2",
+		"SoundName": "40",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Pizzicato Strings",
+		"SoundName": "46",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Orchestral Harp",
+		"SoundName": "47",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Timpani",
+		"SoundName": "48",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "String Ensemble 1",
+		"SoundName": "49",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Orchestra Hit",
+		"SoundName": "56",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Shamisen",
+		"SoundName": "107",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Koto",
+		"SoundName": "108",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Kalimba",
+		"SoundName": "109",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Tinkle Bell",
+		"SoundName": "113",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Agogo",
+		"SoundName": "114",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Steel Drums",
+		"SoundName": "115",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Woodblock",
+		"SoundName": "116",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Taiko Drum",
+		"SoundName": "117",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Melodic Tom",
+		"SoundName": "118",
+		"Expression": "%p"
+	},
+	{
+		"Instrument": "Synth Drum",
+		"SoundName": "119",
+		"Expression": "%p"
+	}
+]

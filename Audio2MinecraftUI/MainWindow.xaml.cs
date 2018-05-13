@@ -637,6 +637,7 @@ namespace Audio2MinecraftUI
                 PublicSet.BPM = o.PublicSetting.BPM;
                 PublicSet.Q = o.PublicSetting.Q;
                 PublicSet.TC = o.PublicSetting.TC;
+                PublicSet.ST = o.PublicSetting.ST;
 
                 load.IsEnabled = true;
                 A2MSave.IsEnabled = true;
