@@ -26,7 +26,6 @@
                 </Image.RenderTransform>
             </Image>
         </Button>
-        <ComboBox x:Name="双声道" Uid="Stereo" Margin="478,4,33,220" IsEditable="False" SelectionChanged="双声道_SelectionChanged"/>
         <TextBlock Text="Midi输出设置" FontSize="12px" Margin="226,9,300,226" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBlock Text="基本信息输出设置" FontSize="12px" Margin="7,9,497,225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBlock Text="Wave输出设置" FontSize="12px" Margin="7,141,513,93" HorizontalAlignment="Center" VerticalAlignment="Center"/>

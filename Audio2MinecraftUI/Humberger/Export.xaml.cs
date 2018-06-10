@@ -43,6 +43,11 @@ namespace Audio2MinecraftUI.Humberger
             已播放颜色.SelectedIndex = 15;
             未播放颜色.ItemsSource = colors;
             未播放颜色.SelectedIndex = 15;
+            双声道.Items.Add("无双声道");
+            双声道.Items.Add("面向X+");
+            双声道.Items.Add("面向X-");
+            双声道.Items.Add("面向Z+");
+            双声道.Items.Add("面向Z-");
         }
         string old_text = "";
         private void NumericOnly(object sender, TextChangedEventArgs e)
@@ -71,6 +76,10 @@ namespace Audio2MinecraftUI.Humberger
         {
             Done.IsEnabled = true;
         }
+        private void 双声道_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Done.IsEnabled = true;
+        }
 
         private void DoneChanges(object sender, MouseButtonEventArgs e)
         {
@@ -78,10 +87,12 @@ namespace Audio2MinecraftUI.Humberger
             MainWindow.ExportSetting.Width = Int32.Parse(序列宽度.Text);
             MainWindow.ExportSetting.AlwaysActive = 保持区块加载.IsChecked == true;
             MainWindow.ExportSetting.AlwaysLoadEntities = 保持实体加载.IsChecked == true;
+            MainWindow.ExportSetting.AutoTeleport = 自动传送.IsChecked == true;
             MainWindow.preTimeLine.Param["MidiBeatPerMinute"].Value = Int32.Parse(重设BPM.Text);
             MainWindow.LyricMode.LyricOutSet.repeat = 播放模式.SelectedIndex == 0;
             MainWindow.LyricMode.LyricOutSet.color1 = 已播放颜色.Text;
             MainWindow.LyricMode.LyricOutSet.color2 = 未播放颜色.Text;
+            MainWindow.PublicSet.ST = 双声道.SelectedIndex;
             if (MainWindow.Midipath != "" && MainWindow.BPM.ToString() != 重设BPM.Text)
             {
                 var a = new AudioStreamMidi().Serialize(MainWindow.Midipath, new TimeLine(), Int32.Parse(重设BPM.Text));
@@ -100,6 +111,8 @@ namespace Audio2MinecraftUI.Humberger
             序列宽度.Text = MainWindow.ExportSetting.Width.ToString();
             保持区块加载.IsChecked = MainWindow.ExportSetting.AlwaysActive;
             保持实体加载.IsChecked = MainWindow.ExportSetting.AlwaysLoadEntities;
+            自动传送.IsChecked = MainWindow.ExportSetting.AutoTeleport;
+            双声道.SelectedIndex = MainWindow.PublicSet.ST;
             if (MainWindow.Midipath != "")
             {
                 Midi.IsEnabled = true;

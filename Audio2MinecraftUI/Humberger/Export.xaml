@@ -28,10 +28,13 @@
             <ComboBox x:Name="延伸方向" Text="东（x+）" Margin="50,48,50,128" Height="24" SelectionChanged="_SelectionChanged"/>
             <TextBlock Text="序列宽度" FontSize="12px" Margin="50,83,50,100"/>
             <TextBox x:Name="序列宽度" Margin="50,107,50,69" Height="24" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
-            <TextBlock Text="保持区块加载" FontSize="12px" Margin="18,142,82,41"/>
-            <CheckBox x:Name="保持区块加载" Margin="49,166,51,17" Click="_Click"/>
-            <TextBlock Text="保持实体加载" FontSize="12px" Margin="107,142,-7,41"/>
-            <CheckBox x:Name="保持实体加载" Margin="136,166,-36,17" Click="_Click"/>
+            <TextBlock Text="保持区块加载" FontSize="12px" Margin="7,144,93,39"/>
+            <CheckBox x:Name="保持区块加载" Margin="82,142,18,41" Click="_Click"/>
+            <TextBlock Text="保持实体加载" FontSize="12px" Margin="106,144,-6,39"/>
+            <CheckBox x:Name="保持实体加载" Margin="181,142,-81,41" Click="_Click"/>
+            <TextBlock Text="玩家自动跟进" FontSize="12px" Margin="7,170,93,13"/>
+            <CheckBox x:Name="自动传送" Margin="82,169,18,14" Click="_Click"/>
+            <ComboBox x:Name="双声道" Uid="Stereo" Margin="107,165,5,10" Height="24" IsEditable="False" SelectionChanged="双声道_SelectionChanged"/>
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
         </Grid>
         <TextBlock Text="Midi输出" FontSize="12px" Margin="200,15,200,211" HorizontalAlignment="Center"/>

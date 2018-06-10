@@ -84,11 +84,6 @@ namespace Audio2MinecraftUI.Humberger
                 额外延时
             };
             PlaySoundEnableUpdate();
-            双声道.Items.Add("无双声道");
-            双声道.Items.Add("面向X+");
-            双声道.Items.Add("面向X-");
-            双声道.Items.Add("面向Z+");
-            双声道.Items.Add("面向Z-");
             Done.IsEnabled = false;
         }
         public void MidiItemChanged()
@@ -494,11 +489,6 @@ namespace Audio2MinecraftUI.Humberger
             if (音量大小.Visibility == Visibility.Hidden)
                 音量大小.Visibility = Visibility.Visible;
         }
-        private void 双声道_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Done.IsEnabled = true;
-            MainWindow.PublicSet.ST = 双声道.SelectedIndex;
-        }
         #endregion
         #region Wave
         public void WaveItemChanged()
@@ -541,7 +531,6 @@ namespace Audio2MinecraftUI.Humberger
             BPM.IsChecked = MainWindow.PublicSet.BPM;
             音符占刻.IsChecked = MainWindow.PublicSet.Q;
             音轨数.IsChecked = MainWindow.PublicSet.TC;
-            双声道.SelectedIndex = MainWindow.PublicSet.ST;
             TBPM.Text = MainWindow.preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
             TTC.Text = MainWindow.preTimeLine.Param["MidiTracksCount"].Value.ToString();
             TQ.Text = MainWindow.preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();

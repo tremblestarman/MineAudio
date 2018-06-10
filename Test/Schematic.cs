@@ -153,6 +153,17 @@ namespace Audio2Minecraft
                     //Options about command
                     if (!SettingParam.AlwaysActive) commandLine.Keyframe[i].Commands.Remove("spawnpoint @p ~ ~ ~");
                     if (!SettingParam.AlwaysLoadEntities) commandLine.Keyframe[i].Commands.Remove("tp @e[tag=Tracks] @p");
+                    if (SettingParam.AutoTeleport && commandLine.Keyframe[i].Commands.Count > 0)
+                    {
+                        var tpdir = new List<double[]>()
+                        {
+                            new double[] { (double)1 / SettingParam.Width, 0 },
+                            new double[] { (double)-1 / SettingParam.Width, 0 },
+                            new double[] { 0, (double)1 / SettingParam.Width },
+                            new double[] { 0, (double)-1 / SettingParam.Width },
+                        };
+                        commandLine.Keyframe[i].Commands.Add("tp @p ~" + tpdir[SettingParam.Direction][0].ToString("0.0000") + " ~ ~" + tpdir[SettingParam.Direction][1].ToString("0.0000"));
+                    }
                     //WriteIn Commands
                     for (y = 0; y < commandLine.Keyframe[i].Commands.Count; y++)
                     {
@@ -164,7 +175,7 @@ namespace Audio2Minecraft
                             {
                                 blocks[index] = 137;
                                 datas[index] = 1;
-                                if (commandLine.Keyframe[i].Commands[0] == "$setblock") blockInfo.TileEntities.Add(AddCommand("setblock ~" + vector2[0].ToString() + " ~-1 ~" + vector2[1].ToString() + " minecraft:redstone_block", x, y, z, false));
+                                if (commandLine.Keyframe[i].Commands[0] == "$setblock") blockInfo.TileEntities.Add(AddCommand("setblock ~" + vector2[0].ToString() + " ~-1 ~" + vector2[1].ToString() + " minecraft:redstone_block 0 keep", x, y, z, false));
                                 else blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, false));
                             }
                             else
@@ -182,7 +193,7 @@ namespace Audio2Minecraft
                             {
                                 blocks[index] = 137;
                                 datas[index] = 1;
-                                if (commandLine.Keyframe[i].Commands[0] == "$setblock") blockInfo.TileEntities.Add(AddCommand("setblock ~" + vector2[0].ToString() + " ~-1 ~" + vector2[1].ToString() + " minecraft:redstone_block", x, y, z, false));
+                                if (commandLine.Keyframe[i].Commands[0] == "$setblock") blockInfo.TileEntities.Add(AddCommand("setblock ~" + vector2[0].ToString() + " ~-1 ~" + vector2[1].ToString() + " minecraft:redstone_block 0 keep", x, y, z, false));
                                 else blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, false));
                             }
                             else
@@ -274,6 +285,11 @@ namespace Audio2Minecraft
         /// Whether the Entities Always Loaded
         /// </summary>
         public bool AlwaysLoadEntities { get { return _AlwaysLoadEntities; } set { _AlwaysLoadEntities = value; } }
+        private bool _AutoTeleport = false;
+        /// <summary>
+        /// Whether the Entities Always Loaded
+        /// </summary>
+        public bool AutoTeleport { get { return _AutoTeleport; } set { _AutoTeleport = value; } }
         private ExportType _exportType = ExportType.Universal;
         public ExportType Type { get { return _exportType; } set { _exportType = value; } }
         public enum ExportType

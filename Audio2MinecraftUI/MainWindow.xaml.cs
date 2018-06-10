@@ -42,7 +42,8 @@ namespace Audio2MinecraftUI
             Direction = 0,
             Width = 16,
             AlwaysActive = true,
-            AlwaysLoadEntities = false
+            AlwaysLoadEntities = false,
+            AutoTeleport = false
         };
         public static class PublicSet
         {
@@ -486,7 +487,7 @@ namespace Audio2MinecraftUI
                         var lrcLine = GetLyrcics();
                         commandLine = commandLine.Combine(commandLine, lrcLine);
                     }
-                    var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width };
+                    var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width, AutoTeleport = ExportSetting.AutoTeleport };
                     if (fileDialog.FilterIndex == 3) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WE
                     new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName);
                 }
@@ -553,7 +554,15 @@ namespace Audio2MinecraftUI
                 LyricMode.LyricOutSet.color1 = o.LyricMode.LyricOutSetting.color1;
                 LyricMode.LyricOutSet.color2 = o.LyricMode.LyricOutSetting.color2;
                 LyricMode.LyricOutSet.repeat = o.LyricMode.LyricOutSetting.repeat;
-                ExportSetting = o.ExportSetting;
+                ExportSetting = o.ExportSetting; //Export
+                PublicSetting.ItemChanged();
+                PublicSetting.BPM.IsChecked = o.PublicSetting.BPM;
+                PublicSetting.音符占刻.IsChecked = o.PublicSetting.Q;
+                PublicSetting.音轨数.IsChecked = o.PublicSetting.TC;
+                PublicSet.BPM = o.PublicSetting.BPM;
+                PublicSet.Q = o.PublicSetting.Q;
+                PublicSet.TC = o.PublicSetting.TC;
+                PublicSet.ST = o.PublicSetting.ST; //Public
                 BPM = o.BPM;
                 Export.重设BPM.Text = BPM.ToString();
                 Export.Update(); //Export
@@ -563,6 +572,7 @@ namespace Audio2MinecraftUI
                     MidiSetting.ItemChanged();
                     cancel0.Visibility = Visibility.Visible;
                     PublicSetting.IsEnabled = true;
+                    PublicSetting.MidiPlat.IsEnabled = true;
                     Export.IsEnabled = true;
                     //Export
                     var a = new AudioStreamMidi().Serialize(MainWindow.Midipath, new TimeLine(), BPM);
@@ -588,6 +598,7 @@ namespace Audio2MinecraftUI
                     WavSetting.ItemChanged();
                     cancel1.Visibility = Visibility.Visible;
                     PublicSetting.IsEnabled = true;
+                    PublicSetting.WavePlat.IsEnabled = true;
                     Export.IsEnabled = true;
                 }
                 else
@@ -613,7 +624,7 @@ namespace Audio2MinecraftUI
                     WavSetting.当刻频率R.IsChecked = false;
                     WavSetting.当刻振幅R.IsChecked = false;
                 }
-                if (Lrcpath != "" && new FileInfo(Lrcpath).Exists) //WavePath
+                if (Lrcpath != "" && new FileInfo(Lrcpath).Exists) //LrcPath
                 {
                     LrcSetting.IsEnabled = true;
                     LrcSetting.Update();
@@ -629,15 +640,6 @@ namespace Audio2MinecraftUI
                     cancel2.Visibility = Visibility.Hidden;
                 }
                 LrcSetting.UpdateCheckBox();
-                //Public
-                PublicSetting.ItemChanged();
-                PublicSetting.BPM.IsChecked = o.PublicSetting.BPM;
-                PublicSetting.音符占刻.IsChecked = o.PublicSetting.Q;
-                PublicSetting.音轨数.IsChecked = o.PublicSetting.TC;
-                PublicSet.BPM = o.PublicSetting.BPM;
-                PublicSet.Q = o.PublicSetting.Q;
-                PublicSet.TC = o.PublicSetting.TC;
-                PublicSet.ST = o.PublicSetting.ST;
 
                 load.IsEnabled = true;
                 A2MSave.IsEnabled = true;

@@ -55,15 +55,13 @@ namespace Audio2Minecraft
             if (facing == -1) return;
             var fi =
                 (facing == 0) ? 0 :
-                (facing == 1) ? 180 :
-                (facing == 2) ? -90 :
-                (facing == 3) ? 90 : 0;
-            if (_pan != 64)
-            {
-                var theta = (double)_pan / 127;
-                _cood[0] = Math.Sin((theta + fi) * Math.PI) * 3;
-                _cood[2] = Math.Cos((theta + fi) * Math.PI) * 3;
-            }
+                (facing == 1) ? Math.PI :
+                (facing == 2) ? - Math.PI / 2:
+                (facing == 3) ? Math.PI / 2 : 0;
+            double theta = Math.PI / 2;
+            if (_pan != 64) theta = (1 - (double)_pan / 127) * Math.PI;
+            _cood[0] = Math.Round(Math.Sin((theta + fi)) * 3, 4);
+            _cood[2] = Math.Round(Math.Cos((theta + fi)) * 3, 4);
         }
     }
     public class TimeLine
