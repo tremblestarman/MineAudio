@@ -26,13 +26,12 @@ namespace Audio2MinecraftUI.Humberger
     /// </summary>
     public partial class MidiSetting : UserControl
     {
-        public static MidiViewType ViewType = MidiViewType.Track;
+        public MidiViewType ViewType = MidiViewType.Track;
         private List<TextBlock> TextBlockElements;
         private List<CheckBox> CheckElements;
         private List<TextBox> TextBoxElements;
         TimeLine.MidiSettingInspector SelectedItem;
-
-        static List<InstrumentDefault> InstrumentList = new List<InstrumentDefault>();
+        Dictionary<string, AutoFillMatch> _matches;
 
         public MidiSetting()
         {
@@ -49,7 +48,6 @@ namespace Audio2MinecraftUI.Humberger
             KeyScore.IsEnabled = false;
             PlaySound.IsEnabled = false;
             Done.IsEnabled = false;
-            GetInstrumentDefaults(AppDomain.CurrentDomain.BaseDirectory + "InstrumentList");
 
             TextBlockElements = new List<TextBlock>()
             {
@@ -92,19 +90,11 @@ namespace Audio2MinecraftUI.Humberger
             };
             PlaySoundEnableUpdate();
         }
-        private void GetInstrumentDefaults(string directoryPath)
+        public void UpdateAutoFill(AutoFill autofill, string rule)
         {
-            FileInfo[] files = new DirectoryInfo(directoryPath).GetFiles();
-            DirectoryInfo[] directories = new DirectoryInfo(directoryPath).GetDirectories();
-            foreach (var file in files)
-            {
-                if (file.Extension == ".json")
-                    InstrumentList.AddRange(JsonConvert.DeserializeObject<List<InstrumentDefault>>(File.ReadAllText(file.FullName)));
-            }
-            foreach (var directory in directories)
-            {
-                GetInstrumentDefaults(directory.FullName);
-            }
+            if (autofill == null) _matches = null;
+            else _matches = autofill.Rule.matches;
+            ItemChanged();
         }
 
         private void SwitchViewType(object sender, MouseButtonEventArgs e)
@@ -434,10 +424,13 @@ namespace Audio2MinecraftUI.Humberger
         }
 
         private void ComboDefaults(string instrument)
-        {
+       {
             音色名称.Items.Clear();
-            var c = (from i in InstrumentList where i.Instrument == instrument select i);
-            foreach (var i in c) 音色名称.Items.Add(i.SoundName);
+            if (_matches != null)
+            {
+                var c = (from m in _matches where m.Value.instrument == instrument select m);
+                foreach (var i in c) 音色名称.Items.Add(i.Key);
+            }
         }
         private void ComboDefaults(TimeLine.MidiSettingInspector track)
         {
@@ -540,13 +533,38 @@ namespace Audio2MinecraftUI.Humberger
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
             }
 
-            if (SelectedItem.Type == TimeLine.MidiSettingType.Instrument)
+            if (_matches != null && 音色名称.SelectedItem != null)
             {
-                子表达式.Text = ((from i in InstrumentList where i.Instrument == SelectedItem.Name && i.SoundName == 音色名称.Text select i).Count() == 0) ? "" : (from i in InstrumentList where i.Instrument == SelectedItem.Name && i.SoundName == 音色名称.Text select i).First().Expression;
-            }
-            else if (SelectedItem.Type == TimeLine.MidiSettingType.Track)
-            {
-                子表达式.Text = ((from i in InstrumentList where i.SoundName == 音色名称.Text select i).Count() == 0) ? "" : (from i in InstrumentList where i.SoundName == 音色名称.Text select i).First().Expression;
+                if (SelectedItem.Type == TimeLine.MidiSettingType.Instrument)
+                {
+                    子表达式.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : _matches[音色名称.SelectedItem.ToString()].expression;
+                    播放对象.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].target;
+                    源.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].source;
+                    Stopsound.IsChecked = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? false : _matches[音色名称.SelectedItem.ToString()].stopsound.enable;
+                    额外延时.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : (Stopsound.IsChecked == false) ? "" : _matches[音色名称.SelectedItem.ToString()].stopsound.extra_delay.ToString();
+                    相对玩家.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].excute_target;
+                    播放相对坐标X.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.x.ToString();
+                    播放相对坐标Y.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.y.ToString();
+                    播放相对坐标Z.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.z.ToString();
+                    if (!_matches.ContainsKey(音色名称.SelectedItem.ToString()))
+                        音量增益.Value = 50;
+                    else { var v = _matches[音色名称.SelectedItem.ToString()].volume / 2; 音量增益.Value = (v > 100) ? 100 : (v < 0) ? 0 : v; }
+                }
+                else if (SelectedItem.Type == TimeLine.MidiSettingType.Track)
+                {
+                    子表达式.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : _matches[音色名称.SelectedItem.ToString()].expression;
+                    播放对象.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].target;
+                    源.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].source;
+                    Stopsound.IsChecked = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? false : _matches[音色名称.SelectedItem.ToString()].stopsound.enable;
+                    额外延时.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : (Stopsound.IsChecked == false) ? "" : _matches[音色名称.SelectedItem.ToString()].stopsound.extra_delay.ToString();
+                    相对玩家.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].excute_target;
+                    播放相对坐标X.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.x.ToString();
+                    播放相对坐标Y.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.y.ToString();
+                    播放相对坐标Z.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.z.ToString();
+                    if (!_matches.ContainsKey(音色名称.SelectedItem.ToString()))
+                        音量增益.Value = 50;
+                    else { var v = _matches[音色名称.SelectedItem.ToString()].volume / 2; 音量增益.Value = (v > 100) ? 100 : (v < 0) ? 0 : v; }
+                }
             }
         }
         private void 音色名称_TextInput(object sender, TextCompositionEventArgs e)
@@ -736,13 +754,6 @@ namespace Audio2MinecraftUI.Humberger
         {
             if (音量大小.Visibility == Visibility.Hidden)
                 音量大小.Visibility = Visibility.Visible;
-        }
-
-        class InstrumentDefault
-        {
-            public string Instrument = "";
-            public string SoundName = "";
-            public string Expression = "";
         }
     }
 

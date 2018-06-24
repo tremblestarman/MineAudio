@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine.cs" />
+    <Compile Include="ConfigAutoFill.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

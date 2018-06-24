@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img/audio2minecraft.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img/setting.png")]
 
 

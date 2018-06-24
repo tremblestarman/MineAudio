@@ -128,7 +128,19 @@
                 </Image.RenderTransform>
             </Image>
         </Button>
-        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,110,0,0" VerticalAlignment="Top" Width="537" Content=""/>
+        <Button x:Name="setting" HorizontalAlignment="Left" Height="24" Margin="603,110,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="OpenSetting" PreviewMouseLeftButtonDown="OpenSetting" >
+            <Image Source="img/setting.png" Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-6" Y="-6"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,110,0,0" VerticalAlignment="Top" Width="510" Content=""/>
         <Grid HorizontalAlignment="Left" Height="300" Margin="7.5,140,0,0" VerticalAlignment="Top" Width="620" >
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
             <Button x:Name="Midi设置" Content="Midi设置" HorizontalAlignment="Left" Margin="39,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="Midi设置显示" PreviewMouseLeftButtonDown="Midi设置显示"/>

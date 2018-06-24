@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine.cs" />
+    <Compile Include="ConfigAutoFill.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="Lyrics.cs" />
     <Compile Include="Midi.cs" />

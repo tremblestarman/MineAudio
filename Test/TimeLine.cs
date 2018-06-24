@@ -668,6 +668,41 @@ namespace Audio2Minecraft
         public ObservableCollection<MidiSettingInspector> InstrumentList = new ObservableCollection<MidiSettingInspector>();
         private bool _tick_out = true;
         public bool OutPutTick { get { return _tick_out; } set { _tick_out = value; } }
+        public void AutoFill(AutoFill autofill, string mode)
+        {
+            var m = autofill.Rule.modes[mode];
+            if (m.auto == true)
+            {
+                foreach (var t in TrackList)
+                {
+                    foreach (var i in t.Instruments)
+                    {
+                        _auto_fill(m, i);
+                    }
+                }
+                foreach (var i in InstrumentList)
+                {
+                    _auto_fill(m, i);
+                }
+            }
+        }
+        private void _auto_fill(AutoFillMode mode, MidiSettingInspector i)
+        {
+            try
+            {
+                var _m = mode._matches.First(a => a.Value.instrument == i.Name);
+                i.PlaysoundSetting.SoundName = _m.Key;
+                i.PlaysoundSetting.PercVolume = (_m.Value.volume > 200) ? 200 : (_m.Value.volume < 0) ? 0 : (int)_m.Value.volume;
+                i.PlaysoundSetting.InheritExpression = _m.Value.expression;
+                i.PlaysoundSetting.PlayTarget = _m.Value.target;
+                i.PlaysoundSetting.PlaySource = _m.Value.source;
+                i.PlaysoundSetting.StopSound = _m.Value.stopsound.enable;
+                i.PlaysoundSetting.ExtraDelay = _m.Value.stopsound.extra_delay;
+                i.PlaysoundSetting.ExecuteTarget = _m.Value.excute_target;
+                i.PlaysoundSetting.ExecuteCood = new double[] { _m.Value.excute_pos.x, _m.Value.excute_pos.y, _m.Value.excute_pos.z };
+            }
+            catch { }
+        }
         public class MidiSettingInspector : INotifyPropertyChanged
         {
             public Guid Uid;
@@ -964,6 +999,18 @@ namespace Audio2Minecraft
                 EnableWave(RightWaveSetting.Frequency, -1, "Right", "FrequencyPerTick");
                 EnableWave(RightWaveSetting.Volume, -1, "Right", "VolumePerTick");
             }
+        }
+
+        /// <summary>
+        /// Update InstrumentList by AutoFill
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public void InstrumentListUpdateByAutoFill(AutoFill autofill, string mode)
+        {
+            var fillmode = autofill.Rule.modes[mode];
+
+            foreach (var i in InstrumentList) { }
         }
     }
 

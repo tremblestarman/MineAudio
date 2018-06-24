@@ -31,3 +31,5 @@ C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Aud
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\Humberger\LrcSetting.baml
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\Humberger\Export.g.cs
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\Humberger\Export.baml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\AutoFillSelector.g.cs
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\AutoFillSelector.baml

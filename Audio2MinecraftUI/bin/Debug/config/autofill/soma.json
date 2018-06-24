@@ -1,0 +1,3982 @@
+﻿{
+	"matches": {
+		"0.27": {
+			"instrument": "Hi Q",
+			"sound_name": "0.27",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.28": {
+			"instrument": "Synth Slap",
+			"sound_name": "0.28",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.29": {
+			"instrument": "Scratch 2",
+			"sound_name": "0.29",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.30": {
+			"instrument": "Scratch 1",
+			"sound_name": "0.30",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.31": {
+			"instrument": "Drum 31",
+			"sound_name": "0.31",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.32": {
+			"instrument": "Square Click",
+			"sound_name": "0.32",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.33": {
+			"instrument": "Metronome Click",
+			"sound_name": "0.33",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.34": {
+			"instrument": "Metronome Bell",
+			"sound_name": "0.34",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.35": {
+			"instrument": "Acoustic Bass Drum",
+			"sound_name": "0.35",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.36": {
+			"instrument": "Bass Drum 1",
+			"sound_name": "0.36",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.37": {
+			"instrument": "Side Stick",
+			"sound_name": "0.37",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.38": {
+			"instrument": "Acoustic Snare",
+			"sound_name": "0.38",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.39": {
+			"instrument": "Hand Clap",
+			"sound_name": "0.39",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.40": {
+			"instrument": "Electric Snare",
+			"sound_name": "0.40",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.41": {
+			"instrument": "Low Floor Tom",
+			"sound_name": "0.41",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.42": {
+			"instrument": "Closed Hi-Hat",
+			"sound_name": "0.42",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.43": {
+			"instrument": "High Floor Tom",
+			"sound_name": "0.43",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.44": {
+			"instrument": "Pedal Hi-Hat",
+			"sound_name": "0.44",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.45": {
+			"instrument": "Low Tom",
+			"sound_name": "0.45",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.46": {
+			"instrument": "Open Hi-Hat",
+			"sound_name": "0.46",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.47": {
+			"instrument": "Low-Mid Tom",
+			"sound_name": "0.47",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.48": {
+			"instrument": "Hi-Mid Tom",
+			"sound_name": "0.48",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.49": {
+			"instrument": "Crash Cymbal 1",
+			"sound_name": "0.49",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.50": {
+			"instrument": "High Tom",
+			"sound_name": "0.50",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.51": {
+			"instrument": "Ride Cymbal 1",
+			"sound_name": "0.51",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.52": {
+			"instrument": "Chinese Cymbal",
+			"sound_name": "0.52",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.53": {
+			"instrument": "Ride Bell",
+			"sound_name": "0.53",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.54": {
+			"instrument": "Tambourine",
+			"sound_name": "0.54",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.55": {
+			"instrument": "Splash Cymbal",
+			"sound_name": "0.55",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.56": {
+			"instrument": "Cowbell",
+			"sound_name": "0.56",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.57": {
+			"instrument": "Crash Cymbal 2",
+			"sound_name": "0.57",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.58": {
+			"instrument": "Vibraslap",
+			"sound_name": "0.58",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.59": {
+			"instrument": "Ride Cymbal 2",
+			"sound_name": "0.59",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.60": {
+			"instrument": "Hi Bongo",
+			"sound_name": "0.60",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.61": {
+			"instrument": "Low Bongo",
+			"sound_name": "0.61",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.62": {
+			"instrument": "Mute Hi Conga",
+			"sound_name": "0.62",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.63": {
+			"instrument": "Open Hi Conga",
+			"sound_name": "0.63",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.64": {
+			"instrument": "Low Conga",
+			"sound_name": "0.64",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.65": {
+			"instrument": "High Timbale",
+			"sound_name": "0.65",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.66": {
+			"instrument": "Low Timbale",
+			"sound_name": "0.66",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.67": {
+			"instrument": "High Agogo",
+			"sound_name": "0.67",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.68": {
+			"instrument": "Low Agogo",
+			"sound_name": "0.68",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.69": {
+			"instrument": "Cabasa",
+			"sound_name": "0.69",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.70": {
+			"instrument": "Maracas",
+			"sound_name": "0.70",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.71": {
+			"instrument": "Short Whistle",
+			"sound_name": "0.71",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.72": {
+			"instrument": "Long Whistle",
+			"sound_name": "0.72",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.73": {
+			"instrument": "Short Guiro",
+			"sound_name": "0.73",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.74": {
+			"instrument": "Long Guiro",
+			"sound_name": "0.74",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.75": {
+			"instrument": "Claves",
+			"sound_name": "0.75",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.76": {
+			"instrument": "Hi Wood Block",
+			"sound_name": "0.76",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.77": {
+			"instrument": "Low Wood Block",
+			"sound_name": "0.77",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.78": {
+			"instrument": "Mute Cuica",
+			"sound_name": "0.78",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.79": {
+			"instrument": "Open Cuica",
+			"sound_name": "0.79",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.80": {
+			"instrument": "Mute Triangle",
+			"sound_name": "0.80",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.81": {
+			"instrument": "Open Triangle",
+			"sound_name": "0.81",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.82": {
+			"instrument": "Shaker",
+			"sound_name": "0.82",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.83": {
+			"instrument": "Jingle Bell",
+			"sound_name": "0.83",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.84": {
+			"instrument": "Bell Tree",
+			"sound_name": "0.84",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.85": {
+			"instrument": "Castanets",
+			"sound_name": "0.85",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.86": {
+			"instrument": "Mute Surdo",
+			"sound_name": "0.86",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"0.87": {
+			"instrument": "Open Surdo",
+			"sound_name": "0.87",
+			"expression": "",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"1c": {
+			"instrument": "Acoustic Grand Piano",
+			"sound_name": "1c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"2c": {
+			"instrument": "Bright Acoustic Piano",
+			"sound_name": "2c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"3c": {
+			"instrument": "Electric Grand Piano",
+			"sound_name": "3c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"4c": {
+			"instrument": "Honky-Tonk Piano",
+			"sound_name": "4c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"5c": {
+			"instrument": "Electric Piano 1",
+			"sound_name": "5c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"7c": {
+			"instrument": "Harpsichord",
+			"sound_name": "7c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"8c": {
+			"instrument": "Clavinet",
+			"sound_name": "8c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"9c": {
+			"instrument": "Celesta",
+			"sound_name": "9c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"10c": {
+			"instrument": "Glockenspiel",
+			"sound_name": "10c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"11c": {
+			"instrument": "Music Box",
+			"sound_name": "11c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"12c": {
+			"instrument": "Vibraphone",
+			"sound_name": "12c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"13c": {
+			"instrument": "Marimba",
+			"sound_name": "13c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"14c": {
+			"instrument": "Xylophone",
+			"sound_name": "14c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"15c": {
+			"instrument": "Tubular Bells",
+			"sound_name": "15c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"16c": {
+			"instrument": "Dulcimer",
+			"sound_name": "16c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"17c": {
+			"instrument": "Drawbar Organ",
+			"sound_name": "17c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"18c": {
+			"instrument": "Percussive Organ",
+			"sound_name": "18c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"19c": {
+			"instrument": "Rock Organ",
+			"sound_name": "19c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"20c": {
+			"instrument": "Church Organ",
+			"sound_name": "20c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"21c": {
+			"instrument": "Reed Organ",
+			"sound_name": "21c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"22c": {
+			"instrument": "Accordion",
+			"sound_name": "22c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"23c": {
+			"instrument": "Harmonica",
+			"sound_name": "23c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"24c": {
+			"instrument": "Tango Accordian",
+			"sound_name": "24c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"25c": {
+			"instrument": "Acoustic Guitar (nylon)",
+			"sound_name": "25c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"26c": {
+			"instrument": "Acoustic Guitar(steel)",
+			"sound_name": "26c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"27c": {
+			"instrument": "Electric Guitar (jazz)",
+			"sound_name": "27c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"28c": {
+			"instrument": "Electric Guitar (clean)",
+			"sound_name": "28c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"29c": {
+			"instrument": "Electric Guitar (muted)",
+			"sound_name": "29c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"30c": {
+			"instrument": "Overdriven Guitar",
+			"sound_name": "30c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"31c": {
+			"instrument": "Distortion Guitar",
+			"sound_name": "31c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"32c": {
+			"instrument": "Guitar Harmonics",
+			"sound_name": "32c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"33c": {
+			"instrument": "Acoustic Bass",
+			"sound_name": "33c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"34c": {
+			"instrument": "Electric Bass(finger)",
+			"sound_name": "34c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"35c": {
+			"instrument": "Electric Bass(pick)",
+			"sound_name": "35c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"36c": {
+			"instrument": "Fretless Bass",
+			"sound_name": "36c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"37c": {
+			"instrument": "Slap Bass 1",
+			"sound_name": "37c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"38c": {
+			"instrument": "Slap Bass 2",
+			"sound_name": "38c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"39c": {
+			"instrument": "Synth Bass 1",
+			"sound_name": "39c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"40c": {
+			"instrument": "Synth Bass 2",
+			"sound_name": "40c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"41c": {
+			"instrument": "Violin",
+			"sound_name": "41c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"42c": {
+			"instrument": "Viola",
+			"sound_name": "42c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"43c": {
+			"instrument": "Cello",
+			"sound_name": "43c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"44c": {
+			"instrument": "Contrabass",
+			"sound_name": "44c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"45c": {
+			"instrument": "Tremolo Strings",
+			"sound_name": "45c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"46c": {
+			"instrument": "Pizzicato Strings",
+			"sound_name": "46c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"47c": {
+			"instrument": "Orchestral Strings",
+			"sound_name": "47c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"48c": {
+			"instrument": "Timpani",
+			"sound_name": "48c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"49c": {
+			"instrument": "String Ensemble 1",
+			"sound_name": "49c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"50c": {
+			"instrument": "String Ensemble 2",
+			"sound_name": "50c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"51c": {
+			"instrument": "SynthStrings 1",
+			"sound_name": "51c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"52c": {
+			"instrument": "SynthStrings 2",
+			"sound_name": "52c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"53c": {
+			"instrument": "Choir Aahs",
+			"sound_name": "53c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"54c": {
+			"instrument": "Voice Oohs",
+			"sound_name": "54c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"55c": {
+			"instrument": "Synth Voice",
+			"sound_name": "55c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"56c": {
+			"instrument": "Orchestra Hit",
+			"sound_name": "56c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"57c": {
+			"instrument": "Trumpet",
+			"sound_name": "57c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"58c": {
+			"instrument": "Trombone",
+			"sound_name": "58c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"59c": {
+			"instrument": "Tuba",
+			"sound_name": "59c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"60c": {
+			"instrument": "Muted Trumpet",
+			"sound_name": "60c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"61c": {
+			"instrument": "French Horn",
+			"sound_name": "61c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"62c": {
+			"instrument": "Brass Section",
+			"sound_name": "62c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"63c": {
+			"instrument": "SynthBrass 1",
+			"sound_name": "63c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"64c": {
+			"instrument": "SynthBrass 2",
+			"sound_name": "64c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"65c": {
+			"instrument": "Soprano Sax",
+			"sound_name": "65c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"66c": {
+			"instrument": "Alto Sax",
+			"sound_name": "66c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"67c": {
+			"instrument": "Tenor Sax",
+			"sound_name": "67c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"68c": {
+			"instrument": "Baritone Sax",
+			"sound_name": "68c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"69c": {
+			"instrument": "Oboe",
+			"sound_name": "69c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"70c": {
+			"instrument": "English Horn",
+			"sound_name": "70c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"71c": {
+			"instrument": "Bassoon",
+			"sound_name": "71c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"72c": {
+			"instrument": "Clarinet",
+			"sound_name": "72c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"73c": {
+			"instrument": "Piccolo",
+			"sound_name": "73c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"74c": {
+			"instrument": "Flute",
+			"sound_name": "74c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"75c": {
+			"instrument": "Recorder",
+			"sound_name": "75c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"76c": {
+			"instrument": "Pan Flute",
+			"sound_name": "76c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"77c": {
+			"instrument": "Bottle Blow",
+			"sound_name": "77c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"78c": {
+			"instrument": "Skakuhachi",
+			"sound_name": "78c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"79c": {
+			"instrument": "Whistle",
+			"sound_name": "79c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"80c": {
+			"instrument": "Ocarina",
+			"sound_name": "80c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"81c": {
+			"instrument": "Lead 1 (square)",
+			"sound_name": "81c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"82c": {
+			"instrument": "Lead 2 (sawtooth)",
+			"sound_name": "82c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"83c": {
+			"instrument": "Lead 3 (calliope lead)",
+			"sound_name": "83c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"84c": {
+			"instrument": "Lead 4 (chiff lead)",
+			"sound_name": "84c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"85c": {
+			"instrument": "Lead 5 (charang)",
+			"sound_name": "85c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"86c": {
+			"instrument": "Lead 6 (voice)",
+			"sound_name": "86c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"87c": {
+			"instrument": "Lead 7 (fifths)",
+			"sound_name": "87c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"88c": {
+			"instrument": "Lead 8 (bass+lead)",
+			"sound_name": "88c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"89c": {
+			"instrument": "Pad 1 (new age) ",
+			"sound_name": "89c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"90c": {
+			"instrument": "Pad 2 (warm) ",
+			"sound_name": "90c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"91c": {
+			"instrument": "Pad 3 (polysynth) ",
+			"sound_name": "91c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"92c": {
+			"instrument": "Pad 4 (choir) ",
+			"sound_name": "92c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"93c": {
+			"instrument": "Pad 5 (bowed) ",
+			"sound_name": "93c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"94c": {
+			"instrument": "Pad 6 (metallic) ",
+			"sound_name": "94c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"95c": {
+			"instrument": "Pad 7 (halo) ",
+			"sound_name": "95c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"96c": {
+			"instrument": "Pad 8 (sweep) ",
+			"sound_name": "96c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"97c": {
+			"instrument": "FX 1 (rain)",
+			"sound_name": "97c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"98c": {
+			"instrument": "FX 2 (soundtrack)",
+			"sound_name": "98c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"99c": {
+			"instrument": "FX 3 (crystal)",
+			"sound_name": "99c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"100c": {
+			"instrument": "FX 4 (atmosphere)",
+			"sound_name": "100c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"101c": {
+			"instrument": "FX 5 (brightness)",
+			"sound_name": "101c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"102c": {
+			"instrument": "FX 6 (goblins)",
+			"sound_name": "102c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"103c": {
+			"instrument": "FX 7 (echoes)",
+			"sound_name": "103c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"104c": {
+			"instrument": "FX 8 (sci-fi)",
+			"sound_name": "104c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"105c": {
+			"instrument": "Sitar",
+			"sound_name": "105c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"106c": {
+			"instrument": "Banjo",
+			"sound_name": "106c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"107c": {
+			"instrument": "Shamisen",
+			"sound_name": "107c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"108c": {
+			"instrument": "Koto",
+			"sound_name": "108c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"109c": {
+			"instrument": "Kalimba",
+			"sound_name": "109c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"110c": {
+			"instrument": "Bagpipe",
+			"sound_name": "110c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"111c": {
+			"instrument": "Fiddle",
+			"sound_name": "111c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"112c": {
+			"instrument": "Shanai",
+			"sound_name": "112c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"113c": {
+			"instrument": "Tinkle Bell",
+			"sound_name": "113c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"114c": {
+			"instrument": "Agogo",
+			"sound_name": "114c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"115c": {
+			"instrument": "Steel Drums",
+			"sound_name": "115c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"116c": {
+			"instrument": "Woodblock",
+			"sound_name": "116c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"117c": {
+			"instrument": "Taiko Drum",
+			"sound_name": "117c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"118c": {
+			"instrument": "Melodic Tom",
+			"sound_name": "118c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"119c": {
+			"instrument": "Synth Drum",
+			"sound_name": "119c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"120c": {
+			"instrument": "Reverse Cymbal",
+			"sound_name": "120c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"1": {
+			"instrument": "Acoustic Grand Piano",
+			"sound_name": "1",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"2": {
+			"instrument": "Bright Acoustic Piano",
+			"sound_name": "2",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"3": {
+			"instrument": "Electric Grand Piano",
+			"sound_name": "3",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"4": {
+			"instrument": "Honky-Tonk Piano",
+			"sound_name": "4",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"5": {
+			"instrument": "Electric Piano 1",
+			"sound_name": "5",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"7": {
+			"instrument": "Harpsichord",
+			"sound_name": "7",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"8": {
+			"instrument": "Clavinet",
+			"sound_name": "8",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"9": {
+			"instrument": "Celesta",
+			"sound_name": "9",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"10": {
+			"instrument": "Glockenspiel",
+			"sound_name": "10",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"11": {
+			"instrument": "Music Box",
+			"sound_name": "11",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"12": {
+			"instrument": "Vibraphone",
+			"sound_name": "12",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"13": {
+			"instrument": "Marimba",
+			"sound_name": "13",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"14": {
+			"instrument": "Xylophone",
+			"sound_name": "14",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"15": {
+			"instrument": "Tubular Bells",
+			"sound_name": "15",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"16": {
+			"instrument": "Dulcimer",
+			"sound_name": "16",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"25": {
+			"instrument": "Acoustic Guitar (nylon)",
+			"sound_name": "25",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"26": {
+			"instrument": "Acoustic Guitar(steel)",
+			"sound_name": "26",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"27": {
+			"instrument": "Electric Guitar (jazz)",
+			"sound_name": "27",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"28": {
+			"instrument": "Electric Guitar (clean)",
+			"sound_name": "28",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"29": {
+			"instrument": "Electric Guitar (muted)",
+			"sound_name": "29",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"30": {
+			"instrument": "Overdriven Guitar",
+			"sound_name": "30",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"31": {
+			"instrument": "Distortion Guitar",
+			"sound_name": "31",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"32": {
+			"instrument": "Guitar Harmonics",
+			"sound_name": "32",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"33": {
+			"instrument": "Acoustic Bass",
+			"sound_name": "33",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"34": {
+			"instrument": "Electric Bass(finger)",
+			
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"35": {
+			"instrument": "Electric Bass(pick)",
+			"sound_name": "35",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"36": {
+			"instrument": "Fretless Bass",
+			"sound_name": "36",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"37": {
+			"instrument": "Slap Bass 1",
+			"sound_name": "37",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"38": {
+			"instrument": "Slap Bass 2",
+			"sound_name": "38",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"39": {
+			"instrument": "Synth Bass 1",
+			"sound_name": "39",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"40": {
+			"instrument": "Synth Bass 2",
+			"sound_name": "40",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"46": {
+			"instrument": "Pizzicato Strings",
+			"sound_name": "46",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"47": {
+			"instrument": "Orchestral Strings",
+			"sound_name": "47",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"48": {
+			"instrument": "Timpani",
+			"sound_name": "48",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"49": {
+			"instrument": "String Ensemble 1",
+			"sound_name": "49",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"56": {
+			"instrument": "Orchestra Hit",
+			"sound_name": "56",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"107": {
+			"instrument": "Shamisen",
+			"sound_name": "107",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"108": {
+			"instrument": "Koto",
+			"sound_name": "108",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"109": {
+			"instrument": "Kalimba",
+			"sound_name": "109",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"113": {
+			"instrument": "Tinkle Bell",
+			"sound_name": "113",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"114": {
+			"instrument": "Agogo",
+			"sound_name": "114",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"115": {
+			"instrument": "Steel Drums",
+			"sound_name": "115",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"116": {
+			"instrument": "Woodblock",
+			"sound_name": "116",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"117": {
+			"instrument": "Taiko Drum",
+			"sound_name": "117",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"118": {
+			"instrument": "Melodic Tom",
+			"sound_name": "118",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"119": {
+			"instrument": "Synth Drum",
+			"sound_name": "119",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		}
+	},
+	"modes": {
+		"默认": {
+			"description": "应用于soma资源包。默认模式。",
+			"auto": false,
+			"matches": ["0.27", "0.28", "0.29", "0.30", "0.31", "0.32", "0.33", "0.34", "0.35", "0.36", "0.37", "0.38", "0.39", "0.40", "0.41", "0.42", "0.43", "0.44", "0.45", "0.46", "0.47", "0.48", "0.49", "0.50", "0.51", "0.52", "0.53", "0.54", "0.55", "0.56", "0.57", "0.58", "0.59", "0.60", "0.61", "0.62", "0.63", "0.64", "0.65", "0.66", "0.67", "0.68", "0.69", "0.70", "0.71", "0.72", "0.73", "0.74", "0.75", "0.76", "0.77", "0.78", "0.79", "0.80", "0.81", "0.82", "0.83", "0.84", "0.85", "0.86", "0.87", "1c", "2c", "3c", "4c", "5c", "7c", "8c", "9c", "10c", "11c", "12c", "13c", "14c", "15c", "16c", "17c", "18c", "19c", "20c", "21c", "22c", "23c", "24c", "25c", "26c", "27c", "28c", "29c", "30c", "31c", "32c", "33c", "34c", "35c", "36c", "37c", "38c", "39c", "40c", "41c", "42c", "43c", "44c", "45c", "46c", "47c", "48c", "49c", "50c", "51c", "52c", "53c", "54c", "55c", "56c", "57c", "58c", "59c", "60c", "61c", "62c", "63c", "64c", "65c", "66c", "67c", "68c", "69c", "70c", "71c", "72c", "73c", "74c", "75c", "76c", "77c", "78c", "79c", "80c", "81c", "82c", "83c", "84c", "85c", "86c", "87c", "88c", "89c", "90c", "91c", "92c", "93c", "94c", "95c", "96c", "97c", "98c", "99c", "100c", "101c", "102c", "103c", "104c", "105c", "106c", "107c", "108c", "109c", "110c", "111c", "112c", "113c", "114c", "115c", "116c", "117c", "118c", "119c", "120c", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "46", "47", "48", "49", "56", "107", "108", "109", "113", "114", "115", "116", "117", "118", "119"]
+		},
+		"长音优先补全": {
+			"description": "应用于soma资源包。优先自动补全为长音。确认后将覆盖原先设置，谨慎选择。",
+			"auto": true,
+			"matches": ["1c", "2c", "3c", "4c", "5c", "7c", "8c", "9c", "10c", "11c", "12c", "13c", "14c", "15c", "16c", "17c", "18c", "19c", "20c", "21c", "22c", "23c", "24c", "25c", "26c", "27c", "28c", "29c", "30c", "31c", "32c", "33c", "34c", "35c", "36c", "37c", "38c", "39c", "40c", "41c", "42c", "43c", "44c", "45c", "46c", "47c", "48c", "49c", "50c", "51c", "52c", "53c", "54c", "55c", "56c", "57c", "58c", "59c", "60c", "61c", "62c", "63c", "64c", "65c", "66c", "67c", "68c", "69c", "70c", "71c", "72c", "73c", "74c", "75c", "76c", "77c", "78c", "79c", "80c", "81c", "82c", "83c", "84c", "85c", "86c", "87c", "88c", "89c", "90c", "91c", "92c", "93c", "94c", "95c", "96c", "97c", "98c", "99c", "100c", "101c", "102c", "103c", "104c", "105c", "106c", "107c", "108c", "109c", "110c", "111c", "112c", "113c", "114c", "115c", "116c", "117c", "118c", "119c", "120c", "0.27", "0.28", "0.29", "0.30", "0.31", "0.32", "0.33", "0.34", "0.35", "0.36", "0.37", "0.38", "0.39", "0.40", "0.41", "0.42", "0.43", "0.44", "0.45", "0.46", "0.47", "0.48", "0.49", "0.50", "0.51", "0.52", "0.53", "0.54", "0.55", "0.56", "0.57", "0.58", "0.59", "0.60", "0.61", "0.62", "0.63", "0.64", "0.65", "0.66", "0.67", "0.68", "0.69", "0.70", "0.71", "0.72", "0.73", "0.74", "0.75", "0.76", "0.77", "0.78", "0.79", "0.80", "0.81", "0.82", "0.83", "0.84", "0.85", "0.86", "0.87"]
+		},
+		"短音优先补全": {
+			"description": "应用于soma资源包。优先自动补全为短音。确认后将覆盖原先设置，谨慎选择。",
+			"auto": true,
+			"matches": ["0.27", "0.28", "0.29", "0.30", "0.31", "0.32", "0.33", "0.34", "0.35", "0.36", "0.37", "0.38", "0.39", "0.40", "0.41", "0.42", "0.43", "0.44", "0.45", "0.46", "0.47", "0.48", "0.49", "0.50", "0.51", "0.52", "0.53", "0.54", "0.55", "0.56", "0.57", "0.58", "0.59", "0.60", "0.61", "0.62", "0.63", "0.64", "0.65", "0.66", "0.67", "0.68", "0.69", "0.70", "0.71", "0.72", "0.73", "0.74", "0.75", "0.76", "0.77", "0.78", "0.79", "0.80", "0.81", "0.82", "0.83", "0.84", "0.85", "0.86", "0.87", "1", "2", "3", "4", "5", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "46", "47", "48", "49", "56", "107", "108", "109", "113", "114", "115", "116", "117", "118", "119"]
+		}
+	}
+}

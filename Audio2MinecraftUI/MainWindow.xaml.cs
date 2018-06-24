@@ -65,6 +65,7 @@ namespace Audio2MinecraftUI
                 static public string color2 = "white";
             }
         }
+        public static string autoFillRule = "无", autoFillMode;
         public MainWindow()
         {
             InitializeComponent();
@@ -90,6 +91,7 @@ namespace Audio2MinecraftUI
             MidiSetting.Visibility = Visibility.Visible;
         }
 
+        //文件路径确认
         private void MidiSelect(object sender, MouseButtonEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -167,6 +169,7 @@ namespace Audio2MinecraftUI
             cancel2.Visibility = Visibility.Hidden;
         }
 
+        //确认导入
         private void SetFileShow()
         {
             var midiName = (File.Exists(MidiPath.Text)) ? " Midi: \"" + new FileInfo(MidiPath.Text).Name + "\"" : "";
@@ -226,6 +229,48 @@ namespace Audio2MinecraftUI
             A2MSave.IsEnabled = true;
         }
 
+        public static Dictionary<string, AutoFill> AutoFills = new Dictionary<string, AutoFill>();
+        //自动补全设置
+        private void OpenSetting(object sender, MouseButtonEventArgs e)
+        {
+            //Get AutoFills
+            GetAutoFills(AppDomain.CurrentDomain.BaseDirectory + "config\\autofill");
+            SubWindow.AutoFillSelector n = new SubWindow.AutoFillSelector();
+            //Initialize
+            var rules = (from r in AutoFills select r.Value.RuleName).OrderBy(r => r).ToList();
+            rules.Add("无");
+            n.rule.ItemsSource = rules;
+            n.rule.SelectedItem = "无";
+            n.mode.ItemsSource = null;
+            n.AutoFills = AutoFills;
+            //Show
+            if (autoFillRule != "") n.rule.SelectedItem = autoFillRule;
+            if (autoFillMode != "") n.mode.SelectedItem = autoFillMode;
+            n.ShowDialog();
+            //Set AutoFill
+            if (autoFillRule == "无")
+                MidiSetting.UpdateAutoFill(null, autoFillRule);
+            else
+                MidiSetting.UpdateAutoFill(AutoFills[autoFillRule], autoFillRule);
+        }
+        private void GetAutoFills(string directoryPath, string upper = "")
+        {
+            FileInfo[] files = new DirectoryInfo(directoryPath).GetFiles();
+            DirectoryInfo[] directories = new DirectoryInfo(directoryPath).GetDirectories();
+            foreach (var file in files)
+            {
+                if (file.Extension == ".json")
+                {
+                    try { AutoFills.Add(upper + file.Name, new AutoFill(file.FullName)); } catch {  }
+               }
+            }
+            foreach (var directory in directories)
+            {
+                GetAutoFills(directory.FullName, upper + directory.Name + "\\");
+            }            
+        }
+
+        //子选项
         private void Midi设置显示(object sender, MouseButtonEventArgs e)
         {
             if (MidiSetting.IsEnabled == true)
@@ -279,6 +324,7 @@ namespace Audio2MinecraftUI
             }
         }
 
+        //更新Midi预览
         private TimeLine UpdateMidiInspector(TimeLine newTimeline, TimeLine baseTimeline)
         {
             foreach (var i in newTimeline.InstrumentList)
@@ -357,6 +403,7 @@ namespace Audio2MinecraftUI
             return baseTimeline;
         }
 
+        //歌词获取
         private CommandLine GetLyrcics()
         {
             var lrc = new FileInfo(Lrcpath);
@@ -408,6 +455,7 @@ namespace Audio2MinecraftUI
             return textLrc;
         }
 
+        //文件操作
         public void Save(object sender, MouseButtonEventArgs e)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
@@ -466,7 +514,7 @@ namespace Audio2MinecraftUI
                 }
                 else
                 {
-                    InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "CompareList");
+                    InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "config\\compare");
                     var exportLine = new TimeLine().Serialize(Midipath, Wavepath, BPM, Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text), Int32.Parse(WavSetting.采样周期.Text));
                     exportLine.InstrumentList = preTimeLine.InstrumentList;
                     exportLine.TrackList = preTimeLine.TrackList;
@@ -667,7 +715,6 @@ namespace Audio2MinecraftUI
             System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
             return Convert.ToBase64String(gzBuffer);
         }
-
         public static string Decompress(string compressedText)
         {
             byte[] gzBuffer = Convert.FromBase64String(compressedText);
@@ -689,6 +736,9 @@ namespace Audio2MinecraftUI
         }
         #endregion
     }
+    /// <summary>
+    /// .amproj文件结构
+    /// </summary>
     public class FileOutPut
     {
         public ObservableCollection<TimeLine.MidiSettingInspector> MidiTracks;
