@@ -75,19 +75,19 @@
                     <ComboBox Controls:TextBoxHelper.Watermark=""  x:Name="音色名称" Uid="SoundName" Margin="65,17,215,57" Height="24" IsEditable="True" DataContextChanged="音色名称_DataContextChanged" TextInput="音色名称_TextInput" PreviewTextInput="音色名称_TextInput" KeyDown="音色名称_KeyBackDown" PreviewKeyDown="音色名称_KeyBackDown" ItemsSource="{Binding OptionalInstrument}"/>
                     <Border BorderThickness="1" BorderBrush="DarkGray" Margin="0,-9,0,0"/>
                     <TextBlock Text="播放相对坐标" FontSize="12px" Margin="179,24,124,58" x:Name="C2"/>
-                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标X" Uid="ExecuteCood1" Margin="257,17,86,57" Height="24" KeyDown="播放相对坐标X_KeyDown" PreviewKeyDown="播放相对坐标X_KeyDown" TextChanged="播放相对坐标X_TextChanged"/>
-                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标Y" Uid="ExecuteCood2" Margin="295,17,48,57" Height="24" KeyDown="播放相对坐标Y_KeyDown" PreviewKeyDown="播放相对坐标Y_KeyDown" TextChanged="播放相对坐标Y_TextChanged"/>
-                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标Z" Uid="ExecuteCood3" Margin="333,17,10,57" Height="24" KeyDown="播放相对坐标Z_KeyDown" PreviewKeyDown="播放相对坐标Z_KeyDown" TextChanged="播放相对坐标Z_TextChanged"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标X" Uid="ExecuteCood1" Margin="257,17,86,57" Height="24" KeyDown="播放相对坐标X_KeyDown" PreviewKeyDown="播放相对坐标X_KeyDown" TextInput="播放相对坐标X_TextInput"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标Y" Uid="ExecuteCood2" Margin="295,17,48,57" Height="24" KeyDown="播放相对坐标Y_KeyDown" PreviewKeyDown="播放相对坐标Y_KeyDown" TextInput="播放相对坐标Y_TextInput"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标Z" Uid="ExecuteCood3" Margin="333,17,10,57" Height="24" KeyDown="播放相对坐标Z_KeyDown" PreviewKeyDown="播放相对坐标Z_KeyDown" TextInput="播放相对坐标Z_TextInput"/>
                     <TextBlock Text="相对玩家" FontSize="12px" Margin="12,51,308,31" x:Name="C3"/>
-                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="相对玩家" Uid="ExecuteTarget" Margin="65,44,245,32" Height="24" TextChanged="TextChanged" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="相对玩家" Uid="ExecuteTarget" Margin="65,44,245,32" Height="24" TextInput="TextInpute" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
                     <TextBlock Text="播放对象" FontSize="12px" Margin="150,51,153,31" x:Name="C4"/>
-                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放对象" Uid="PlayTarget" Margin="204,44,106,32" Height="24" TextChanged="TextChanged" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放对象" Uid="PlayTarget" Margin="204,44,106,32" Height="24" TextInput="TextInpute" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
                     <TextBlock Text="源" FontSize="12px" Margin="288,51,15,31" x:Name="C5"/>
-                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="源" Uid="PlaySource" Margin="305,44,10,32" Height="24" TextChanged="TextChanged" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="源" Uid="PlaySource" Margin="305,44,10,32" Height="24" TextInput="TextInpute" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
                     <TextBlock Text="子表达式" FontSize="12px" Margin="12,76,308,6" x:Name="C6"/>
-                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="子表达式" Uid="OverlapPitch" Margin="65,69,245,5" Height="24" TextChanged="TextChanged" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="子表达式" Uid="OverlapPitch" Margin="65,69,245,5" Height="24" TextInput="TextInpute" KeyDown="KeyBackDown" PreviewKeyDown="KeyBackDown"/>
                     <TextBlock Text="额外延时" FontSize="12px" Margin="150,76,153,6" x:Name="C7"/>
-                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="额外延时" Uid="ExtraDelay" Margin="204,69,139,5" Height="24" KeyDown="额外延时_KeyDown" PreviewKeyDown="额外延时_KeyDown" TextChanged="额外延时_TextChanged"/>
+                    <TextBox Controls:TextBoxHelper.Watermark="" x:Name="额外延时" Uid="ExtraDelay" Margin="204,69,139,5" Height="24" KeyDown="额外延时_KeyDown" PreviewKeyDown="额外延时_KeyDown" TextInput="额外延时_TextInput"/>
                     <TextBlock Text="Ticks" FontSize="12px" Margin="244,77,59,5" x:Name="C8"/>
                     <TextBlock Text="音量" FontSize="12px" Margin="278,76,25,6" x:Name="C9"/>
                     <Slider Margin="306,75,5,7" x:Name="音量增益" Uid="PercVolume" Value="50" ValueChanged="音量增益_ValueChanged" MouseLeftButtonDown="音量增益_MouseDown" PreviewMouseLeftButtonDown="音量增益_MouseDown"/>

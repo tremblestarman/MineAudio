@@ -77,12 +77,26 @@ namespace Audio2Minecraft
                                 //Generate Track & Instrument List
                                 var currentTrack = timeLine.TrackList.AsEnumerable().FirstOrDefault(t => t.Name == track);
                                 if (currentTrack == null) { currentTrack = new TimeLine.MidiSettingInspector { Name = track, Type = TimeLine.MidiSettingType.Track, Enable = true }; timeLine.TrackList.Add(currentTrack); } //Add new Track
-                                var currentInstrument = timeLine.InstrumentList.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument);
+                                var currentInstrument = timeLine.InstrumentList.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument); 
                                 if (currentInstrument == null) { currentInstrument = new TimeLine.MidiSettingInspector { Name = EventAnalysis.Instrument, Type = TimeLine.MidiSettingType.Instrument, Enable = true }; timeLine.InstrumentList.Add(currentInstrument); } //Add new Instrument
-                                var _currentInstrument = currentTrack.Instruments.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument);
-                                if (_currentInstrument == null) { _currentInstrument = new TimeLine.MidiSettingInspector(currentTrack.Uid) { Name = EventAnalysis.Instrument, Type = TimeLine.MidiSettingType.Instrument, Enable = true, Tracks = new System.Collections.ObjectModel.ObservableCollection<TimeLine.MidiSettingInspector>() { currentTrack } }; currentTrack.Instruments.Add(_currentInstrument); } //Add new Instrument for a Track
-                                if (currentTrack != null && !currentTrack.Instruments.Any(ins => ins.Name == EventAnalysis.Instrument)) { currentTrack.Instruments.Add(_currentInstrument); } //Add new Instrument for the Track
-                                if (currentInstrument != null && !currentInstrument.Tracks.Any(t => t.Name == track)) { currentTrack.InstrumentsUid.Add(currentInstrument.Uid); currentInstrument.Tracks.Add(currentTrack); currentInstrument.TracksUid.Add(currentTrack.Uid); } //Add new Track for the Instrument
+                                if (!currentTrack.Instruments.Any(ins => ins.Name == EventAnalysis.Instrument))
+                                {
+                                    currentTrack.Instruments.Add(currentInstrument);
+                                    currentTrack.InstrumentsUid.Add(currentInstrument.Uid);
+                                }//Line Track
+                                if (!currentInstrument.Tracks.Any(t => t.Name == track))
+                                {
+                                    currentInstrument.Tracks.Add(currentTrack);
+                                    currentInstrument.TracksUid.Add(currentTrack.Uid);
+                                }//Link Instrument
+                                /*var currentTrack = timeLine.TrackList.AsEnumerable().FirstOrDefault(t => t.Name == track); var trackExist = true;
+                                //if (currentTrack == null) { trackExist = false; currentTrack = new TimeLine.MidiSettingInspector { Name = track, Type = TimeLine.MidiSettingType.Track, Enable = true }; timeLine.TrackList.Add(currentTrack); } //Add new Track
+                                //var currentInstrument = timeLine.InstrumentList.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument); var instrumentExist = true;
+                                //if (currentInstrument == null) { instrumentExist = false; currentInstrument = new TimeLine.MidiSettingInspector { Name = EventAnalysis.Instrument, Type = TimeLine.MidiSettingType.Instrument, Enable = true }; timeLine.InstrumentList.Add(currentInstrument); } //Add new Instrument
+                                //var _currentInstrument = currentTrack.Instruments.AsEnumerable().FirstOrDefault(ins => ins.Name == EventAnalysis.Instrument);
+                                //if (_currentInstrument == null) { _currentInstrument = new TimeLine.MidiSettingInspector(currentTrack.Uid) { Name = EventAnalysis.Instrument, Type = TimeLine.MidiSettingType.Instrument, Enable = true, Tracks = new System.Collections.ObjectModel.ObservableCollection<TimeLine.MidiSettingInspector>() { currentTrack } }; currentTrack.Instruments.Add(_currentInstrument); } //Add new Instrument for a Track
+                                //if (trackExist == true && !currentTrack.Instruments.Any(ins => ins.Name == EventAnalysis.Instrument)) { currentTrack.Instruments.Add(_currentInstrument); } //Add new Instrument for the Track
+                                //if (instrumentExist == true && !currentInstrument.Tracks.Any(t => t.Name == track)) { currentTrack.InstrumentsUid.Add(currentInstrument.Uid); currentInstrument.Tracks.Add(currentTrack); currentInstrument.TracksUid.Add(currentTrack.Uid); } //Add new Track for the Instrument*/
                                 #endregion
                                 MidiNodes.Add(MidiNode);
                                 nowTick = (int)toMinecraftTick(EventAnalysis.StartTick, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm);

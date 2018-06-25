@@ -31,41 +31,41 @@ namespace Audio2MinecraftUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public static TimeLine preTimeLine = new TimeLine();
-        private static List<UserControl> Controls;
-        public static string Midipath = "";
-        public static string Wavepath = "";
-        public static string Lrcpath = "";
-        public static int BPM = -1;
-        public static ExportSetting ExportSetting = new ExportSetting()
+        public static TimeLine preTimeLine = new TimeLine(); //预览时间序列
+        private static List<UserControl> Controls; //所有的子用户控件
+        public static string Midipath = ""; //Midi路径
+        public static string Wavepath = ""; //波形路径
+        public static string Lrcpath = ""; //歌词路径
+        public static int BPM = -1; //BPM
+        public static ExportSetting ExportSetting = new ExportSetting() //导出设置
         {
-            Direction = 0,
-            Width = 16,
-            AlwaysActive = true,
-            AlwaysLoadEntities = false,
-            AutoTeleport = false
+            Direction = 0, //序列方向
+            Width = 16, //序列宽度
+            AlwaysActive = true, //保持命令加载
+            AlwaysLoadEntities = false, //保持实体加载
+            AutoTeleport = false //自动Tp
         };
-        public static class PublicSet
+        public static class PublicSet //通用设置
         {
-            static public bool BPM = false;
-            static public bool Q = false;
-            static public bool TC = false;
-            static public int ST = 0;
+            static public bool BPM = false; //BPM计分板输出
+            static public bool Q = false; //¼音符占刻输出
+            static public bool TC = false; //总刻数输出
+            static public int ST = 0; //双声道方向
         }
-        public static class LyricMode
+        public static class LyricMode //歌词设置
         {
             static public bool Title = false;
             static public bool SubTitle = false;
             static public bool ActionBar = false;
             static public bool Tellraw = false;
-            public static class LyricOutSet
+            public static class LyricOutSet //歌词显示设置
             {
                 static public bool repeat = true;
                 static public string color1 = "white";
                 static public string color2 = "white";
             }
         }
-        public static string autoFillRule = "无", autoFillMode;
+        public static string autoFillRule = "无", autoFillMode; //自动补全规则 & 模式
         public MainWindow()
         {
             InitializeComponent();
@@ -472,7 +472,7 @@ namespace Audio2MinecraftUI
             {
                 if (fileDialog.FilterIndex == 1)
                 {
-                    var f = new FileOutPut()
+                    var f = new FileOutPut() //写入文件结构
                     {
                         MidiTracks = preTimeLine.TrackList,
                         MidiInstruments = preTimeLine.InstrumentList,
@@ -510,13 +510,15 @@ namespace Audio2MinecraftUI
                         },
                         wav_COMMIT = new int[] { Int32.Parse(WavSetting.采样周期.Text), Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text) }
                     };
-                    File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f)));
+                    File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
                 }
                 else
                 {
-                    InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "config\\compare");
-                    var exportLine = new TimeLine().Serialize(Midipath, Wavepath, BPM, Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text), Int32.Parse(WavSetting.采样周期.Text));
-                    exportLine.InstrumentList = preTimeLine.InstrumentList;
+                    //时间序列实例化
+                    InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "config\\compare"); //设置匹配列表 *
+                    var exportLine = new TimeLine().Serialize(Midipath, Wavepath, BPM, Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text), Int32.Parse(WavSetting.采样周期.Text)); //时间序列
+                    //时间序列写入 & 更新
+                    exportLine.InstrumentList = preTimeLine.InstrumentList; 
                     exportLine.TrackList = preTimeLine.TrackList;
                     exportLine.LeftWaveSetting = preTimeLine.LeftWaveSetting;
                     exportLine.RightWaveSetting = preTimeLine.RightWaveSetting;
@@ -529,14 +531,16 @@ namespace Audio2MinecraftUI
                     exportLine.Param["MidiTracksCount"].Enable = PublicSet.TC;
                     exportLine.Param["MidiDeltaTicksPerQuarterNote"].Enable = PublicSet.Q;
                     exportLine.Sound_Stereo(PublicSet.ST - 1);
+                    //命令序列实例化
                     var commandLine = new CommandLine().Serialize(exportLine);
-                    if (Lrcpath != "")
+                    if (Lrcpath != "") //添加歌词
                     {
                         var lrcLine = GetLyrcics();
                         commandLine = commandLine.Combine(commandLine, lrcLine);
                     }
+                    //导出
                     var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width, AutoTeleport = ExportSetting.AutoTeleport };
-                    if (fileDialog.FilterIndex == 3) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WE
+                    if (fileDialog.FilterIndex == 3) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WorldEdit
                     new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName);
                 }
             }

@@ -759,7 +759,7 @@ namespace Audio2Minecraft
             private bool _enableScore;
             public bool EnableScore { get { return _enableScore; } set { _enableScore = value; } }
             private bool _enablePlaysound;
-            public bool EnablePlaysound { get { return _enablePlaysound; } set { _enablePlaysound = value; } }
+            public bool EnablePlaysound { get { return _enablePlaysound; } set { _enablePlaysound = value; PlaysoundSetting.Enable = value; } }
 
             private bool _deltaTickStart;
             public bool DeltaTickStart { get { return _deltaTickStart; } set { _deltaTickStart = value; } }
@@ -835,6 +835,7 @@ namespace Audio2Minecraft
                                 i.Pitch = Pitch;
                                 i.MinecraftTickDuration = MinecraftTickDuration;
                                 i.MinecraftTickStart = MinecraftTickStart;
+                                i.PlaysoundSetting.Enable = PlaysoundSetting.Enable;
                                 i.PlaysoundSetting.ExecuteCood = PlaysoundSetting.ExecuteCood;
                                 i.PlaysoundSetting.ExecuteTarget = PlaysoundSetting.ExecuteTarget;
                                 i.PlaysoundSetting.ExtraDelay = PlaysoundSetting.ExtraDelay;
@@ -868,6 +869,7 @@ namespace Audio2Minecraft
                         i.Pitch = Pitch;
                         i.MinecraftTickDuration = MinecraftTickDuration;
                         i.MinecraftTickStart = MinecraftTickStart;
+                        i.PlaysoundSetting.Enable = PlaysoundSetting.Enable;
                         i.PlaysoundSetting.ExecuteCood = PlaysoundSetting.ExecuteCood;
                         i.PlaysoundSetting.ExecuteTarget = PlaysoundSetting.ExecuteTarget;
                         i.PlaysoundSetting.ExtraDelay = PlaysoundSetting.ExtraDelay;
@@ -901,26 +903,36 @@ namespace Audio2Minecraft
             {
                 foreach (var i in t.Instruments)
                 {
-                    EnableMidi(i.Enable, t.Name, i.Name, -1, "");
-                    EnableMidi(i.BarIndex, t.Name, i.Name, -1, "BarIndex");
-                    EnableMidi(i.BeatDuration, t.Name, i.Name, -1, "BeatDuration");
-                    EnableMidi(i.Channel, t.Name, i.Name, -1, "Channel");
-                    EnableMidi(i.DeltaTickDuration, t.Name, i.Name, -1, "DeltaTickDuration");
-                    EnableMidi(i.DeltaTickStart, t.Name, i.Name, -1, "DeltaTickStart");
-                    EnableMidi(i.Velocity, t.Name, i.Name, -1, "Velocity");
-                    EnableMidi(i.Pitch, t.Name, i.Name, -1, "Pitch");
-                    EnableMidi(i.MinecraftTickDuration, t.Name, i.Name, -1, "MinecraftTickDuration");
-                    EnableMidi(i.MinecraftTickStart, t.Name, i.Name, -1, "MinecraftTickStart");
-                    Sound_ExecuteCood(i.PlaysoundSetting.ExecuteCood, t.Name, i.Name, -1);
-                    Sound_ExecuteTarget(i.PlaysoundSetting.ExecuteTarget, t.Name, i.Name, -1);
-                    Sound_ExtraDelay(i.PlaysoundSetting.ExtraDelay, t.Name, i.Name, -1);
-                    Sound_MandaVolume(i.PlaysoundSetting.MandaVolume, t.Name, i.Name, -1);
-                    Sound_InheritExpression(i.PlaysoundSetting.InheritExpression, t.Name, i.Name, -1);
-                    Sound_PercVolume(i.PlaysoundSetting.PercVolume, t.Name, i.Name, -1);
-                    Sound_PlaySource(i.PlaysoundSetting.PlaySource, t.Name, i.Name, -1);
-                    Sound_PlayTarget(i.PlaysoundSetting.PlayTarget, t.Name, i.Name, -1);
-                    Sound_SoundName(i.PlaysoundSetting.SoundName, t.Name, i.Name, -1);
-                    Sound_StopSound(i.PlaysoundSetting.StopSound, t.Name, i.Name, -1);
+                    if (i.Enable)
+                    {
+                        EnableMidi(i.EnableScore, t.Name, i.Name, -1, "");
+                        EnableMidi(i.EnablePlaysound, t.Name, i.Name, -1, "PlaySound");
+                        if (i.EnableScore)
+                        {
+                            EnableMidi(i.BarIndex, t.Name, i.Name, -1, "BarIndex");
+                            EnableMidi(i.BeatDuration, t.Name, i.Name, -1, "BeatDuration");
+                            EnableMidi(i.Channel, t.Name, i.Name, -1, "Channel");
+                            EnableMidi(i.DeltaTickDuration, t.Name, i.Name, -1, "DeltaTickDuration");
+                            EnableMidi(i.DeltaTickStart, t.Name, i.Name, -1, "DeltaTickStart");
+                            EnableMidi(i.Velocity, t.Name, i.Name, -1, "Velocity");
+                            EnableMidi(i.Pitch, t.Name, i.Name, -1, "Pitch");
+                            EnableMidi(i.MinecraftTickDuration, t.Name, i.Name, -1, "MinecraftTickDuration");
+                            EnableMidi(i.MinecraftTickStart, t.Name, i.Name, -1, "MinecraftTickStart");
+                        }
+                        if (i.EnablePlaysound || i.PlaysoundSetting.Enable)
+                        {
+                            Sound_ExecuteCood(i.PlaysoundSetting.ExecuteCood, t.Name, i.Name, -1);
+                            Sound_ExecuteTarget(i.PlaysoundSetting.ExecuteTarget, t.Name, i.Name, -1);
+                            Sound_ExtraDelay(i.PlaysoundSetting.ExtraDelay, t.Name, i.Name, -1);
+                            Sound_MandaVolume(i.PlaysoundSetting.MandaVolume, t.Name, i.Name, -1);
+                            Sound_InheritExpression(i.PlaysoundSetting.InheritExpression, t.Name, i.Name, -1);
+                            Sound_PercVolume(i.PlaysoundSetting.PercVolume, t.Name, i.Name, -1);
+                            Sound_PlaySource(i.PlaysoundSetting.PlaySource, t.Name, i.Name, -1);
+                            Sound_PlayTarget(i.PlaysoundSetting.PlayTarget, t.Name, i.Name, -1);
+                            Sound_SoundName(i.PlaysoundSetting.SoundName, t.Name, i.Name, -1);
+                            Sound_StopSound(i.PlaysoundSetting.StopSound, t.Name, i.Name, -1);
+                        }
+                    }
                 }
             }
         }
@@ -932,38 +944,49 @@ namespace Audio2Minecraft
         {
             foreach (var i in InstrumentList)
             {
-                EnableMidi(i.Enable, "", i.Name, -1, "");
-                EnableMidi(i.BarIndex, "", i.Name, -1, "BarIndex");
-                EnableMidi(i.BeatDuration, "", i.Name, -1, "BeatDuration");
-                EnableMidi(i.Channel, "", i.Name, -1, "Channel");
-                EnableMidi(i.DeltaTickDuration, "", i.Name, -1, "DeltaTickDuration");
-                EnableMidi(i.DeltaTickStart, "", i.Name, -1, "DeltaTickStart");
-                EnableMidi(i.Velocity, "", i.Name, -1, "Velocity");
-                EnableMidi(i.Pitch, "", i.Name, -1, "Pitch");
-                EnableMidi(i.MinecraftTickDuration, "", i.Name, -1, "MinecraftTickDuration");
-                EnableMidi(i.MinecraftTickStart, "", i.Name, -1, "MinecraftTickStart");
-                Sound_ExecuteCood(i.PlaysoundSetting.ExecuteCood, "", i.Name, -1);
-                Sound_ExecuteTarget(i.PlaysoundSetting.ExecuteTarget, "", i.Name, -1);
-                Sound_ExtraDelay(i.PlaysoundSetting.ExtraDelay, "", i.Name, -1);
-                Sound_MandaVolume(i.PlaysoundSetting.MandaVolume, "", i.Name, -1);
-                Sound_InheritExpression(i.PlaysoundSetting.InheritExpression, "", i.Name, -1);
-                Sound_PercVolume(i.PlaysoundSetting.PercVolume, "", i.Name, -1);
-                Sound_PlaySource(i.PlaysoundSetting.PlaySource, "", i.Name, -1);
-                Sound_PlayTarget(i.PlaysoundSetting.PlayTarget, "", i.Name, -1);
-                Sound_SoundName(i.PlaysoundSetting.SoundName, "", i.Name, -1);
-                Sound_StopSound(i.PlaysoundSetting.StopSound, "", i.Name, -1);
-                foreach (var t in i.Tracks)
+                if (i.Enable)
                 {
-                    t.BarIndex = i.BarIndex;
-                    t.BeatDuration = i.BeatDuration;
-                    t.Channel = i.Channel;
-                    t.DeltaTickDuration = i.DeltaTickDuration;
-                    t.DeltaTickStart = i.DeltaTickStart;
-                    t.Velocity = i.Velocity;
-                    t.Pitch = i.Pitch;
-                    t.MinecraftTickDuration = i.MinecraftTickDuration;
-                    t.MinecraftTickStart = i.MinecraftTickStart;
-                    t.PlaysoundSetting = i.PlaysoundSetting;
+                    EnableMidi(i.EnableScore, "", i.Name, -1, "");
+                    EnableMidi(i.EnablePlaysound, "", i.Name, -1, "PlaySound");
+                    if (i.EnableScore)
+                    {
+                        EnableMidi(i.BarIndex, "", i.Name, -1, "BarIndex");
+                        EnableMidi(i.BeatDuration, "", i.Name, -1, "BeatDuration");
+                        EnableMidi(i.Channel, "", i.Name, -1, "Channel");
+                        EnableMidi(i.DeltaTickDuration, "", i.Name, -1, "DeltaTickDuration");
+                        EnableMidi(i.DeltaTickStart, "", i.Name, -1, "DeltaTickStart");
+                        EnableMidi(i.Velocity, "", i.Name, -1, "Velocity");
+                        EnableMidi(i.Pitch, "", i.Name, -1, "Pitch");
+                        EnableMidi(i.MinecraftTickDuration, "", i.Name, -1, "MinecraftTickDuration");
+                        EnableMidi(i.MinecraftTickStart, "", i.Name, -1, "MinecraftTickStart");
+                        EnableMidi(i.EnablePlaysound, "", i.Name, -1, "PlaySound");
+                    }
+                    if (i.EnablePlaysound || i.PlaysoundSetting.Enable)
+                    {
+                        Sound_ExecuteCood(i.PlaysoundSetting.ExecuteCood, "", i.Name, -1);
+                        Sound_ExecuteTarget(i.PlaysoundSetting.ExecuteTarget, "", i.Name, -1);
+                        Sound_ExtraDelay(i.PlaysoundSetting.ExtraDelay, "", i.Name, -1);
+                        Sound_MandaVolume(i.PlaysoundSetting.MandaVolume, "", i.Name, -1);
+                        Sound_InheritExpression(i.PlaysoundSetting.InheritExpression, "", i.Name, -1);
+                        Sound_PercVolume(i.PlaysoundSetting.PercVolume, "", i.Name, -1);
+                        Sound_PlaySource(i.PlaysoundSetting.PlaySource, "", i.Name, -1);
+                        Sound_PlayTarget(i.PlaysoundSetting.PlayTarget, "", i.Name, -1);
+                        Sound_SoundName(i.PlaysoundSetting.SoundName, "", i.Name, -1);
+                        Sound_StopSound(i.PlaysoundSetting.StopSound, "", i.Name, -1);
+                    }
+                    foreach (var t in i.Tracks)
+                    {
+                        t.BarIndex = i.BarIndex;
+                        t.BeatDuration = i.BeatDuration;
+                        t.Channel = i.Channel;
+                        t.DeltaTickDuration = i.DeltaTickDuration;
+                        t.DeltaTickStart = i.DeltaTickStart;
+                        t.Velocity = i.Velocity;
+                        t.Pitch = i.Pitch;
+                        t.MinecraftTickDuration = i.MinecraftTickDuration;
+                        t.MinecraftTickStart = i.MinecraftTickStart;
+                        t.PlaysoundSetting = i.PlaysoundSetting;
+                    }
                 }
             }
         }
@@ -999,18 +1022,6 @@ namespace Audio2Minecraft
                 EnableWave(RightWaveSetting.Frequency, -1, "Right", "FrequencyPerTick");
                 EnableWave(RightWaveSetting.Volume, -1, "Right", "VolumePerTick");
             }
-        }
-
-        /// <summary>
-        /// Update InstrumentList by AutoFill
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        public void InstrumentListUpdateByAutoFill(AutoFill autofill, string mode)
-        {
-            var fillmode = autofill.Rule.modes[mode];
-
-            foreach (var i in InstrumentList) { }
         }
     }
 
