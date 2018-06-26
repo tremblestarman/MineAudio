@@ -256,7 +256,7 @@ namespace Audio2Minecraft
     }
     public class Command
     {
-        public List<string> Commands = new List<string>() { "$setblock", "setblock ~ ~-2 ~ minecraft:air", "spawnpoint @p ~ ~ ~", "tp @e[tag=Tracks] @p" };
+        public List<string> Commands = new List<string>() { "$setblock", "setblock ~ ~-2 ~ minecraft:air", "setworldspawn ~ ~ ~", "tp @e[tag=Tracks] @p" };
     }
     public class DescribeEntity
     {

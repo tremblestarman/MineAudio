@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using System.IO.Compression;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
@@ -31,9 +32,11 @@ namespace Audio2MinecraftUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        public static _Version currentV = new _Version();
         public static TimeLine preTimeLine = new TimeLine(); //预览时间序列
+        private static string projName = ""; //工程名
         private static List<UserControl> Controls; //所有的子用户控件
-        public static string Midipath = ""; //Midi路径
+        public static string Midipath = "", oldMidi = ""; //Midi路径
         public static string Wavepath = ""; //波形路径
         public static string Lrcpath = ""; //歌词路径
         public static int BPM = -1; //BPM
@@ -89,6 +92,32 @@ namespace Audio2MinecraftUI
             DisableAllControls();
             HideAllControls();
             MidiSetting.Visibility = Visibility.Visible;
+
+            //查看版本更新
+            try
+            {
+                _Version _v = new _Version();
+                Encoding encoding = Encoding.UTF8;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://tremblestarman.github.io/Audio2Minecraft/resource/version.json");
+                request.Method = "GET";
+                request.Accept = "text/html, application/xhtml+xml, */*";
+                request.ContentType = "application/json";
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                {
+                    _v = JsonConvert.DeserializeObject<_Version>(reader.ReadToEnd());
+                }
+                if (_v.version != currentV.version) //版本不同
+                {
+                    var alarm = new SubWindow.VersionAlarm();
+                    alarm.new_version.Text = "检测到最新版本: " + _v.version;
+                    alarm.log.Text = _v.log.Replace("\n", Environment.NewLine);
+                    alarm.download_url = _v.download;
+                    alarm.TabIndex = 0;
+                    alarm.ShowDialog();
+                }
+            }
+            catch { }
         }
 
         //文件路径确认
@@ -115,6 +144,7 @@ namespace Audio2MinecraftUI
                 A2MSave.IsEnabled = false;
             }
             cancel0.Visibility = Visibility.Hidden;
+            MidiSetting.TracksView.ItemsSource = null;
             MidiSetting.IsEnabled = false;
         }
 
@@ -175,7 +205,8 @@ namespace Audio2MinecraftUI
             var midiName = (File.Exists(MidiPath.Text)) ? " Midi: \"" + new FileInfo(MidiPath.Text).Name + "\"" : "";
             var waveName = (File.Exists(WavePath.Text)) ? " Wave: \"" + new FileInfo(WavePath.Text).Name + "\"" : "";
             var lrcName = (File.Exists(LrcPath.Text)) ? " Lrc: \"" + new FileInfo(LrcPath.Text).Name + "\"" : "";
-            FileShow.Content = (midiName == "" && waveName == "" && lrcName == "") ? "" : midiName + waveName + lrcName;
+            if (midiName == "" && waveName == "" && lrcName == "") projName = "";
+            FileShow.Content = (projName != "") ? "A2mproj: \"" + projName + "\"" : (midiName == "" && waveName == "" && lrcName == "") ? "" : midiName + waveName + lrcName;
         }
         private void Load(object sender, MouseButtonEventArgs e)
         {
@@ -183,7 +214,8 @@ namespace Audio2MinecraftUI
             Export.IsEnabled = true;
             if (MidiPath.Text != "" && new FileInfo(MidiPath.Text).Exists)
             {
-                preTimeLine = UpdateMidiInspector(new AudioStreamMidi().Serialize(MidiPath.Text, new TimeLine()), preTimeLine);
+                if (oldMidi == MidiPath.Text) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().Serialize(MidiPath.Text, new TimeLine()), preTimeLine);
+                else preTimeLine = new AudioStreamMidi().Serialize(MidiPath.Text, new TimeLine());
                 Midipath = MidiPath.Text;
                 MidiSetting.IsEnabled = true;
                 MidiSetting.TracksView.ItemsSource = preTimeLine.TrackList; //Track
@@ -193,6 +225,8 @@ namespace Audio2MinecraftUI
                 PublicSetting.TBPM.Text = preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
                 PublicSetting.TTC.Text = preTimeLine.Param["MidiTracksCount"].Value.ToString();
                 PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
+
+                oldMidi = MidiPath.Text;
             }
             if (WavePath.Text != "" && new FileInfo(WavePath.Text).Exists)
             {
@@ -511,6 +545,7 @@ namespace Audio2MinecraftUI
                         wav_COMMIT = new int[] { Int32.Parse(WavSetting.采样周期.Text), Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text) }
                     };
                     File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
+                    projName = new FileInfo(fileDialog.FileName).Name; SetFileShow(); //更新文件显示
                 }
                 else
                 {
@@ -571,21 +606,21 @@ namespace Audio2MinecraftUI
                             i.Tracks.Add(_t);
                         }
                     }
-                }
+                } //Link
                 foreach (var i in instruments)
                 {
                     foreach (var _t in (from t in tracks where i.TracksUid.Contains(t.Uid) select t))
                     {
                         i.Tracks.Add(_t);
                     }
-                }
-                if (preTimeLine.TrackList.Count != 0 && preTimeLine.InstrumentList.Count != 0) //Update preTimeLine
+                } //Link
+                if (Midipath == o.Midipath && preTimeLine.TrackList.Count != 0 && preTimeLine.InstrumentList.Count != 0) //Update preTimeLine if the same Midi
                     preTimeLine = UpdateMidiInspector(preTimeLine, new TimeLine() { InstrumentList = instruments, TrackList = tracks });
                 else
-                    preTimeLine = UpdateMidiInspector(new TimeLine() { InstrumentList = instruments, TrackList = tracks }, preTimeLine);
+                    preTimeLine = new TimeLine() { InstrumentList = instruments, TrackList = tracks };
                 MidiSetting.TracksView.ItemsSource = preTimeLine.TrackList;
                 MidiPath.Text = o.Midipath;
-                Midipath = o.Midipath;
+                Midipath = o.Midipath; oldMidi = o.Midipath;
                 preTimeLine.Param["MidiBeatPerMinute"].Value = o.PublicSetting.TBPM;
                 preTimeLine.Param["MidiTracksCount"].Value = o.PublicSetting.TTC;
                 preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value = o.PublicSetting.TQ; //Midi
@@ -695,7 +730,8 @@ namespace Audio2MinecraftUI
 
                 load.IsEnabled = true;
                 A2MSave.IsEnabled = true;
-                SetFileShow();
+                projName = new FileInfo(fileDialog.FileName).Name;
+                SetFileShow();  //更新文件显示
             }
         }
         #region Compress
@@ -794,5 +830,12 @@ namespace Audio2MinecraftUI
             public string text = "";
             public string color = "white";
         }
+    }
+
+    public class _Version
+    {
+        public string version = "pre-9";
+        public string download;
+        public string log;
     }
 }

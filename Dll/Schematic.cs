@@ -151,7 +151,7 @@ namespace Audio2Minecraft
                     }
                     #endregion
                     //Options about command
-                    if (!SettingParam.AlwaysActive) commandLine.Keyframe[i].Commands.Remove("spawnpoint @p ~ ~ ~");
+                    if (!SettingParam.AlwaysActive) commandLine.Keyframe[i].Commands.Remove("setworldspawn ~ ~ ~");
                     if (!SettingParam.AlwaysLoadEntities) commandLine.Keyframe[i].Commands.Remove("tp @e[tag=Tracks] @p");
                     if (SettingParam.AutoTeleport && commandLine.Keyframe[i].Commands.Count > 0)
                     {

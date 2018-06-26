@@ -64,6 +64,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -88,6 +90,9 @@
     </ApplicationDefinition>
     <Compile Include="SubWindow\AutoFillSelector.xaml.cs">
       <DependentUpon>AutoFillSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubWindow\VersionAlarm.xaml.cs">
+      <DependentUpon>VersionAlarm.xaml</DependentUpon>
     </Compile>
     <Page Include="Humberger\Export.xaml">
       <SubType>Designer</SubType>
@@ -137,6 +142,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SubWindow\AutoFillSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SubWindow\VersionAlarm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -195,6 +204,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\download.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
