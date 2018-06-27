@@ -50,7 +50,7 @@ namespace Audio2MinecraftUI.Humberger
             双声道.Items.Add("面向Z-");
         }
         string old_text = "";
-        private void NumericOnly(object sender, TextCompositionEventArgs e)
+        private void NumericOnly(object sender, TextChangedEventArgs e)
         {
             var t = e.OriginalSource as TextBox;
             System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("\\D");

@@ -282,6 +282,7 @@ namespace Audio2MinecraftUI.Humberger
             源.SetValue(TextBoxHelper.WatermarkProperty, "");
             子表达式.SetValue(TextBoxHelper.WatermarkProperty, "");
             额外延时.SetValue(TextBoxHelper.WatermarkProperty, "");
+
             foreach (var E in TextBoxElements)
             {
                 if (i.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Track)
@@ -383,6 +384,7 @@ namespace Audio2MinecraftUI.Humberger
                     }
                 }
             }
+            Done.IsEnabled = false;
         }
         private void ComboSet(TimeLine.MidiSettingInspector i) //返回选项框是否一致
         {
@@ -524,7 +526,6 @@ namespace Audio2MinecraftUI.Humberger
             if (音量大小.Visibility == Visibility.Visible) i.PlaysoundSetting.PercVolume = (音量增益.Value != -1) ? (int)(音量增益.Value * 2) : -1;
         }
 
-
         private int oldIndex = 0;
         private string oldText = String.Empty;
         private void 音色名称_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -584,7 +585,7 @@ namespace Audio2MinecraftUI.Humberger
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
             }
         }
-        private void TextInpute(object sender, TextCompositionEventArgs e)
+        private void TextChanging(object sender, TextChangedEventArgs e)
         {
             var T = e.OriginalSource as TextBox;
             if (T.GetValue(TextBoxHelper.WatermarkProperty).ToString() != "")
@@ -601,15 +602,15 @@ namespace Audio2MinecraftUI.Humberger
                 T.SetValue(TextBoxHelper.WatermarkProperty, "");
             }
         }
-        private void 播放相对坐标X_TextInput(object sender, TextCompositionEventArgs e)
+        private void 播放相对坐标X_TextChanged(object sender, TextChangedEventArgs e)
         {
             double val;
             if (!Double.TryParse(播放相对坐标X.Text, out val) && 播放相对坐标X.Text != "")
             {
-                播放相对坐标X.TextInput -= 播放相对坐标X_TextInput;
+                播放相对坐标X.TextChanged -= 播放相对坐标X_TextChanged;
                 播放相对坐标X.Text = oldText;
                 播放相对坐标X.CaretIndex = oldIndex;
-                播放相对坐标X.TextInput += 播放相对坐标X_TextInput;
+                播放相对坐标X.TextChanged += 播放相对坐标X_TextChanged;
             }
             else Done.IsEnabled = true;
         }
@@ -630,15 +631,15 @@ namespace Audio2MinecraftUI.Humberger
             oldIndex = 播放相对坐标X.CaretIndex;
             oldText = 播放相对坐标X.Text;
         }
-        private void 播放相对坐标Y_TextInput(object sender, TextCompositionEventArgs e)
+        private void 播放相对坐标Y_TextChanged(object sender, TextChangedEventArgs e)
         {
             double val;
             if (!Double.TryParse(播放相对坐标Y.Text, out val) && 播放相对坐标Y.Text != "")
             {
-                播放相对坐标Y.TextInput -= 播放相对坐标Y_TextInput;
+                播放相对坐标Y.TextChanged -= 播放相对坐标Y_TextChanged;
                 播放相对坐标Y.Text = oldText;
                 播放相对坐标Y.CaretIndex = oldIndex;
-                播放相对坐标Y.TextInput += 播放相对坐标Y_TextInput;
+                播放相对坐标Y.TextChanged += 播放相对坐标Y_TextChanged;
             }
             else Done.IsEnabled = true;
         }
@@ -659,15 +660,15 @@ namespace Audio2MinecraftUI.Humberger
             oldIndex = 播放相对坐标Y.CaretIndex;
             oldText = 播放相对坐标Y.Text;
         }
-        private void 播放相对坐标Z_TextInput(object sender, TextCompositionEventArgs e)
+        private void 播放相对坐标Z_TextChanged(object sender, TextChangedEventArgs e)
         {
             double val;
             if (!Double.TryParse(播放相对坐标Z.Text, out val) && 播放相对坐标Z.Text != "")
             {
-                播放相对坐标Z.TextInput -= 播放相对坐标Z_TextInput;
+                播放相对坐标Z.TextChanged -= 播放相对坐标Z_TextChanged;
                 播放相对坐标Z.Text = oldText;
                 播放相对坐标Z.CaretIndex = oldIndex;
-                播放相对坐标Z.TextInput += 播放相对坐标Z_TextInput;
+                播放相对坐标Z.TextChanged += 播放相对坐标Z_TextChanged;
             }
             else Done.IsEnabled = true;
         }
@@ -688,15 +689,15 @@ namespace Audio2MinecraftUI.Humberger
             oldIndex = 播放相对坐标Z.CaretIndex;
             oldText = 播放相对坐标Z.Text;
         }
-        private void 额外延时_TextInput(object sender, TextCompositionEventArgs e)
+        private void 额外延时_TextChanged(object sender, TextChangedEventArgs e)
         {
             int val;
             if (!Int32.TryParse(额外延时.Text, out val) && 额外延时.Text != "" || 额外延时.Text == "-")
             {
-                额外延时.TextInput -= 额外延时_TextInput;
+                额外延时.TextChanged -= 额外延时_TextChanged;
                 额外延时.Text = oldText;
                 额外延时.CaretIndex = oldIndex;
-                额外延时.TextInput += 额外延时_TextInput;
+                额外延时.TextChanged += 额外延时_TextChanged;
             }
             else Done.IsEnabled = true;
         }

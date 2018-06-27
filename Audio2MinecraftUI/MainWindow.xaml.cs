@@ -834,7 +834,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "pre-9";
+        public string version = "pre-10";
         public string download;
         public string log;
     }

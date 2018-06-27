@@ -197,9 +197,6 @@
     <Resource Include="img\load.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Humberger\框架.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="audio2minecraft.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -221,7 +221,7 @@ namespace Audio2MinecraftUI.Humberger
 
         string old_text = "";
         int[] _COMMIT = new int[] { -1, -1, -1 };
-        private void NumericOnly(object sender, TextCompositionEventArgs e)
+        private void NumericOnly(object sender, TextChangedEventArgs e)
         {
             var t = e.OriginalSource as TextBox;
             System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("\\D");
