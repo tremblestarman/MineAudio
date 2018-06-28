@@ -11,7 +11,7 @@
              Title="自动补全设置"                       
              BorderThickness="2"
              GlowBrush="{DynamicResource AccentColorBrush}"
-             ResizeMode="CanResizeWithGrip"
+             ResizeMode="CanMinimize"
 
              Initialized="MetroWindow_Initialized"
              WindowStartupLocation="CenterScreen"

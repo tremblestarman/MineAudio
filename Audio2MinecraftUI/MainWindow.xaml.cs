@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
-using System.Security.Cryptography;
+using System.Runtime;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -92,32 +93,51 @@ namespace Audio2MinecraftUI
             DisableAllControls();
             HideAllControls();
             MidiSetting.Visibility = Visibility.Visible;
-
+        }
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var n = new Thread(g => alarmVersion()) { IsBackground = true };
+            n.SetApartmentState(ApartmentState.STA);
+            n.Start();
+        }
+        private void alarmVersion()//查看版本更新
+        {
             //查看版本更新
-            try
+            if (IsConnectInternet())
             {
-                _Version _v = new _Version();
-                Encoding encoding = Encoding.UTF8;
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://tremblestarman.github.io/Audio2Minecraft/resource/version.json");
-                request.Method = "GET";
-                request.Accept = "text/html, application/xhtml+xml, */*";
-                request.ContentType = "application/json";
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                try
                 {
-                    _v = JsonConvert.DeserializeObject<_Version>(reader.ReadToEnd());
+                    _Version _v = new _Version();
+                    Encoding encoding = Encoding.UTF8;
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://tremblestarman.github.io/Audio2Minecraft/resource/version.json");
+                    request.Method = "GET";
+                    request.Accept = "text/html, application/xhtml+xml, */*";
+                    request.ContentType = "application/json";
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                    {
+                        _v = JsonConvert.DeserializeObject<_Version>(reader.ReadToEnd());
+                    }
+                    if (_v.version != currentV.version) //版本不同
+                    {
+                        var alarm = new SubWindow.VersionAlarm();
+                        alarm.new_version.Text = "检测到最新版本: " + _v.version;
+                        alarm.log.Text = _v.log.Replace("\n", Environment.NewLine);
+                        alarm.download_url = _v.download;
+                        alarm.Topmost = true;
+                        alarm.Show();
+                    }
                 }
-                if (_v.version != currentV.version) //版本不同
-                {
-                    var alarm = new SubWindow.VersionAlarm();
-                    alarm.new_version.Text = "检测到最新版本: " + _v.version;
-                    alarm.log.Text = _v.log.Replace("\n", Environment.NewLine);
-                    alarm.download_url = _v.download;
-                    alarm.TabIndex = 0;
-                    alarm.ShowDialog();
-                }
+                catch { }
             }
-            catch { }
+            System.Windows.Threading.Dispatcher.Run();
+        }
+        [DllImport("wininet.dll")]
+        private extern static bool InternetGetConnectedState(int Description, int ReservedValue);
+        public static bool IsConnectInternet() //检测联网
+        {
+            int Description = 0;
+            return InternetGetConnectedState(Description, 0);
         }
 
         //文件路径确认
@@ -834,7 +854,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "pre-10";
+        public string version = "pre-12";
         public string download;
         public string log;
     }

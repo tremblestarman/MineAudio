@@ -11,7 +11,7 @@
              Title="检测到版本更新"                       
              BorderThickness="2"
              GlowBrush="{DynamicResource AccentColorBrush}"
-             ResizeMode="CanResizeWithGrip"
+             ResizeMode="CanMinimize"
 
              WindowStartupLocation="CenterScreen"
                        

@@ -1092,7 +1092,7 @@
 			}
 		},
 		"4c": {
-			"instrument": "Honky-Tonk Piano",
+			"instrument": "Honky-Tonk",
 			"sound_name": "4c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -3197,7 +3197,7 @@
 			}
 		},
 		"2": {
-			"instrument": "Honky-Tonk",
+			"instrument": "Bright Acoustic Piano",
 			"sound_name": "2",
 			"expression": "%p",
 			"volume": 100.0,
@@ -3231,7 +3231,7 @@
 			}
 		},
 		"4": {
-			"instrument": "Honky-Tonk Piano",
+			"instrument": "Honky-Tonk",
 			"sound_name": "4",
 			"expression": "%p",
 			"volume": 100.0,
