@@ -1074,7 +1074,7 @@
 			}
 		},
 		"3c": {
-			"instrument": "Electric Grand Piano",
+			"instrument": "Electric Grand",
 			"sound_name": "3c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -1112,6 +1112,24 @@
 		"5c": {
 			"instrument": "Electric Piano 1",
 			"sound_name": "5c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"6c": {
+			"instrument": "Electric Piano 1",
+			"sound_name": "5",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
@@ -1452,7 +1470,7 @@
 			}
 		},
 		"25c": {
-			"instrument": "Acoustic Guitar (nylon)",
+			"instrument": "Acoustic Guitar(nylon)",
 			"sound_name": "25c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -3214,7 +3232,7 @@
 			}
 		},
 		"3": {
-			"instrument": "Electric Grand Piano",
+			"instrument": "Electric Grand",
 			"sound_name": "3",
 			"expression": "%p",
 			"volume": 100.0,
@@ -3248,6 +3266,23 @@
 			}
 		},
 		"5": {
+			"instrument": "Electric Piano 1",
+			"sound_name": "5",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false,
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"6": {
 			"instrument": "Electric Piano 1",
 			"sound_name": "5",
 			"expression": "%p",
@@ -3435,7 +3470,7 @@
 			}
 		},
 		"25": {
-			"instrument": "Acoustic Guitar (nylon)",
+			"instrument": "Acoustic Guitar(nylon)",
 			"sound_name": "25",
 			"expression": "%p",
 			"volume": 100.0,

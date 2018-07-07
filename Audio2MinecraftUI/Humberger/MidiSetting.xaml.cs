@@ -76,7 +76,8 @@ namespace Audio2MinecraftUI.Humberger
                 音高,
                 力度,
                 Playsound输出,
-                Stopsound
+                Stopsound,
+                音高播放
             };
             TextBoxElements = new List<TextBox>()
             {
@@ -154,6 +155,7 @@ namespace Audio2MinecraftUI.Humberger
                 if (E.Uid == "MinecraftTickDuration") 键持续刻数.IsChecked = Checked;
                 if (E.Uid == "MinecraftTickStart") 键起始刻数.IsChecked = Checked;
                 if (E.Uid == "StopSound") Stopsound.IsChecked = Checked;
+                if (E.Uid == "PitchPlayable") 音高播放.IsChecked = Checked;
             }
             TextSet(SelectedItem);
             ComboSet(SelectedItem);
@@ -178,6 +180,7 @@ namespace Audio2MinecraftUI.Humberger
             if (element == "MinecraftTickDuration") BaseResult = i.MinecraftTickDuration;
             if (element == "MinecraftTickStart") BaseResult = i.MinecraftTickStart;
             if (element == "StopSound") BaseResult = i.PlaysoundSetting.StopSound;
+            if (element == "PitchPlayable") BaseResult = i.PlaysoundSetting.StopSound;
             if (i.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Track) return BaseResult;
             bool? ParentResult = false;
             if (i.Type == TimeLine.MidiSettingType.Track && ViewType == MidiViewType.Track)
@@ -194,6 +197,7 @@ namespace Audio2MinecraftUI.Humberger
                 if (element == "MinecraftTickDuration") if (i.Instruments.All(_i => _i.MinecraftTickDuration == true)) ParentResult = true; else if (i.Instruments.All(_i => _i.MinecraftTickDuration == false)) ParentResult = false; else ParentResult = null;
                 if (element == "MinecraftTickStart") if (i.Instruments.All(_i => _i.MinecraftTickStart == true)) ParentResult = true; else if (i.Instruments.All(_i => _i.MinecraftTickStart == false)) ParentResult = false; else ParentResult = null;
                 if (element == "StopSound") if (i.Instruments.All(_i => _i.PlaysoundSetting.StopSound == true)) ParentResult = true; else if (i.Instruments.All(_i => _i.PlaysoundSetting.StopSound == false)) ParentResult = false; else ParentResult = null;
+                if (element == "PitchPlayable") if (i.Instruments.All(_i => _i.PlaysoundSetting.PitchPlayable == true)) ParentResult = true; else if (i.Instruments.All(_i => _i.PlaysoundSetting.PitchPlayable == false)) ParentResult = false; else ParentResult = null;
             }
             else if (i.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Instrument)
             {
@@ -268,6 +272,12 @@ namespace Audio2MinecraftUI.Humberger
                 {
                     if (i.Tracks.All(t => (from v in t.Instruments where v.Name == instrument select v).All(_i => _i.PlaysoundSetting.StopSound == true))) ParentResult = true;
                     else if (i.Tracks.All(t => (from v in t.Instruments where v.Name == instrument select v).All(_i => _i.PlaysoundSetting.StopSound == false))) ParentResult = false;
+                    else ParentResult = null;
+                }
+                if (element == "PitchPlayable")
+                {
+                    if (i.Tracks.All(t => (from v in t.Instruments where v.Name == instrument select v).All(_i => _i.PlaysoundSetting.PitchPlayable == true))) ParentResult = true;
+                    else if (i.Tracks.All(t => (from v in t.Instruments where v.Name == instrument select v).All(_i => _i.PlaysoundSetting.PitchPlayable == false))) ParentResult = false;
                     else ParentResult = null;
                 }
             }
@@ -514,6 +524,7 @@ namespace Audio2MinecraftUI.Humberger
             if (键持续刻数.IsChecked != null) i.MinecraftTickDuration = 键持续刻数.IsChecked == true;
             if (键起始刻数.IsChecked != null) i.MinecraftTickStart = 键起始刻数.IsChecked == true;
             if (Stopsound.IsChecked != null) i.PlaysoundSetting.StopSound = Stopsound.IsChecked == true;
+            if (音高播放.IsChecked != null) i.PlaysoundSetting.PitchPlayable = 音高播放.IsChecked == true;
             if (播放相对坐标X.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[0] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标X.Text) : 0;
             if (播放相对坐标Y.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[1] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标Y.Text) : 0;
             if (播放相对坐标Z.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[2] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标Z.Text) : 0;
@@ -544,6 +555,7 @@ namespace Audio2MinecraftUI.Humberger
                     播放对象.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].target;
                     源.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].source;
                     Stopsound.IsChecked = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? false : _matches[音色名称.SelectedItem.ToString()].stopsound.enable;
+                    音高播放.IsChecked = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? false : _matches[音色名称.SelectedItem.ToString()].pitch_playable;
                     额外延时.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : (Stopsound.IsChecked == false) ? "" : _matches[音色名称.SelectedItem.ToString()].stopsound.extra_delay.ToString();
                     相对玩家.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].excute_target;
                     播放相对坐标X.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.x.ToString();
@@ -559,6 +571,7 @@ namespace Audio2MinecraftUI.Humberger
                     播放对象.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].target;
                     源.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].source;
                     Stopsound.IsChecked = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? false : _matches[音色名称.SelectedItem.ToString()].stopsound.enable;
+                    音高播放.IsChecked = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? false : _matches[音色名称.SelectedItem.ToString()].pitch_playable;
                     额外延时.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : (Stopsound.IsChecked == false) ? "" : _matches[音色名称.SelectedItem.ToString()].stopsound.extra_delay.ToString();
                     相对玩家.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].excute_target;
                     播放相对坐标X.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.x.ToString();

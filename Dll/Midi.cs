@@ -30,7 +30,7 @@ namespace Audio2Minecraft
                 {
                     var track = "";
                     var instrument = "";
-                    var vol = 0;
+                    var vol = -1;
                     var pan = -1;
                     foreach (MidiEvent midiEvent in midiFile.Events[i])
                     {

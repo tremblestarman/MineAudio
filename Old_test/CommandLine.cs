@@ -9,6 +9,13 @@ namespace Audio2Minecraft
 {
     public class CommandLine
     {
+        /// <summary>
+        /// 使用时间序列生成命令序列
+        /// </summary>
+        /// <param name="timeLine">时间序列</param>
+        /// <param name="PitchPlayable">启用Playsound中音高的同步更新</param>
+        /// <param name="version">游戏版本</param>
+        /// <returns></returns>
         public CommandLine Serialize(TimeLine timeLine, string version = "1.12")
         {
             try
@@ -110,7 +117,7 @@ namespace Audio2Minecraft
                                         double vp = ((playsound.PercVolume < 0) ? (double)100 : (double)playsound.PercVolume) / 100;
                                         double manda_vol = (playsound.MandaVolume < 0) ? 1 : (double)playsound.MandaVolume / 100;
                                         var volume = (node.Param["Velocity"].Value * manda_vol * vp / 100 > 2) ? 2 : (node.Param["Velocity"].Value * manda_vol * vp / 100 < 0) ? 0 : (double)node.Param["Velocity"].Value * vp * manda_vol / 100;
-                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume;
+                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume + ((node.PlaySound.PitchPlayable) ? (" " + setPlaysoundPitch(node.Param["Pitch"].Value)) : "");
                                         commandLine.Keyframe[i].Commands.Add(command);
                                     }
                                     #endregion
@@ -242,6 +249,10 @@ namespace Audio2Minecraft
                     scoreboards.Add(Param[k].Name);
             }
             return scoreboards;
+        }
+        private string setPlaysoundPitch(int pitch)
+        {
+            return Math.Pow(2, (((double)pitch - 54) % 24 - 12) / 12).ToString("0.00000");
         }
         private string setCommand(string target, string score_name, int score, string version = "1.12")
         {

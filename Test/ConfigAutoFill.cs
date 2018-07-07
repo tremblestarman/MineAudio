@@ -62,6 +62,7 @@ namespace Audio2Minecraft
             public double y = 0.0;
             public double z = 0.0;
         }
+        public bool pitch_playable;
     }
     public class AutoFillMode
     {

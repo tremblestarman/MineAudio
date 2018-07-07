@@ -33,6 +33,13 @@ namespace WpfApplication1
         {
             InheritExpression.SetCompareLists(System.Windows.Forms.Application.StartupPath + "\\test");
             var a = new TimeLine().Serialize(MidiPath.Text, null, 180);
+            /*a.EnableMidi(false);
+            a.EnableMidi(true, "", "", -1, "PlaySound");
+            a.Sound_SoundName("block.note.harp");
+            a.Sound_PitchPlayable(true);
+            var o = new CommandLine().Serialize(a);
+            new Schematic().ExportSchematic(o, new ExportSetting() { AlwaysActive = false, AlwaysLoadEntities = false, Direction = 2, Width = 16, AutoTeleport = true }, @"C:\Users\Administrator\Desktop\2.schematic");
+            Console.Write(new List<string>()[0]);*/
             a.Sound_ExtraDelay(1); //所有音轨的发生发声延长1tick
             a.Sound_StopSound(false);   //禁用/stopsound
             a.EnableWave(false);    //禁用Wave

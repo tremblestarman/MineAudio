@@ -86,6 +86,17 @@ namespace Audio2Minecraft
                 /* Get Y_max */
                 for (int i = 0; i < count; i++)
                 {
+                    if (SettingParam.AutoTeleport && commandLine.Keyframe[i].Commands.Count > 0) //Add AutoTp
+                    {
+                        var tpdir = new List<double[]>()
+                        {
+                            new double[] { (double)1 / SettingParam.Width, 0 },
+                            new double[] { (double)-1 / SettingParam.Width, 0 },
+                            new double[] { 0, (double)1 / SettingParam.Width },
+                            new double[] { 0, (double)-1 / SettingParam.Width },
+                        };
+                        commandLine.Keyframe[i].Commands.Add("tp @p ~" + tpdir[SettingParam.Direction][0].ToString("0.0000") + " ~ ~" + tpdir[SettingParam.Direction][1].ToString("0.0000"));
+                    }
                     if (commandLine.Keyframe[i].Commands.Count > h) h = commandLine.Keyframe[i].Commands.Count;
                 }
                 /* Create Arrays for block storing */
@@ -153,17 +164,6 @@ namespace Audio2Minecraft
                     //Options about command
                     if (!SettingParam.AlwaysActive) commandLine.Keyframe[i].Commands.Remove("setworldspawn ~ ~ ~");
                     if (!SettingParam.AlwaysLoadEntities) commandLine.Keyframe[i].Commands.Remove("tp @e[tag=Tracks] @p");
-                    if (SettingParam.AutoTeleport && commandLine.Keyframe[i].Commands.Count > 0)
-                    {
-                        var tpdir = new List<double[]>()
-                        {
-                            new double[] { (double)1 / SettingParam.Width, 0 },
-                            new double[] { (double)-1 / SettingParam.Width, 0 },
-                            new double[] { 0, (double)1 / SettingParam.Width },
-                            new double[] { 0, (double)-1 / SettingParam.Width },
-                        };
-                        commandLine.Keyframe[i].Commands.Add("tp @p ~" + tpdir[SettingParam.Direction][0].ToString("0.0000") + " ~ ~" + tpdir[SettingParam.Direction][1].ToString("0.0000"));
-                    }
                     //WriteIn Commands
                     for (y = 0; y < commandLine.Keyframe[i].Commands.Count; y++)
                     {

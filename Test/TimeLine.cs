@@ -45,6 +45,8 @@ namespace Audio2Minecraft
         public bool Enable { get { return en; } set { en = value; } }
         private bool _stopsound = false;
         public bool StopSound { get { return _stopsound; } set { _stopsound = value; } }
+        private bool _pitchPlayable = false;
+        public bool PitchPlayable { get { return _pitchPlayable; } set { _pitchPlayable = value; } }
         private int _pan = -1;
         public void SetPan(int pan)
         {
@@ -587,6 +589,55 @@ namespace Audio2Minecraft
                 }
             }
         }
+        public void Sound_PitchPlayable(bool playable = false, string track = "", string instrument = "", int index = -1)
+        {
+            foreach (TickNode tickNode in TickNodes)
+            {
+                if (track == "")
+                {
+                    foreach (string t in tickNode.MidiTracks.Keys)
+                    {
+                        if (instrument == "")
+                        {
+                            foreach (string i in tickNode.MidiTracks[t].Keys)
+                            {
+                                if (index == -1)
+                                    for (int m = 0; m < tickNode.MidiTracks[t][i].Count; m++) tickNode.MidiTracks[t][i][m].PlaySound.PitchPlayable = playable;
+                                else
+                                    tickNode.MidiTracks[t][i][index].PlaySound.PitchPlayable = playable;
+                            }
+                        }
+                        else if (tickNode.MidiTracks[t].ContainsKey(instrument))
+                        {
+                            if (index == -1)
+                                for (int m = 0; m < tickNode.MidiTracks[t][instrument].Count; m++) tickNode.MidiTracks[t][instrument][m].PlaySound.PitchPlayable = playable;
+                            else
+                                tickNode.MidiTracks[t][instrument][index].PlaySound.PitchPlayable = playable;
+                        }
+                    }
+                }
+                else if (tickNode.MidiTracks.ContainsKey(track))
+                {
+                    if (instrument == "")
+                    {
+                        foreach (string i in tickNode.MidiTracks[track].Keys)
+                        {
+                            if (index == -1)
+                                for (int m = 0; m < tickNode.MidiTracks[track][i].Count; m++) tickNode.MidiTracks[track][i][m].PlaySound.PitchPlayable = playable;
+                            else
+                                tickNode.MidiTracks[track][i][index].PlaySound.PitchPlayable = playable;
+                        }
+                    }
+                    else if (tickNode.MidiTracks[track].ContainsKey(instrument))
+                    {
+                        if (index == -1)
+                            for (int m = 0; m < tickNode.MidiTracks[track][instrument].Count; m++) tickNode.MidiTracks[track][instrument][m].PlaySound.PitchPlayable = playable;
+                        else
+                            tickNode.MidiTracks[track][instrument][index].PlaySound.PitchPlayable = playable;
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Which Direction the Player is Facing.
         /// X+:0, X-:1, Z+:2, Z-:3
@@ -807,6 +858,8 @@ namespace Audio2Minecraft
                 public bool Enable { get { return en; } set { en = value; } }
                 private bool _stopsound = false;
                 public bool StopSound { get { return _stopsound; } set { _stopsound = value; } }
+                private bool _pitchPlayable = false;
+                public bool PitchPlayable { get { return _pitchPlayable; } set { _pitchPlayable = value; } }
             }
 
             public void Update()
@@ -846,6 +899,7 @@ namespace Audio2Minecraft
                                 i.PlaysoundSetting.PlayTarget = PlaysoundSetting.PlayTarget;
                                 i.PlaysoundSetting.SoundName = PlaysoundSetting.SoundName;
                                 i.PlaysoundSetting.StopSound = PlaysoundSetting.StopSound;
+                                i.PlaysoundSetting.PitchPlayable = PlaysoundSetting.PitchPlayable;
                             }
                         }
                     }
@@ -880,6 +934,7 @@ namespace Audio2Minecraft
                         i.PlaysoundSetting.PlayTarget = PlaysoundSetting.PlayTarget;
                         i.PlaysoundSetting.SoundName = PlaysoundSetting.SoundName;
                         i.PlaysoundSetting.StopSound = PlaysoundSetting.StopSound;
+                        i.PlaysoundSetting.PitchPlayable = PlaysoundSetting.PitchPlayable;
                     }
                 }
             }
@@ -931,6 +986,7 @@ namespace Audio2Minecraft
                             Sound_PlayTarget(i.PlaysoundSetting.PlayTarget, t.Name, i.Name, -1);
                             Sound_SoundName(i.PlaysoundSetting.SoundName, t.Name, i.Name, -1);
                             Sound_StopSound(i.PlaysoundSetting.StopSound, t.Name, i.Name, -1);
+                            Sound_PitchPlayable(i.PlaysoundSetting.PitchPlayable, t.Name, i.Name, -1);
                         }
                     }
                 }
@@ -973,6 +1029,7 @@ namespace Audio2Minecraft
                         Sound_PlayTarget(i.PlaysoundSetting.PlayTarget, "", i.Name, -1);
                         Sound_SoundName(i.PlaysoundSetting.SoundName, "", i.Name, -1);
                         Sound_StopSound(i.PlaysoundSetting.StopSound, "", i.Name, -1);
+                        Sound_PitchPlayable(i.PlaysoundSetting.PitchPlayable, "", i.Name, -1);
                     }
                     foreach (var t in i.Tracks)
                     {
