@@ -69,7 +69,7 @@ namespace Audio2MinecraftUI
                 static public string color2 = "white";
             }
         }
-        public static string autoFillRule = "无", autoFillMode; //自动补全规则 & 模式
+        public static string autoFillRule = "无", autoFillMode = ""; //自动补全规则 & 模式
         public MainWindow()
         {
             InitializeComponent();
@@ -499,13 +499,14 @@ namespace Audio2MinecraftUI
                             new Json.Text() { text = ntext.Replace("\u3000",@"  "), color = LyricMode.LyricOutSet.color2},
                         };
                         if (index >= textLrc.Keyframe.Count) for (int j = textLrc.Keyframe.Count; j <= index; j++) { textLrc.Keyframe.Add(new Command()); }
+                        if (LyricMode.Title) { textLrc.Keyframe[index].Commands.Add("title @a title " + JsonConvert.SerializeObject(tlw.texts)); }
+                        if (LyricMode.SubTitle) { textLrc.Keyframe[index].Commands.Add("title @a title [\"\"]"); textLrc.Keyframe[index].Commands.Add("title @a subtitle " + JsonConvert.SerializeObject(tlw.texts)); }
+                        if (LyricMode.ActionBar) { textLrc.Keyframe[index].Commands.Add("title @a actionbar " + JsonConvert.SerializeObject(tlw.texts)); }
                         if (LyricMode.Tellraw) { tlw.texts.Insert(0, new Json.Text() { text = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" }); textLrc.Keyframe[index].Commands.Add("tellraw @a " + JsonConvert.SerializeObject(tlw.texts)); }
-                        if (LyricMode.Title) textLrc.Keyframe[index].Commands.Add("title @a title" + JsonConvert.SerializeObject(tlw.texts));
-                        if (LyricMode.SubTitle) textLrc.Keyframe[index].Commands.Add("title @a subtitle" + JsonConvert.SerializeObject(tlw.texts));
-                        if (LyricMode.ActionBar) textLrc.Keyframe[index].Commands.Add("title @a actionbar" + JsonConvert.SerializeObject(tlw.texts));
                     }
                 }
             }
+            if (LyricMode.Title || LyricMode.SubTitle || LyricMode.ActionBar) { textLrc.Keyframe[0].Commands.Insert(2, "title @a times 0 1000 0"); textLrc.Keyframe[textLrc.Keyframe.Count - 1].Commands.Add("title @a times 10 70 20"); }
             return textLrc;
         }
 
@@ -854,7 +855,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "pre-12";
+        public string version = "Snap-A-1.0";
         public string download;
         public string log;
     }

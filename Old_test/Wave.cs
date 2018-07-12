@@ -8,8 +8,20 @@ using System.Windows.Forms;
 
 namespace Audio2Minecraft
 {
+    /// <summary>
+    /// 波形序列操作
+    /// </summary>
     public class AudioStreamWave
     {
+        /// <summary>
+        /// 通过波形生成时间序列
+        /// </summary>
+        /// <param name="fileName">波形文件路径</param>
+        /// <param name="timeLine">时间序列</param>
+        /// <param name="fre_count">频率采样数</param>
+        /// <param name="vol_count">振幅采样数</param>
+        /// <param name="tick_cycle">采样周期</param>
+        /// <returns>时间序列</returns>
         public TimeLine Serialize(string fileName, TimeLine timeLine, int fre_count = 1, int vol_count = 1, int tick_cycle = 1)
         {
             try

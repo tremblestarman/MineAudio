@@ -7,10 +7,13 @@ using System.Windows.Forms;
 
 namespace Audio2Minecraft
 {
+    /// <summary>
+    /// 命令序列
+    /// </summary>
     public class CommandLine
     {
         /// <summary>
-        /// 使用时间序列生成命令序列
+        /// 通过时间序列生成命令序列
         /// </summary>
         /// <param name="timeLine">时间序列</param>
         /// <param name="PitchPlayable">启用Playsound中音高的同步更新</param>
@@ -208,6 +211,12 @@ namespace Audio2Minecraft
                 return null;
             }
         }
+        /// <summary>
+        /// 合并两命令序列(起始时间相同)
+        /// </summary>
+        /// <param name="A">命令序列A</param>
+        /// <param name="B">命令序列B</param>
+        /// <returns></returns>
         public CommandLine Combine(CommandLine A, CommandLine B)
         {
             var C = new CommandLine();
@@ -252,7 +261,7 @@ namespace Audio2Minecraft
         }
         private string setPlaysoundPitch(int pitch)
         {
-            return Math.Pow(2, (((double)pitch - 54) % 24 - 12) / 12).ToString("0.00000");
+            return Math.Pow(2, (((double)pitch + 18) % 24 - 12) / 12).ToString("0.00000");
         }
         private string setCommand(string target, string score_name, int score, string version = "1.12")
         {
@@ -261,8 +270,17 @@ namespace Audio2Minecraft
             else
                 return "scoreboard players set @e[type=area_effect_cloud,tag=" + target + "] " + score_name + " " + score.ToString();
         }
+        /// <summary>
+        /// 初始化命令
+        /// </summary>
         public List<string> Start = new List<string>();
+        /// <summary>
+        /// 重置命令
+        /// </summary>
         public List<string> End = new List<string>();
+        /// <summary>
+        /// 关键帧
+        /// </summary>
         public List<Command> Keyframe = new List<Command>();
     }
     public class Command

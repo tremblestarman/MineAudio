@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using MahApps.Metro.Controls;
 using Audio2Minecraft;
 
@@ -36,19 +38,27 @@ namespace Audio2MinecraftUI.SubWindow
         private void rule_Selected(object sender, RoutedEventArgs e)
         {
             if (rule.SelectedItem.ToString() == "无") mode.ItemsSource = null;
-            else { mode.ItemsSource = (from m in AutoFills[rule.SelectedItem.ToString()].Rule.modes select m.Key); mode.SelectedIndex = 0; }
+            else {
+                var source = from m in AutoFills[rule.SelectedItem.ToString()].Rule.modes select m.Key;
+                if (source != null && source.Count() > 0)
+                {
+                    mode.ItemsSource = source;
+                    mode.SelectedIndex = 0;
+                }
+                else { MessageBox.Show(rule.SelectedItem.ToString() + "导入失败..." + Environment.NewLine + "请检查该配置文件内容是否正确无误。", "配置文件导入失败"); }
+            }
         }
 
         private void mode_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (rule.SelectedItem.ToString() != "无") discribe.Text = AutoFills[rule.SelectedItem.ToString()].Rule.modes[mode.SelectedItem.ToString()].description;
+            if (mode.SelectedItem != null && rule.SelectedItem.ToString() != "无") discribe.Text = AutoFills[rule.SelectedItem.ToString()].Rule.modes[mode.SelectedItem.ToString()].description;
             else discribe.Text = "无";
         }
 
         private void Done_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MainWindow.autoFillRule = rule.SelectedItem.ToString();
-            if (rule.SelectedItem.ToString() != "无") { MainWindow.preTimeLine.AutoFill(AutoFills[rule.SelectedItem.ToString()], mode.SelectedItem.ToString()); MainWindow.autoFillMode = mode.SelectedItem.ToString(); }//Initial AutoFill 
+            if (rule.SelectedItem != null && rule.SelectedItem.ToString() != "无") { MainWindow.preTimeLine.AutoFill(AutoFills[rule.SelectedItem.ToString()], mode.SelectedItem.ToString()); MainWindow.autoFillMode = mode.SelectedItem.ToString(); }//Initial AutoFill 
             else MainWindow.autoFillMode = "";
         }
     }

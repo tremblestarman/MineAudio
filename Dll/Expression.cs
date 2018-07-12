@@ -8,6 +8,9 @@ using Newtonsoft.Json;
 
 namespace Audio2Minecraft
 {
+    /// <summary>
+    /// 子表达式
+    /// </summary>
     public static class InheritExpression
     {
         static private Dictionary<string, Dictionary<string, string>> CompareList = new Dictionary<string, Dictionary<string, string>>();
@@ -28,6 +31,10 @@ namespace Audio2Minecraft
                 UpdateCompareLists(directory.FullName, directory.Name);
             }
         }
+        /// <summary>
+        /// 设置匹配表文件夹
+        /// </summary>
+        /// <param name="parentPath">文件夹路径</param>
         public static void SetCompareLists(string parentPath)
         {
             try
@@ -38,6 +45,13 @@ namespace Audio2Minecraft
             {
             }
         }
+        /// <summary>
+        /// 根据子表达式获取实际表达式
+        /// </summary>
+        /// <param name="Expression">子表达式</param>
+        /// <param name="Pitch">音高</param>
+        /// <param name="MinecraftTickDuration">持续刻数</param>
+        /// <returns></returns>
         public static string Expression(string Expression, int Pitch, int MinecraftTickDuration)
         {
             if (Expression == "" || Expression == null) return "";

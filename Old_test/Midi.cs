@@ -7,8 +7,18 @@ using System.Windows.Forms;
 
 namespace Audio2Minecraft
 {
+    /// <summary>
+    /// Midi序列操作
+    /// </summary>
     public class AudioStreamMidi
     {
+        /// <summary>
+        /// 通过Midi生成时间序列
+        /// </summary>
+        /// <param name="fileName">Midi文件路径</param>
+        /// <param name="timeLine">时间序列</param>
+        /// <param name="tBpm">BPM (默认自动读取)</param>
+        /// <returns>时间序列</returns>
         public TimeLine Serialize(string fileName, TimeLine timeLine, int tBpm = -1)
         {
             try

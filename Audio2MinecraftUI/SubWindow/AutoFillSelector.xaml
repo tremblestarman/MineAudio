@@ -22,7 +22,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="150,10,0,0" TextWrapping="Wrap" Text="匹配模式" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="简介" VerticalAlignment="Top"/>
         <ComboBox x:Name="rule" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="rule_Selected"/>
-        <ComboBox x:Name="mode" HorizontalAlignment="Left" Margin="150,30,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="mode_SelectionChanged"/>
+        <ComboBox x:Name="mode" HorizontalAlignment="Left" ItemsSource="{Binding source}" Margin="150,30,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="mode_SelectionChanged"/>
         <Grid Margin="10,76,48,10">
             <TextBlock x:Name="discribe" Text="无" Margin="5,5,5,5" Foreground="LightGray" TextWrapping="Wrap"/>
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
