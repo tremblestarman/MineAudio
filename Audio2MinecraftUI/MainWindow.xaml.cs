@@ -856,7 +856,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "Snap-A-1.0";
+        public string version = "A-1.0";
         public string download;
         public string log;
     }
