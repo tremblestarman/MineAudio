@@ -75,7 +75,7 @@
                         <TextBlock Text="音高播放" FontSize="12px"/>
                     </CheckBox>
                     <TextBlock Text="音色名" FontSize="12px" Margin="24,24,310,58" x:Name="C1"/>
-                    <ComboBox Controls:TextBoxHelper.Watermark=""  x:Name="音色名称" Uid="SoundName" Margin="65,17,215,57" Height="24" IsEditable="True" TextInput="音色名称_TextInput" PreviewTextInput="音色名称_TextInput" KeyDown="音色名称_KeyBackDown" PreviewKeyDown="音色名称_KeyBackDown" ItemsSource="{Binding OptionalInstrument}"/>
+                    <ComboBox Controls:TextBoxHelper.Watermark=""  x:Name="音色名称" Uid="SoundName" Margin="65,17,215,57" Height="24" IsEditable="True" TextInput="音色名称_TextInput" PreviewTextInput="音色名称_TextInput" KeyDown="音色名称_KeyBackDown" PreviewKeyDown="音色名称_KeyBackDown" TextBoxBase.TextChanged="TextChanging" ItemsSource="{Binding OptionalInstrument}"/>
                     <Border BorderThickness="1" BorderBrush="DarkGray" Margin="0,-9,0,0"/>
                     <TextBlock Text="播放相对坐标" FontSize="12px" Margin="179,24,124,58" x:Name="C2"/>
                     <TextBox Controls:TextBoxHelper.Watermark="" x:Name="播放相对坐标X" Uid="ExecuteCood1" Margin="257,17,86,57" Height="24" KeyDown="播放相对坐标X_KeyDown" PreviewKeyDown="播放相对坐标X_KeyDown" TextChanged="播放相对坐标X_TextChanged"/>

@@ -1,4 +1,4 @@
-{
+﻿{
 	"matches": {
 		"harp_0": {
 			"instrument": "Acoustic Grand",
@@ -91,7 +91,7 @@
 			"pitch_playable": true
 		},
 		"harp_5": {
-			"instrument": "Electric Piano 2",
+			"instrument": "Default",
 			"sound_name": "block.note.harp",
 			"expression": "",
 			"volume": 100.0,

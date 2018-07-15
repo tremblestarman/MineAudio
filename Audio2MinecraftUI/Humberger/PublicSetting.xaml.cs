@@ -324,6 +324,7 @@ namespace Audio2MinecraftUI.Humberger
             {
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
             }
+            Done.IsEnabled = true;
         }
         private void TextChanging(object sender, TextChangedEventArgs e)
         {

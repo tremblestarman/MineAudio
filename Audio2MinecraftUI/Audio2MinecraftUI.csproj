@@ -112,6 +112,9 @@
     <Compile Include="SubWindow\VersionAlarm.xaml.cs">
       <DependentUpon>VersionAlarm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SubWindow\Waiting.xaml.cs">
+      <DependentUpon>Waiting.xaml</DependentUpon>
+    </Compile>
     <Page Include="Humberger\Export.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -164,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SubWindow\VersionAlarm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SubWindow\Waiting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

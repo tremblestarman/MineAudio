@@ -1,0 +1,22 @@
+﻿<Controls:MetroWindow  x:Class="Audio2MinecraftUI.SubWindow.Waiting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Audio2MinecraftUI.SubWindow"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="200"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             MinHeight="100" MinWidth="200" MaxHeight="50" MaxWidth="200"
+             Title="请稍后..."                       
+             BorderThickness="2"
+             GlowBrush="{DynamicResource AccentColorBrush}"
+             ResizeMode="NoResize"
+
+             WindowStartupLocation="CenterScreen"
+                       
+             Icon="/img/audio2minecraft.ico">
+    <Grid>
+        <TextBox HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
+</Controls:MetroWindow>

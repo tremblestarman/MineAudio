@@ -1037,6 +1037,24 @@
 				"z": 0.0
 			}
 		},
+		"default_c": {
+			"instrument": "Default",
+			"sound_name": "1c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
 		"1c": {
 			"instrument": "Acoustic Grand",
 			"sound_name": "1c",
@@ -3189,6 +3207,23 @@
 			"stopsound": {
 				"enable": true,
 				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"default": {
+			"instrument": "Default",
+			"sound_name": "1",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {

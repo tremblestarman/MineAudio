@@ -609,8 +609,9 @@ namespace Audio2MinecraftUI
             if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
             {
                 var o = JsonConvert.DeserializeObject<FileOutPut>(Decompress(File.ReadAllText(fileDialog.FileName)));
-                //relative or absolute
-                if (MessageBox.Show("是否使用相对路径导入？", "使用相对路径导入", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                //relative or absolute or cancel
+                var msg = MessageBox.Show("是否使用相对路径导入？", "使用相对路径导入", MessageBoxButton.YesNoCancel); if (msg == MessageBoxResult.Cancel) return;
+                if (msg == MessageBoxResult.Yes)
                 {
                     o.Midipath = (o.rMidipath != null) ? new Uri(new Uri(fileDialog.FileName.Replace(" ", "*20")), o.rMidipath).LocalPath.Replace("*20", " ") : "";
                     o.Wavepath = (o.rWavepath != null) ? new Uri(new Uri(fileDialog.FileName.Replace(" ", "*20")), o.rWavepath).LocalPath.Replace("*20", " ") : "";

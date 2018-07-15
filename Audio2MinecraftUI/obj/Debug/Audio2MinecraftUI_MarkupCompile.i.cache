@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\App.xaml
-8108493037
+9183882850
 
-16831272696
+17315200723
 22-37951801
-Humberger\Export.xaml;Humberger\LrcSetting.xaml;Humberger\MidiSetting.xaml;Humberger\PublicSetting.xaml;Humberger\WavSetting.xaml;MainWindow.xaml;SubWindow\AutoFillSelector.xaml;SubWindow\VersionAlarm.xaml;
+Humberger\Export.xaml;Humberger\LrcSetting.xaml;Humberger\MidiSetting.xaml;Humberger\PublicSetting.xaml;Humberger\WavSetting.xaml;MainWindow.xaml;SubWindow\AutoFillSelector.xaml;SubWindow\VersionAlarm.xaml;SubWindow\Waiting.xaml;
 
-True
+False
 
