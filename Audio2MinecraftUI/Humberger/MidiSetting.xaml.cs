@@ -31,6 +31,7 @@ namespace Audio2MinecraftUI.Humberger
         private List<CheckBox> CheckElements;
         private List<TextBox> TextBoxElements;
         TimeLine.MidiSettingInspector SelectedItem;
+        TimeLine.MidiSettingInspector LastSavedItem;
         Dictionary<string, AutoFillMatch> _matches;
 
         public MidiSetting()
@@ -75,7 +76,8 @@ namespace Audio2MinecraftUI.Humberger
                 音高,
                 力度,
                 Playsound输出,
-                Stopsound
+                Stopsound,
+                音高播放
             };
             TextBoxElements = new List<TextBox>()
             {
@@ -128,8 +130,8 @@ namespace Audio2MinecraftUI.Humberger
         {
             SelectedItem = TracksView.SelectedItem as TimeLine.MidiSettingInspector;
             Done.IsEnabled = false;
-            if (SelectedItem == null) return;
 
+            if (SelectedItem == null) return;
             Plat.IsEnabled = SelectedItem.Enable;
             KeyScore.IsEnabled = SelectedItem.EnableScore && SelectedItem.Enable;
             PlaySound.IsEnabled = SelectedItem.EnablePlaysound && SelectedItem.Enable;
@@ -153,6 +155,7 @@ namespace Audio2MinecraftUI.Humberger
                 if (E.Uid == "MinecraftTickDuration") 键持续刻数.IsChecked = Checked;
                 if (E.Uid == "MinecraftTickStart") 键起始刻数.IsChecked = Checked;
                 if (E.Uid == "StopSound") Stopsound.IsChecked = Checked;
+                if (E.Uid == "PitchPlayable") 音高播放.IsChecked = Checked;
             }
             TextSet(SelectedItem);
             ComboSet(SelectedItem);
@@ -177,6 +180,7 @@ namespace Audio2MinecraftUI.Humberger
             if (element == "MinecraftTickDuration") BaseResult = i.MinecraftTickDuration;
             if (element == "MinecraftTickStart") BaseResult = i.MinecraftTickStart;
             if (element == "StopSound") BaseResult = i.PlaysoundSetting.StopSound;
+            if (element == "PitchPlayable") BaseResult = i.PlaysoundSetting.PitchPlayable;
             if (i.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Track) return BaseResult;
             bool? ParentResult = false;
             if (i.Type == TimeLine.MidiSettingType.Track && ViewType == MidiViewType.Track)
@@ -193,6 +197,7 @@ namespace Audio2MinecraftUI.Humberger
                 if (element == "MinecraftTickDuration") if (i.Instruments.All(_i => _i.MinecraftTickDuration == true)) ParentResult = true; else if (i.Instruments.All(_i => _i.MinecraftTickDuration == false)) ParentResult = false; else ParentResult = null;
                 if (element == "MinecraftTickStart") if (i.Instruments.All(_i => _i.MinecraftTickStart == true)) ParentResult = true; else if (i.Instruments.All(_i => _i.MinecraftTickStart == false)) ParentResult = false; else ParentResult = null;
                 if (element == "StopSound") if (i.Instruments.All(_i => _i.PlaysoundSetting.StopSound == true)) ParentResult = true; else if (i.Instruments.All(_i => _i.PlaysoundSetting.StopSound == false)) ParentResult = false; else ParentResult = null;
+                if (element == "PitchPlayable") if (i.Instruments.All(_i => _i.PlaysoundSetting.PitchPlayable == true)) ParentResult = true; else if (i.Instruments.All(_i => _i.PlaysoundSetting.PitchPlayable == false)) ParentResult = false; else ParentResult = null;
             }
             else if (i.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Instrument)
             {
@@ -269,6 +274,12 @@ namespace Audio2MinecraftUI.Humberger
                     else if (i.Tracks.All(t => (from v in t.Instruments where v.Name == instrument select v).All(_i => _i.PlaysoundSetting.StopSound == false))) ParentResult = false;
                     else ParentResult = null;
                 }
+                if (element == "PitchPlayable")
+                {
+                    if (i.Tracks.All(t => (from v in t.Instruments where v.Name == instrument select v).All(_i => _i.PlaysoundSetting.PitchPlayable == true))) ParentResult = true;
+                    else if (i.Tracks.All(t => (from v in t.Instruments where v.Name == instrument select v).All(_i => _i.PlaysoundSetting.PitchPlayable == false))) ParentResult = false;
+                    else ParentResult = null;
+                }
             }
             return ParentResult;
         } //返回选项栏是否一致
@@ -281,6 +292,7 @@ namespace Audio2MinecraftUI.Humberger
             源.SetValue(TextBoxHelper.WatermarkProperty, "");
             子表达式.SetValue(TextBoxHelper.WatermarkProperty, "");
             额外延时.SetValue(TextBoxHelper.WatermarkProperty, "");
+
             foreach (var E in TextBoxElements)
             {
                 if (i.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Track)
@@ -382,27 +394,29 @@ namespace Audio2MinecraftUI.Humberger
                     }
                 }
             }
+            Done.IsEnabled = false;
         }
         private void ComboSet(TimeLine.MidiSettingInspector i) //返回选项框是否一致
         {
             if (SelectedItem.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Track)
             {
+                ComboDefaults(i.Name);
                 音色名称.Text = i.PlaysoundSetting.SoundName.ToString();
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
-                ComboDefaults(i.Name);
             }
             else if (SelectedItem.Type == TimeLine.MidiSettingType.Track && ViewType == MidiViewType.Track)
             {
+                ComboDefaults(i);
                 if (i.Instruments.All(_i => _i.PlaysoundSetting.SoundName == i.Instruments[0].PlaysoundSetting.SoundName)) 音色名称.Text = i.Instruments[0].PlaysoundSetting.SoundName;
                 else { 音色名称.Text = ""; 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "――"); }
-                ComboDefaults(i);
             }
             else if (i.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Instrument)
             {
+                ComboDefaults(i.Name);
                 if (i.Tracks.All(t => (from v in t.Instruments where v.Name == i.Name select v).All(_i => _i.PlaysoundSetting.SoundName == i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.SoundName))) 音色名称.Text = (i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.SoundName != null) ? i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.SoundName : "";
                 else { 音色名称.Text = ""; 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "――"); }
-                ComboDefaults(i.Name);
             }
+            Done.IsEnabled = false;
         }
         private void SlideSet(TimeLine.MidiSettingInspector i) //返回滑动栏是否一致
         {
@@ -421,15 +435,17 @@ namespace Audio2MinecraftUI.Humberger
                 if (i.Tracks.All(t => (from v in t.Instruments where v.Name == i.Name select v).All(_i => _i.PlaysoundSetting.PercVolume == i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.PercVolume))) 音量增益.Value = (i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.PercVolume == -1) ? 50 : (i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.PercVolume > 200) ? 100 : (i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.PercVolume < 0) ? 0 : (double)i.Tracks.FirstOrDefault(_t => _t.Instruments.Any(__i => __i.Name == i.Name)).Instruments.FirstOrDefault(__i => __i.Name == i.Name).PlaysoundSetting.PercVolume / 2;
                 else { 音量增益.Value = 50; 音量大小.Visibility = Visibility.Hidden; }
             }
+            Done.IsEnabled = false;
         }
 
+        private List<KeyValuePair<string, AutoFillMatch>> combolist = new List<KeyValuePair<string, AutoFillMatch>>();
         private void ComboDefaults(string instrument)
-       {
+        {
             音色名称.Items.Clear();
             if (_matches != null)
             {
-                var c = (from m in _matches where m.Value.instrument == instrument select m);
-                foreach (var i in c) 音色名称.Items.Add(i.Key);
+                combolist = (from m in _matches where m.Value.instrument == instrument select m).ToList();
+                foreach (var i in combolist) 音色名称.Items.Add(i.Value.sound_name);
             }
         }
         private void ComboDefaults(TimeLine.MidiSettingInspector track)
@@ -451,6 +467,7 @@ namespace Audio2MinecraftUI.Humberger
         } //选中/取消选中元素
         private void DoneChanges(object sender, RoutedEventArgs e)
         {
+            LastSavedItem = SelectedItem;
             if (SelectedItem.Type == TimeLine.MidiSettingType.Instrument && ViewType == MidiViewType.Track)
             {
                 Update(SelectedItem);
@@ -510,6 +527,7 @@ namespace Audio2MinecraftUI.Humberger
             if (键持续刻数.IsChecked != null) i.MinecraftTickDuration = 键持续刻数.IsChecked == true;
             if (键起始刻数.IsChecked != null) i.MinecraftTickStart = 键起始刻数.IsChecked == true;
             if (Stopsound.IsChecked != null) i.PlaysoundSetting.StopSound = Stopsound.IsChecked == true;
+            if (音高播放.IsChecked != null) i.PlaysoundSetting.PitchPlayable = 音高播放.IsChecked == true;
             if (播放相对坐标X.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[0] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标X.Text) : 0;
             if (播放相对坐标Y.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[1] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标Y.Text) : 0;
             if (播放相对坐标Z.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[2] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标Z.Text) : 0;
@@ -522,7 +540,6 @@ namespace Audio2MinecraftUI.Humberger
             if (音量大小.Visibility == Visibility.Visible) i.PlaysoundSetting.PercVolume = (音量增益.Value != -1) ? (int)(音量增益.Value * 2) : -1;
         }
 
-
         private int oldIndex = 0;
         private string oldText = String.Empty;
         private void 音色名称_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -532,38 +549,39 @@ namespace Audio2MinecraftUI.Humberger
             {
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
             }
-
-            if (_matches != null && 音色名称.SelectedItem != null)
+            if (_matches != null && 音色名称.SelectedItem != null && combolist.Count > 0 && 音色名称.SelectedIndex < combolist.Count)
             {
                 if (SelectedItem.Type == TimeLine.MidiSettingType.Instrument)
                 {
-                    子表达式.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : _matches[音色名称.SelectedItem.ToString()].expression;
-                    播放对象.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].target;
-                    源.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].source;
-                    Stopsound.IsChecked = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? false : _matches[音色名称.SelectedItem.ToString()].stopsound.enable;
-                    额外延时.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : (Stopsound.IsChecked == false) ? "" : _matches[音色名称.SelectedItem.ToString()].stopsound.extra_delay.ToString();
-                    相对玩家.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].excute_target;
-                    播放相对坐标X.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.x.ToString();
-                    播放相对坐标Y.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.y.ToString();
-                    播放相对坐标Z.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.z.ToString();
-                    if (!_matches.ContainsKey(音色名称.SelectedItem.ToString()))
+                    子表达式.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "" : combolist[音色名称.SelectedIndex].Value.expression;
+                    播放对象.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "@a" : combolist[音色名称.SelectedIndex].Value.target;
+                    源.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "@a" : combolist[音色名称.SelectedIndex].Value.source;
+                    Stopsound.IsChecked = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? false : combolist[音色名称.SelectedIndex].Value.stopsound.enable;
+                    音高播放.IsChecked = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? false : combolist[音色名称.SelectedIndex].Value.pitch_playable;
+                    额外延时.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "" : (combolist[音色名称.SelectedIndex].Value.stopsound.enable == false) ? "" : combolist[音色名称.SelectedIndex].Value.stopsound.extra_delay.ToString();
+                    相对玩家.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "@a" : combolist[音色名称.SelectedIndex].Value.excute_target;
+                    播放相对坐标X.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "0" : combolist[音色名称.SelectedIndex].Value.excute_pos.x.ToString();
+                    播放相对坐标Y.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "0" : combolist[音色名称.SelectedIndex].Value.excute_pos.y.ToString();
+                    播放相对坐标Z.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "0" : combolist[音色名称.SelectedIndex].Value.excute_pos.z.ToString();
+                    if (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString())
                         音量增益.Value = 50;
-                    else { var v = _matches[音色名称.SelectedItem.ToString()].volume / 2; 音量增益.Value = (v > 100) ? 100 : (v < 0) ? 0 : v; }
+                    else { var v = combolist[音色名称.SelectedIndex].Value.volume / 2; 音量增益.Value = (v > 100) ? 100 : (v < 0) ? 0 : v; }
                 }
                 else if (SelectedItem.Type == TimeLine.MidiSettingType.Track)
                 {
-                    子表达式.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : _matches[音色名称.SelectedItem.ToString()].expression;
-                    播放对象.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].target;
-                    源.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].source;
-                    Stopsound.IsChecked = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? false : _matches[音色名称.SelectedItem.ToString()].stopsound.enable;
-                    额外延时.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "" : (Stopsound.IsChecked == false) ? "" : _matches[音色名称.SelectedItem.ToString()].stopsound.extra_delay.ToString();
-                    相对玩家.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "@a" : _matches[音色名称.SelectedItem.ToString()].excute_target;
-                    播放相对坐标X.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.x.ToString();
-                    播放相对坐标Y.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.y.ToString();
-                    播放相对坐标Z.Text = (!_matches.ContainsKey(音色名称.SelectedItem.ToString())) ? "0" : _matches[音色名称.SelectedItem.ToString()].excute_pos.z.ToString();
-                    if (!_matches.ContainsKey(音色名称.SelectedItem.ToString()))
+                    子表达式.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "" : combolist[音色名称.SelectedIndex].Value.expression;
+                    播放对象.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "@a" : combolist[音色名称.SelectedIndex].Value.target;
+                    源.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "@a" : combolist[音色名称.SelectedIndex].Value.source;
+                    Stopsound.IsChecked = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? false : combolist[音色名称.SelectedIndex].Value.stopsound.enable;
+                    音高播放.IsChecked = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? false : combolist[音色名称.SelectedIndex].Value.pitch_playable;
+                    额外延时.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "" : (combolist[音色名称.SelectedIndex].Value.stopsound.enable == false) ? "" : combolist[音色名称.SelectedIndex].Value.stopsound.extra_delay.ToString();
+                    相对玩家.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "@a" : combolist[音色名称.SelectedIndex].Value.excute_target;
+                    播放相对坐标X.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "0" : combolist[音色名称.SelectedIndex].Value.excute_pos.x.ToString();
+                    播放相对坐标Y.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "0" : combolist[音色名称.SelectedIndex].Value.excute_pos.y.ToString();
+                    播放相对坐标Z.Text = (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString()) ? "0" : combolist[音色名称.SelectedIndex].Value.excute_pos.z.ToString();
+                    if (combolist[音色名称.SelectedIndex].Value.sound_name != 音色名称.SelectedItem.ToString())
                         音量增益.Value = 50;
-                    else { var v = _matches[音色名称.SelectedItem.ToString()].volume / 2; 音量增益.Value = (v > 100) ? 100 : (v < 0) ? 0 : v; }
+                    else { var v = combolist[音色名称.SelectedIndex].Value.volume / 2; 音量增益.Value = (v > 100) ? 100 : (v < 0) ? 0 : v; }
                 }
             }
         }
@@ -581,8 +599,9 @@ namespace Audio2MinecraftUI.Humberger
             {
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
             }
+            Done.IsEnabled = true;
         }
-        private void TextChanged(object sender, TextChangedEventArgs e)
+        private void TextChanging(object sender, TextChangedEventArgs e)
         {
             var T = e.OriginalSource as TextBox;
             if (T.GetValue(TextBoxHelper.WatermarkProperty).ToString() != "")

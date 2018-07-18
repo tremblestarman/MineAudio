@@ -7,8 +7,18 @@ using System.Windows.Forms;
 
 namespace Audio2Minecraft
 {
+    /// <summary>
+    /// 命令序列
+    /// </summary>
     public class CommandLine
     {
+        /// <summary>
+        /// 通过时间序列生成命令序列
+        /// </summary>
+        /// <param name="timeLine">时间序列</param>
+        /// <param name="PitchPlayable">启用Playsound中音高的同步更新</param>
+        /// <param name="version">游戏版本</param>
+        /// <returns></returns>
         public CommandLine Serialize(TimeLine timeLine, string version = "1.12")
         {
             try
@@ -83,7 +93,7 @@ namespace Audio2Minecraft
                                     }
                                     #region Playsound & Stopsound
                                     if (node.PlaySound.Enable && node.PlaySound.PlaySource != "" && node.PlaySound.PlaySource != null)//Enable Playsound
-                                    {                                    
+                                    {
                                         //PlaySound
                                         var playsound = node.PlaySound;
                                         //Set Expression
@@ -110,7 +120,7 @@ namespace Audio2Minecraft
                                         double vp = ((playsound.PercVolume < 0) ? (double)100 : (double)playsound.PercVolume) / 100;
                                         double manda_vol = (playsound.MandaVolume < 0) ? 1 : (double)playsound.MandaVolume / 100;
                                         var volume = (node.Param["Velocity"].Value * manda_vol * vp / 100 > 2) ? 2 : (node.Param["Velocity"].Value * manda_vol * vp / 100 < 0) ? 0 : (double)node.Param["Velocity"].Value * vp * manda_vol / 100;
-                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume;
+                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume + ((node.PlaySound.PitchPlayable) ? (" " + setPlaysoundPitch(node.Param["Pitch"].Value)) : "");
                                         commandLine.Keyframe[i].Commands.Add(command);
                                     }
                                     #endregion
@@ -128,18 +138,18 @@ namespace Audio2Minecraft
                             var node = waveNodesL[j];
                             //Set Wave Tag
                             var feature = "wave" + j.ToString() + "_l";
-                        
-                        var param = node.Param;
+
+                            var param = node.Param;
                             foreach (string k in node.Param.Keys)
                             {
                                 for (int n = 0; n < node.Param[k].Count; n++)
                                 {
                                     if (node.Param[k][n].Enable)
                                     {
-                                    //Update ScoreboardsList & EntitiesList
-                                    if (!entities.Keys.Contains(feature))
-                                        entities.Add(feature, new DescribeEntity() { Feature = feature, Count = node.Param[k].Count });
-                                    if (param[k][n].Enable && !scoreboards.Contains(param[k][n].Name))
+                                        //Update ScoreboardsList & EntitiesList
+                                        if (!entities.Keys.Contains(feature))
+                                            entities.Add(feature, new DescribeEntity() { Feature = feature, Count = node.Param[k].Count });
+                                        if (param[k][n].Enable && !scoreboards.Contains(param[k][n].Name))
                                             scoreboards.Add(param[k][n].Name);
                                         commandLine.Keyframe[i].Commands.Add(setCommand(feature + "_" + n, param[k][n].Name, param[k][n].Value, version));
                                     }
@@ -163,10 +173,10 @@ namespace Audio2Minecraft
                                 {
                                     if (node.Param[k][n].Enable)
                                     {
-                                    //Update ScoreboardsList & EntitiesList
-                                    if (!entities.Keys.Contains(feature))
-                                        entities.Add(feature, new DescribeEntity() { Feature = feature, Count = node.Param[k].Count });
-                                    if (param[k][n].Enable && !scoreboards.Contains(param[k][n].Name))
+                                        //Update ScoreboardsList & EntitiesList
+                                        if (!entities.Keys.Contains(feature))
+                                            entities.Add(feature, new DescribeEntity() { Feature = feature, Count = node.Param[k].Count });
+                                        if (param[k][n].Enable && !scoreboards.Contains(param[k][n].Name))
                                             scoreboards.Add(param[k][n].Name);
                                         commandLine.Keyframe[i].Commands.Add(setCommand(feature + "_" + n, param[k][n].Name, param[k][n].Value, version));
                                     }
@@ -201,6 +211,12 @@ namespace Audio2Minecraft
                 return null;
             }
         }
+        /// <summary>
+        /// 合并两命令序列(起始时间相同)
+        /// </summary>
+        /// <param name="A">命令序列A</param>
+        /// <param name="B">命令序列B</param>
+        /// <returns></returns>
         public CommandLine Combine(CommandLine A, CommandLine B)
         {
             var C = new CommandLine();
@@ -243,6 +259,10 @@ namespace Audio2Minecraft
             }
             return scoreboards;
         }
+        private string setPlaysoundPitch(int pitch)
+        {
+            return Math.Pow(2, (((double)pitch + 18) % 24 - 12) / 12).ToString("0.00000");
+        }
         private string setCommand(string target, string score_name, int score, string version = "1.12")
         {
             if (version == "1.13")
@@ -250,13 +270,22 @@ namespace Audio2Minecraft
             else
                 return "scoreboard players set @e[type=area_effect_cloud,tag=" + target + "] " + score_name + " " + score.ToString();
         }
+        /// <summary>
+        /// 初始化命令
+        /// </summary>
         public List<string> Start = new List<string>();
+        /// <summary>
+        /// 重置命令
+        /// </summary>
         public List<string> End = new List<string>();
+        /// <summary>
+        /// 关键帧
+        /// </summary>
         public List<Command> Keyframe = new List<Command>();
     }
     public class Command
     {
-        public List<string> Commands = new List<string>() { "$setblock", "setblock ~ ~-2 ~ minecraft:air", "spawnpoint @p ~ ~ ~", "tp @e[tag=Tracks] @p" };
+        public List<string> Commands = new List<string>() { "$setblock", "setblock ~ ~-2 ~ minecraft:air", "setworldspawn ~ ~ ~", "tp @e[tag=Tracks] @p" };
     }
     public class DescribeEntity
     {

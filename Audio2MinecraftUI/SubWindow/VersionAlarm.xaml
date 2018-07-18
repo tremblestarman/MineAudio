@@ -1,0 +1,36 @@
+﻿<Controls:MetroWindow  x:Class="Audio2MinecraftUI.SubWindow.VersionAlarm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Audio2MinecraftUI.SubWindow"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="300"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             MinHeight="200" MinWidth="300" MaxHeight="200" MaxWidth="300"
+             Title="检测到版本更新"                       
+             BorderThickness="2"
+             GlowBrush="{DynamicResource AccentColorBrush}"
+             ResizeMode="CanMinimize"
+
+             WindowStartupLocation="CenterScreen"
+                       
+             Icon="/img/audio2minecraft.ico">
+    <Grid>
+        <TextBlock x:Name="new_version" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="检测到最新版本" VerticalAlignment="Top"/>
+        <TextBlock x:Name="new_log" HorizontalAlignment="Left" Margin="10,29,0,0" TextWrapping="Wrap" Text="更新记录" VerticalAlignment="Top"/>
+        <Button x:Name="download" HorizontalAlignment="Left" Margin="253,10,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="download_Click" PreviewMouseLeftButtonDown="download_Click">
+            <Image Source="/img/download.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-5" Y="-7"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <TextBox x:Name="log" HorizontalAlignment="Left" Height="106" Margin="10,49,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="268" IsReadOnly="True" Foreground="LightGray" HorizontalScrollBarVisibility="Auto"/>
+    </Grid>
+</Controls:MetroWindow>

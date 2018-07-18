@@ -11,7 +11,7 @@
              Title="自动补全设置"                       
              BorderThickness="2"
              GlowBrush="{DynamicResource AccentColorBrush}"
-             ResizeMode="CanResizeWithGrip"
+             ResizeMode="CanMinimize"
 
              Initialized="MetroWindow_Initialized"
              WindowStartupLocation="CenterScreen"
@@ -22,12 +22,12 @@
         <TextBlock HorizontalAlignment="Left" Margin="150,10,0,0" TextWrapping="Wrap" Text="匹配模式" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="简介" VerticalAlignment="Top"/>
         <ComboBox x:Name="rule" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="rule_Selected"/>
-        <ComboBox x:Name="mode" HorizontalAlignment="Left" Margin="150,30,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="mode_SelectionChanged"/>
+        <ComboBox x:Name="mode" HorizontalAlignment="Left" ItemsSource="{Binding source}" Margin="150,30,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="mode_SelectionChanged"/>
         <Grid Margin="10,76,48,10">
             <TextBlock x:Name="discribe" Text="无" Margin="5,5,5,5" Foreground="LightGray" TextWrapping="Wrap"/>
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
         </Grid>
-        <Button x:Name="Done" HorizontalAlignment="Left" Margin="299,102,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="Done_MouseLeftButtonDown" PreviewMouseLeftButtonDown="Done_MouseLeftButtonDown">
+        <Button x:Name="Done" HorizontalAlignment="Left" Margin="304,102,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="Done_MouseLeftButtonDown" PreviewMouseLeftButtonDown="Done_MouseLeftButtonDown">
             <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
                 <Image.RenderTransform>
                     <TransformGroup>

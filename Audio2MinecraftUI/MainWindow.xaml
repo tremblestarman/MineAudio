@@ -10,9 +10,10 @@
                        
         BorderThickness="2"
         GlowBrush="{DynamicResource AccentColorBrush}"
-        ResizeMode="CanResizeWithGrip"
-
+        ResizeMode="CanMinimize"
+                       
         Initialized="MetroWindow_Initialized"
+        Loaded="MetroWindow_Loaded"
         WindowStartupLocation="CenterScreen"
                        
         Icon="/img/audio2minecraft.ico">

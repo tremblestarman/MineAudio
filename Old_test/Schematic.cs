@@ -10,8 +10,17 @@ using fNbt;
 
 namespace Audio2Minecraft
 {
+    /// <summary>
+    /// Schematic操作
+    /// </summary>
     public class Schematic
     {
+        /// <summary>
+        /// 通过命令序列导出schmeatic
+        /// </summary>
+        /// <param name="commandLine">命令序列</param>
+        /// <param name="SettingParam">导出设置</param>
+        /// <param name="ExportPath">导出路径</param>
         public void ExportSchematic(CommandLine commandLine, ExportSetting SettingParam, string ExportPath = "C:\\MyAudioRiptide.schematic")
         {
             try
@@ -25,6 +34,12 @@ namespace Audio2Minecraft
             }
             catch {}
         }
+        /// <summary>
+        /// 序列化Schmeatic序列
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <param name="SettingParam"></param>
+        /// <returns></returns>
         public NbtCompound Serialize(CommandLine commandLine, ExportSetting SettingParam)
         {
             try
@@ -86,6 +101,17 @@ namespace Audio2Minecraft
                 /* Get Y_max */
                 for (int i = 0; i < count; i++)
                 {
+                    if (SettingParam.AutoTeleport && commandLine.Keyframe[i].Commands.Count > 0) //Add AutoTp
+                    {
+                        var tpdir = new List<double[]>()
+                        {
+                            new double[] { (double)1 / SettingParam.Width, 0 },
+                            new double[] { (double)-1 / SettingParam.Width, 0 },
+                            new double[] { 0, (double)1 / SettingParam.Width },
+                            new double[] { 0, (double)-1 / SettingParam.Width },
+                        };
+                        commandLine.Keyframe[i].Commands.Add("tp @p ~" + tpdir[SettingParam.Direction][0].ToString("0.0000") + " ~ ~" + tpdir[SettingParam.Direction][1].ToString("0.0000"));
+                    }
                     if (commandLine.Keyframe[i].Commands.Count > h) h = commandLine.Keyframe[i].Commands.Count;
                 }
                 /* Create Arrays for block storing */
@@ -151,19 +177,8 @@ namespace Audio2Minecraft
                     }
                     #endregion
                     //Options about command
-                    if (!SettingParam.AlwaysActive) commandLine.Keyframe[i].Commands.Remove("spawnpoint @p ~ ~ ~");
+                    if (!SettingParam.AlwaysActive) commandLine.Keyframe[i].Commands.Remove("setworldspawn ~ ~ ~");
                     if (!SettingParam.AlwaysLoadEntities) commandLine.Keyframe[i].Commands.Remove("tp @e[tag=Tracks] @p");
-                    if (SettingParam.AutoTeleport && commandLine.Keyframe[i].Commands.Count > 0)
-                    {
-                        var tpdir = new List<double[]>()
-                        {
-                            new double[] { (double)1 / SettingParam.Width, 0 },
-                            new double[] { (double)-1 / SettingParam.Width, 0 },
-                            new double[] { 0, (double)1 / SettingParam.Width },
-                            new double[] { 0, (double)-1 / SettingParam.Width },
-                        };
-                        commandLine.Keyframe[i].Commands.Add("tp @p ~" + tpdir[SettingParam.Direction][0].ToString("0.0000") + " ~ ~" + tpdir[SettingParam.Direction][1].ToString("0.0000"));
-                    }
                     //WriteIn Commands
                     for (y = 0; y < commandLine.Keyframe[i].Commands.Count; y++)
                     {
@@ -262,35 +277,41 @@ namespace Audio2Minecraft
             return weInfo;
         }
     }
+    /// <summary>
+    /// 导出设置
+    /// </summary>
     public class ExportSetting
     {
         private int _dir = 0;
         /// <summary>
-        /// Which Direction the CommandLine Extends.
+        /// 命令方块流延伸方向
         /// X+:0, X-:1, Z+:2, Z-:3
         /// </summary>
         public int Direction { get { return _dir; } set { _dir = value; } }//Xf = 0, Xb = 1, Zf = 2, Zb = 3 
         private int _width = 64;
         /// <summary>
-        /// the Width of the CommandLine
+        /// 命令方块流的宽度
         /// </summary>
         public int Width { get { return _width; } set { _width = value; } }
         private bool _AlwaysActive = true;
         /// <summary>
-        /// Whether the Chunks Always Loaded
+        /// 保持加载
         /// </summary>
         public bool AlwaysActive { get { return _AlwaysActive; } set { _AlwaysActive = value; } }
         private bool _AlwaysLoadEntities = true;
         /// <summary>
-        /// Whether the Entities Always Loaded
+        /// 保持实体加载
         /// </summary>
         public bool AlwaysLoadEntities { get { return _AlwaysLoadEntities; } set { _AlwaysLoadEntities = value; } }
         private bool _AutoTeleport = false;
         /// <summary>
-        /// Whether the Entities Always Loaded
+        /// 自动跟随播放进度
         /// </summary>
         public bool AutoTeleport { get { return _AutoTeleport; } set { _AutoTeleport = value; } }
         private ExportType _exportType = ExportType.Universal;
+        /// <summary>
+        /// schematic文件格式
+        /// </summary>
         public ExportType Type { get { return _exportType; } set { _exportType = value; } }
         public enum ExportType
         {
@@ -299,6 +320,9 @@ namespace Audio2Minecraft
         }
     }
 
+    /// <summary>
+    /// 通用schematic文件结构
+    /// </summary>
     class BlockInfo
     {
         public NbtByteArray Blocks = new NbtByteArray("Blocks");
@@ -308,6 +332,9 @@ namespace Audio2Minecraft
         public NbtShort Length = new NbtShort("Length", 0);
         public NbtShort Width = new NbtShort("Width", 0);
     }
+    /// <summary>
+    /// WorldEdit额外的schematic文件结构
+    /// </summary>
     class WorldEditBlockInfo : BlockInfo
     {
         public NbtInt WEOriginX = new NbtInt("WEOriginX", 0);

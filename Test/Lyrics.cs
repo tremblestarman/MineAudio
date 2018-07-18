@@ -7,9 +7,20 @@ using System.Windows.Forms;
 
 namespace Audio2Minecraft
 {
+    /// <summary>
+    /// LRC歌词
+    /// </summary>
     public class Lrc
     {
+        /// <summary>
+        /// 歌词序列
+        /// </summary>
         public List<LrcNode> Lrcs = new List<LrcNode>();
+        /// <summary>
+        /// 生成歌词序列
+        /// </summary>
+        /// <param name="filePath">LRC路径</param>
+        /// <returns></returns>
         public Lrc Serialize(string filePath = @"c:\lyrics.lrc")
         {
             var lr = new List<string>(System.IO.File.ReadAllLines(filePath));
@@ -38,19 +49,43 @@ namespace Audio2Minecraft
             return this;
         }
     }
+    /// <summary>
+    /// Lrc歌词节点
+    /// </summary>
     public class LrcNode
     {
+        /// <summary>
+        /// 歌词内容
+        /// </summary>
         public string Content { get; set; }
+        /// <summary>
+        /// 歌词起始时间
+        /// </summary>
         public int Start { get; set; }
-
+        /// <summary>
+        /// 歌词持续时间
+        /// </summary>
         public int Duration = -1;
     }
 
-
+    /// <summary>
+    /// AMLrc歌词
+    /// </summary>
     public class AMLrc
     {
+        /// <summary>
+        /// AMLrc歌词序列
+        /// </summary>
         public List<AMLrcContent> Bars = new List<AMLrcContent>();
+        /// <summary>
+        /// AMLrc命令序列
+        /// </summary>
         public CommandLine AMLrcLine = new CommandLine();
+        /// <summary>
+        /// 生成AMLrc歌词
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public AMLrc Serialize(string filePath = @"c:\lyrics.txt")
         {
             #region Bars
@@ -131,14 +166,32 @@ namespace Audio2Minecraft
             return this;
         }
     }
+    /// <summary>
+    /// AMLrc歌词内容
+    /// </summary>
     public class AMLrcContent
     {
+        /// <summary>
+        /// 主标题栏
+        /// </summary>
         public List<AMLrcNode> Main = new List<AMLrcNode>();
+        /// <summary>
+        /// 副标题栏
+        /// </summary>
         public List<AMLrcNode> Sub = new List<AMLrcNode>();
     }
+    /// <summary>
+    /// AMLrc歌词节点
+    /// </summary>
     public class AMLrcNode
     {
+        /// <summary>
+        /// 歌词内容
+        /// </summary>
         public string Content { get; set; }
+        /// <summary>
+        /// 出现时间
+        /// </summary>
         public int AppearTime { get; set; }
     }
 }

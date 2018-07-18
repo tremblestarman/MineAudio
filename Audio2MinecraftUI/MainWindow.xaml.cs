@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 using System.IO.Compression;
-using System.Security.Cryptography;
+using System.Net;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +22,6 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using Audio2Minecraft;
 using System.Text.RegularExpressions;
-using NAudio.Midi;
 using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 
@@ -31,41 +32,43 @@ namespace Audio2MinecraftUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public static TimeLine preTimeLine = new TimeLine();
-        private static List<UserControl> Controls;
-        public static string Midipath = "";
-        public static string Wavepath = "";
-        public static string Lrcpath = "";
-        public static int BPM = -1;
-        public static ExportSetting ExportSetting = new ExportSetting()
+        public static _Version currentV = new _Version();
+        public static TimeLine preTimeLine = new TimeLine(); //预览时间序列
+        private static string projName = ""; //工程名
+        private static List<UserControl> Controls; //所有的子用户控件
+        public static string Midipath = "", oldMidi = ""; //Midi路径
+        public static string Wavepath = ""; //波形路径
+        public static string Lrcpath = ""; //歌词路径
+        public static int BPM = -1; //BPM
+        public static ExportSetting ExportSetting = new ExportSetting() //导出设置
         {
-            Direction = 0,
-            Width = 16,
-            AlwaysActive = true,
-            AlwaysLoadEntities = false,
-            AutoTeleport = false
+            Direction = 0, //序列方向
+            Width = 16, //序列宽度
+            AlwaysActive = true, //保持命令加载
+            AlwaysLoadEntities = false, //保持实体加载
+            AutoTeleport = false //自动Tp
         };
-        public static class PublicSet
+        public static class PublicSet //通用设置
         {
-            static public bool BPM = false;
-            static public bool Q = false;
-            static public bool TC = false;
-            static public int ST = 0;
+            static public bool BPM = false; //BPM计分板输出
+            static public bool Q = false; //¼音符占刻输出
+            static public bool TC = false; //总刻数输出
+            static public int ST = 0; //双声道方向
         }
-        public static class LyricMode
+        public static class LyricMode //歌词设置
         {
             static public bool Title = false;
             static public bool SubTitle = false;
             static public bool ActionBar = false;
             static public bool Tellraw = false;
-            public static class LyricOutSet
+            public static class LyricOutSet //歌词显示设置
             {
                 static public bool repeat = true;
                 static public string color1 = "white";
                 static public string color2 = "white";
             }
         }
-        public static string autoFillRule = "无", autoFillMode;
+        public static string autoFillRule = "无", autoFillMode = ""; //自动补全规则 & 模式
         public MainWindow()
         {
             InitializeComponent();
@@ -89,6 +92,52 @@ namespace Audio2MinecraftUI
             DisableAllControls();
             HideAllControls();
             MidiSetting.Visibility = Visibility.Visible;
+        }
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var n = new Thread(g => alarmVersion()) { IsBackground = true };
+            n.SetApartmentState(ApartmentState.STA);
+            n.Start();
+        }
+        private void alarmVersion()//查看版本更新
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; //建立安全通道
+            //查看版本更新
+            if (IsConnectInternet())
+            {
+                try
+                {
+                    _Version _v = new _Version();
+                    Encoding encoding = Encoding.UTF8;
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://tremblestarman.github.io/Audio2Minecraft/resource/version.json");
+                    request.Method = "GET";
+                    request.Accept = "text/html, application/xhtml+xml, */*";
+                    request.ContentType = "application/json";
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                    {
+                        _v = JsonConvert.DeserializeObject<_Version>(reader.ReadToEnd());
+                    }
+                    if (_v.version != currentV.version) //版本不同
+                    {
+                        var alarm = new SubWindow.VersionAlarm();
+                        alarm.new_version.Text = "检测到最新版本: " + _v.version;
+                        alarm.log.Text = _v.log.Replace("\n", Environment.NewLine);
+                        alarm.download_url = _v.download;
+                        alarm.Topmost = true;
+                        alarm.Show();
+                    }
+                }
+                catch { }
+            }
+            System.Windows.Threading.Dispatcher.Run();
+        }
+        [DllImport("wininet.dll")]
+        private extern static bool InternetGetConnectedState(int Description, int ReservedValue);
+        public static bool IsConnectInternet() //检测联网
+        {
+            int Description = 0;
+            return InternetGetConnectedState(Description, 0);
         }
 
         //文件路径确认
@@ -115,6 +164,7 @@ namespace Audio2MinecraftUI
                 A2MSave.IsEnabled = false;
             }
             cancel0.Visibility = Visibility.Hidden;
+            MidiSetting.TracksView.ItemsSource = null;
             MidiSetting.IsEnabled = false;
         }
 
@@ -175,7 +225,8 @@ namespace Audio2MinecraftUI
             var midiName = (File.Exists(MidiPath.Text)) ? " Midi: \"" + new FileInfo(MidiPath.Text).Name + "\"" : "";
             var waveName = (File.Exists(WavePath.Text)) ? " Wave: \"" + new FileInfo(WavePath.Text).Name + "\"" : "";
             var lrcName = (File.Exists(LrcPath.Text)) ? " Lrc: \"" + new FileInfo(LrcPath.Text).Name + "\"" : "";
-            FileShow.Content = (midiName == "" && waveName == "" && lrcName == "") ? "" : midiName + waveName + lrcName;
+            if (midiName == "" && waveName == "" && lrcName == "") projName = "";
+            FileShow.Content = (projName != "") ? "A2mproj: \"" + projName + "\"" : (midiName == "" && waveName == "" && lrcName == "") ? "" : midiName + waveName + lrcName;
         }
         private void Load(object sender, MouseButtonEventArgs e)
         {
@@ -183,16 +234,43 @@ namespace Audio2MinecraftUI
             Export.IsEnabled = true;
             if (MidiPath.Text != "" && new FileInfo(MidiPath.Text).Exists)
             {
-                preTimeLine = UpdateMidiInspector(new AudioStreamMidi().Serialize(MidiPath.Text, new TimeLine()), preTimeLine);
-                Midipath = MidiPath.Text;
-                MidiSetting.IsEnabled = true;
-                MidiSetting.TracksView.ItemsSource = preTimeLine.TrackList; //Track
-                MidiSetting.ItemChanged();
-                PublicSetting.MidiPlat.IsEnabled = true;
+                var m = MidiPath.Text;
+                //Waiting...
+                var w = new SubWindow.Waiting(); w.Owner = this;
+                BackgroundWorker waiting = new BackgroundWorker();
+                waiting.DoWork += (ee, ea) => { };
+                waiting.RunWorkerCompleted += (ee, ea) =>
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        w.ShowDialog();
+                    }));
+                };
+                waiting.RunWorkerAsync();
+                //Work
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerReportsProgress = true;
+                worker.DoWork += (o, ea) =>
+                {
+                    if (oldMidi == m) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().Serialize(m, new TimeLine()), preTimeLine);
+                    else preTimeLine = new AudioStreamMidi().Serialize(m, new TimeLine());
+                };
+                worker.RunWorkerCompleted += (o, ea) =>
+                {
+                    w.Close();
+                    Midipath = MidiPath.Text;
+                    MidiSetting.IsEnabled = true;
+                    MidiSetting.TracksView.ItemsSource = preTimeLine.TrackList; //Track
+                    MidiSetting.ItemChanged();
+                    PublicSetting.MidiPlat.IsEnabled = true;
 
-                PublicSetting.TBPM.Text = preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
-                PublicSetting.TTC.Text = preTimeLine.Param["MidiTracksCount"].Value.ToString();
-                PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
+                    PublicSetting.TBPM.Text = preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
+                    PublicSetting.TTC.Text = preTimeLine.Param["MidiTracksCount"].Value.ToString();
+                    PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
+
+                    oldMidi = MidiPath.Text;
+                };
+                worker.RunWorkerAsync();
             }
             if (WavePath.Text != "" && new FileInfo(WavePath.Text).Exists)
             {
@@ -261,13 +339,13 @@ namespace Audio2MinecraftUI
             {
                 if (file.Extension == ".json")
                 {
-                    try { AutoFills.Add(upper + file.Name, new AutoFill(file.FullName)); } catch {  }
-               }
+                    try { AutoFills.Add(upper + file.Name, new AutoFill(file.FullName)); } catch { }
+                }
             }
             foreach (var directory in directories)
             {
                 GetAutoFills(directory.FullName, upper + directory.Name + "\\");
-            }            
+            }
         }
 
         //子选项
@@ -327,79 +405,83 @@ namespace Audio2MinecraftUI
         //更新Midi预览
         private TimeLine UpdateMidiInspector(TimeLine newTimeline, TimeLine baseTimeline)
         {
-            foreach (var i in newTimeline.InstrumentList)
+            Task task = Task.Run(() =>
             {
-                foreach (var _i in baseTimeline.InstrumentList)
+                foreach (var i in newTimeline.InstrumentList)
                 {
-                    if (i.Name == _i.Name)
+                    foreach (var _i in baseTimeline.InstrumentList)
                     {
-                        i.EnableScore = _i.EnableScore;
-                        i.EnablePlaysound = _i.EnablePlaysound;
-                        i.BarIndex = _i.BarIndex;
-                        i.BeatDuration = _i.BeatDuration;
-                        i.Channel = _i.Channel;
-                        i.DeltaTickDuration = _i.DeltaTickDuration;
-                        i.DeltaTickStart = _i.DeltaTickStart;
-                        i.Velocity = _i.Velocity;
-                        i.Pitch = _i.Pitch;
-                        i.MinecraftTickDuration = _i.MinecraftTickDuration;
-                        i.MinecraftTickStart = _i.MinecraftTickStart;
-                        i.PlaysoundSetting.StopSound = _i.PlaysoundSetting.StopSound;
-                        i.PlaysoundSetting.ExecuteCood[0] = _i.PlaysoundSetting.ExecuteCood[0];
-                        i.PlaysoundSetting.ExecuteCood[1] = _i.PlaysoundSetting.ExecuteCood[1];
-                        i.PlaysoundSetting.ExecuteCood[2] = _i.PlaysoundSetting.ExecuteCood[2];
-                        i.PlaysoundSetting.ExecuteTarget = _i.PlaysoundSetting.ExecuteTarget;
-                        i.PlaysoundSetting.PlayTarget = _i.PlaysoundSetting.PlayTarget;
-                        i.PlaysoundSetting.PlaySource = _i.PlaysoundSetting.PlaySource;
-                        i.PlaysoundSetting.InheritExpression = _i.PlaysoundSetting.InheritExpression;
-                        i.PlaysoundSetting.ExtraDelay = _i.PlaysoundSetting.ExtraDelay;
-                        i.PlaysoundSetting.SoundName = _i.PlaysoundSetting.SoundName;
-                        i.PlaysoundSetting.PercVolume = _i.PlaysoundSetting.PercVolume;
+                        if (i.Name == _i.Name)
+                        {
+                            i.EnableScore = _i.EnableScore;
+                            i.EnablePlaysound = _i.EnablePlaysound;
+                            i.BarIndex = _i.BarIndex;
+                            i.BeatDuration = _i.BeatDuration;
+                            i.Channel = _i.Channel;
+                            i.DeltaTickDuration = _i.DeltaTickDuration;
+                            i.DeltaTickStart = _i.DeltaTickStart;
+                            i.Velocity = _i.Velocity;
+                            i.Pitch = _i.Pitch;
+                            i.MinecraftTickDuration = _i.MinecraftTickDuration;
+                            i.MinecraftTickStart = _i.MinecraftTickStart;
+                            i.PlaysoundSetting.StopSound = _i.PlaysoundSetting.StopSound;
+                            i.PlaysoundSetting.ExecuteCood[0] = _i.PlaysoundSetting.ExecuteCood[0];
+                            i.PlaysoundSetting.ExecuteCood[1] = _i.PlaysoundSetting.ExecuteCood[1];
+                            i.PlaysoundSetting.ExecuteCood[2] = _i.PlaysoundSetting.ExecuteCood[2];
+                            i.PlaysoundSetting.ExecuteTarget = _i.PlaysoundSetting.ExecuteTarget;
+                            i.PlaysoundSetting.PlayTarget = _i.PlaysoundSetting.PlayTarget;
+                            i.PlaysoundSetting.PlaySource = _i.PlaysoundSetting.PlaySource;
+                            i.PlaysoundSetting.InheritExpression = _i.PlaysoundSetting.InheritExpression;
+                            i.PlaysoundSetting.ExtraDelay = _i.PlaysoundSetting.ExtraDelay;
+                            i.PlaysoundSetting.SoundName = _i.PlaysoundSetting.SoundName;
+                            i.PlaysoundSetting.PercVolume = _i.PlaysoundSetting.PercVolume;
+                        }
                     }
                 }
-            }
-            foreach (var t in newTimeline.TrackList)
-            {
-                foreach (var i in t.Instruments)
+                foreach (var t in newTimeline.TrackList)
                 {
-                    foreach (var _t in baseTimeline.TrackList)
+                    foreach (var i in t.Instruments)
                     {
-                        if (t.Name == _t.Name)
+                        foreach (var _t in baseTimeline.TrackList)
                         {
-                            foreach (var _i in _t.Instruments)
+                            if (t.Name == _t.Name)
                             {
-                                if (i.Name == _i.Name)
+                                foreach (var _i in _t.Instruments)
                                 {
-                                    i.EnableScore = _i.EnableScore;
-                                    i.EnablePlaysound = _i.EnablePlaysound;
-                                    i.BarIndex = _i.BarIndex;
-                                    i.BeatDuration = _i.BeatDuration;
-                                    i.Channel = _i.Channel;
-                                    i.DeltaTickDuration = _i.DeltaTickDuration;
-                                    i.DeltaTickStart = _i.DeltaTickStart;
-                                    i.Velocity = _i.Velocity;
-                                    i.Pitch = _i.Pitch;
-                                    i.MinecraftTickDuration = _i.MinecraftTickDuration;
-                                    i.MinecraftTickStart = _i.MinecraftTickStart;
-                                    i.PlaysoundSetting.StopSound = _i.PlaysoundSetting.StopSound;
-                                    i.PlaysoundSetting.ExecuteCood[0] = _i.PlaysoundSetting.ExecuteCood[0];
-                                    i.PlaysoundSetting.ExecuteCood[1] = _i.PlaysoundSetting.ExecuteCood[1];
-                                    i.PlaysoundSetting.ExecuteCood[2] = _i.PlaysoundSetting.ExecuteCood[2];
-                                    i.PlaysoundSetting.ExecuteTarget = _i.PlaysoundSetting.ExecuteTarget;
-                                    i.PlaysoundSetting.PlayTarget = _i.PlaysoundSetting.PlayTarget;
-                                    i.PlaysoundSetting.PlaySource = _i.PlaysoundSetting.PlaySource;
-                                    i.PlaysoundSetting.InheritExpression = _i.PlaysoundSetting.InheritExpression;
-                                    i.PlaysoundSetting.ExtraDelay = _i.PlaysoundSetting.ExtraDelay;
-                                    i.PlaysoundSetting.SoundName = _i.PlaysoundSetting.SoundName;
-                                    i.PlaysoundSetting.PercVolume = _i.PlaysoundSetting.PercVolume;
+                                    if (i.Name == _i.Name)
+                                    {
+                                        i.EnableScore = _i.EnableScore;
+                                        i.EnablePlaysound = _i.EnablePlaysound;
+                                        i.BarIndex = _i.BarIndex;
+                                        i.BeatDuration = _i.BeatDuration;
+                                        i.Channel = _i.Channel;
+                                        i.DeltaTickDuration = _i.DeltaTickDuration;
+                                        i.DeltaTickStart = _i.DeltaTickStart;
+                                        i.Velocity = _i.Velocity;
+                                        i.Pitch = _i.Pitch;
+                                        i.MinecraftTickDuration = _i.MinecraftTickDuration;
+                                        i.MinecraftTickStart = _i.MinecraftTickStart;
+                                        i.PlaysoundSetting.StopSound = _i.PlaysoundSetting.StopSound;
+                                        i.PlaysoundSetting.ExecuteCood[0] = _i.PlaysoundSetting.ExecuteCood[0];
+                                        i.PlaysoundSetting.ExecuteCood[1] = _i.PlaysoundSetting.ExecuteCood[1];
+                                        i.PlaysoundSetting.ExecuteCood[2] = _i.PlaysoundSetting.ExecuteCood[2];
+                                        i.PlaysoundSetting.ExecuteTarget = _i.PlaysoundSetting.ExecuteTarget;
+                                        i.PlaysoundSetting.PlayTarget = _i.PlaysoundSetting.PlayTarget;
+                                        i.PlaysoundSetting.PlaySource = _i.PlaysoundSetting.PlaySource;
+                                        i.PlaysoundSetting.InheritExpression = _i.PlaysoundSetting.InheritExpression;
+                                        i.PlaysoundSetting.ExtraDelay = _i.PlaysoundSetting.ExtraDelay;
+                                        i.PlaysoundSetting.SoundName = _i.PlaysoundSetting.SoundName;
+                                        i.PlaysoundSetting.PercVolume = _i.PlaysoundSetting.PercVolume;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            baseTimeline = newTimeline;
-            baseTimeline.TickNodes = new List<TickNode>(); //Delect TickNodes
+                baseTimeline = newTimeline;
+                baseTimeline.TickNodes = new List<TickNode>(); //Delect TickNodes
+            });
+            task.Wait();
             return baseTimeline;
         }
 
@@ -411,7 +493,7 @@ namespace Audio2MinecraftUI
             {
                 return new AMLrc().Serialize(lrc.FullName).AMLrcLine;
             }
-            else if (lrc.Extension == ".lrc")
+            else if (lrc.Extension == ".lrc" || lrc.Extension == ".txt")
             {
                 var _lrc = new Lrc().Serialize(lrc.FullName);
                 return textLrc(_lrc, LyricMode.LyricOutSet.repeat);
@@ -445,13 +527,14 @@ namespace Audio2MinecraftUI
                             new Json.Text() { text = ntext.Replace("\u3000",@"  "), color = LyricMode.LyricOutSet.color2},
                         };
                         if (index >= textLrc.Keyframe.Count) for (int j = textLrc.Keyframe.Count; j <= index; j++) { textLrc.Keyframe.Add(new Command()); }
+                        if (LyricMode.Title) { textLrc.Keyframe[index].Commands.Add("title @a title " + JsonConvert.SerializeObject(tlw.texts)); }
+                        if (LyricMode.SubTitle) { textLrc.Keyframe[index].Commands.Add("title @a title [\"\"]"); textLrc.Keyframe[index].Commands.Add("title @a subtitle " + JsonConvert.SerializeObject(tlw.texts)); }
+                        if (LyricMode.ActionBar) { textLrc.Keyframe[index].Commands.Add("title @a actionbar " + JsonConvert.SerializeObject(tlw.texts)); }
                         if (LyricMode.Tellraw) { tlw.texts.Insert(0, new Json.Text() { text = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" }); textLrc.Keyframe[index].Commands.Add("tellraw @a " + JsonConvert.SerializeObject(tlw.texts)); }
-                        if (LyricMode.Title) textLrc.Keyframe[index].Commands.Add("title @a title" + JsonConvert.SerializeObject(tlw.texts));
-                        if (LyricMode.SubTitle) textLrc.Keyframe[index].Commands.Add("title @a subtitle" + JsonConvert.SerializeObject(tlw.texts));
-                        if (LyricMode.ActionBar) textLrc.Keyframe[index].Commands.Add("title @a actionbar" + JsonConvert.SerializeObject(tlw.texts));
                     }
                 }
             }
+            if (LyricMode.Title || LyricMode.SubTitle || LyricMode.ActionBar) { textLrc.Keyframe[0].Commands.Insert(2, "title @a times 0 1000 0"); textLrc.Keyframe[textLrc.Keyframe.Count - 1].Commands.Add("title @a times 10 70 20"); }
             return textLrc;
         }
 
@@ -472,72 +555,123 @@ namespace Audio2MinecraftUI
             {
                 if (fileDialog.FilterIndex == 1)
                 {
-                    var f = new FileOutPut()
+                    //Waiting
+                    var w = new SubWindow.Waiting(); w.Owner = this;
+                    BackgroundWorker waiting = new BackgroundWorker();
+                    waiting.DoWork += (ee, ea) => { };
+                    waiting.RunWorkerCompleted += (ee, ea) =>
                     {
-                        MidiTracks = preTimeLine.TrackList,
-                        MidiInstruments = preTimeLine.InstrumentList,
-                        LeftWaveSetting = preTimeLine.LeftWaveSetting,
-                        RightWaveSetting = preTimeLine.RightWaveSetting,
-                        Midipath = Midipath,
-                        rMidipath = (Midipath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Midipath.Replace(" ", "*20"))) : null,
-                        Wavepath = Wavepath,
-                        rWavepath = (Wavepath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Wavepath.Replace(" ", "*20"))) : null,
-                        Lrcpath = Lrcpath,
-                        rLrcpath = (Lrcpath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Lrcpath.Replace(" ", "*20"))) : null,
-                        ExportSetting = ExportSetting,
-                        PublicSetting = new FileOutPut._PublicSetting()
+                        Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            BPM = PublicSet.BPM,
-                            Q = PublicSet.Q,
-                            TC = PublicSet.TC,
-                            ST = PublicSet.ST,
-                            TBPM = preTimeLine.Param["MidiBeatPerMinute"].Value,
-                            TTC = preTimeLine.Param["MidiTracksCount"].Value,
-                            TQ = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value
-                        },
-                        LyricMode = new FileOutPut._LyricMode()
-                        {
-                            Tellraw = LyricMode.Tellraw,
-                            SubTitle = LyricMode.SubTitle,
-                            ActionBar = LyricMode.ActionBar,
-                            Title = LyricMode.Title,
-                            LyricOutSetting = new FileOutPut._LyricMode.LyricOutSet()
-                            {
-                                color1 = LyricMode.LyricOutSet.color1,
-                                color2 = LyricMode.LyricOutSet.color2,
-                                repeat = LyricMode.LyricOutSet.repeat,
-                            }
-                        },
-                        wav_COMMIT = new int[] { Int32.Parse(WavSetting.采样周期.Text), Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text) }
+                            w.ShowDialog();
+                        }));
                     };
-                    File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f)));
+                    waiting.RunWorkerAsync();
+                    int m_1 = Int32.Parse(WavSetting.单刻频率采样数.Text), m_2 = Int32.Parse(WavSetting.单刻振幅采样数.Text), m_3 = Int32.Parse(WavSetting.采样周期.Text);
+                    //Work
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerReportsProgress = true;
+                    worker.DoWork += (o, ea) =>
+                    {
+                        var f = new FileOutPut() //写入文件结构
+                        {
+                            MidiTracks = preTimeLine.TrackList,
+                            MidiInstruments = preTimeLine.InstrumentList,
+                            LeftWaveSetting = preTimeLine.LeftWaveSetting,
+                            RightWaveSetting = preTimeLine.RightWaveSetting,
+                            Midipath = Midipath,
+                            rMidipath = (Midipath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Midipath.Replace(" ", "*20"))) : null,
+                            Wavepath = Wavepath,
+                            rWavepath = (Wavepath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Wavepath.Replace(" ", "*20"))) : null,
+                            Lrcpath = Lrcpath,
+                            rLrcpath = (Lrcpath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Lrcpath.Replace(" ", "*20"))) : null,
+                            ExportSetting = ExportSetting,
+                            PublicSetting = new FileOutPut._PublicSetting()
+                            {
+                                BPM = PublicSet.BPM,
+                                Q = PublicSet.Q,
+                                TC = PublicSet.TC,
+                                ST = PublicSet.ST,
+                                TBPM = preTimeLine.Param["MidiBeatPerMinute"].Value,
+                                TTC = preTimeLine.Param["MidiTracksCount"].Value,
+                                TQ = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value
+                            },
+                            LyricMode = new FileOutPut._LyricMode()
+                            {
+                                Tellraw = LyricMode.Tellraw,
+                                SubTitle = LyricMode.SubTitle,
+                                ActionBar = LyricMode.ActionBar,
+                                Title = LyricMode.Title,
+                                LyricOutSetting = new FileOutPut._LyricMode.LyricOutSet()
+                                {
+                                    color1 = LyricMode.LyricOutSet.color1,
+                                    color2 = LyricMode.LyricOutSet.color2,
+                                    repeat = LyricMode.LyricOutSet.repeat,
+                                }
+                            },
+                            wav_COMMIT = new int[] { m_1, m_3, m_3 }
+                        };
+                        File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
+                        projName = new FileInfo(fileDialog.FileName).Name; SetFileShow(); //更新文件显示
+                    };
+                    worker.RunWorkerCompleted += (o, ea) =>
+                    {
+                        w.Close();
+                    };
+                    worker.RunWorkerAsync();
                 }
                 else
                 {
-                    InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "config\\compare");
-                    var exportLine = new TimeLine().Serialize(Midipath, Wavepath, BPM, Int32.Parse(WavSetting.单刻频率采样数.Text), Int32.Parse(WavSetting.单刻振幅采样数.Text), Int32.Parse(WavSetting.采样周期.Text));
-                    exportLine.InstrumentList = preTimeLine.InstrumentList;
-                    exportLine.TrackList = preTimeLine.TrackList;
-                    exportLine.LeftWaveSetting = preTimeLine.LeftWaveSetting;
-                    exportLine.RightWaveSetting = preTimeLine.RightWaveSetting;
-                    exportLine.UpdateByTrackList();
-                    exportLine.UpdateWave();
-                    exportLine.Param["MidiFileFormat"].Enable = false;
-                    exportLine.Param["AudioFileFormat"].Enable = false;
-                    exportLine.Param["TotalTicks"].Enable = false;
-                    exportLine.Param["MidiBeatPerMinute"].Enable = PublicSet.BPM;
-                    exportLine.Param["MidiTracksCount"].Enable = PublicSet.TC;
-                    exportLine.Param["MidiDeltaTicksPerQuarterNote"].Enable = PublicSet.Q;
-                    exportLine.Sound_Stereo(PublicSet.ST - 1);
-                    var commandLine = new CommandLine().Serialize(exportLine);
-                    if (Lrcpath != "")
+                    //Waiting
+                    var w = new SubWindow.Waiting(); w.Owner = this;
+                    BackgroundWorker waiting = new BackgroundWorker();
+                    waiting.DoWork += (ee, ea) => { };
+                    waiting.RunWorkerCompleted += (ee, ea) =>
                     {
-                        var lrcLine = GetLyrcics();
-                        commandLine = commandLine.Combine(commandLine, lrcLine);
-                    }
-                    var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width, AutoTeleport = ExportSetting.AutoTeleport };
-                    if (fileDialog.FilterIndex == 3) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WE
-                    new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName);
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            w.ShowDialog();
+                        }));
+                    };
+                    waiting.RunWorkerAsync();
+                    int m_1 = Int32.Parse(WavSetting.单刻频率采样数.Text), m_2 = Int32.Parse(WavSetting.单刻振幅采样数.Text), m_3 = Int32.Parse(WavSetting.采样周期.Text);
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerReportsProgress = true;
+                    //Work
+                    worker.DoWork += (o, ea) =>
+                    {
+                        InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "config\\compare"); //设置匹配列表 *
+                        TimeLine exportLine = new TimeLine().Serialize(Midipath, Wavepath, BPM, m_1, m_3, m_3); //时间序列                                                                                                                                                                                    //时间序列写入 & 更新
+                        exportLine.InstrumentList = preTimeLine.InstrumentList;
+                        exportLine.TrackList = preTimeLine.TrackList;
+                        exportLine.LeftWaveSetting = preTimeLine.LeftWaveSetting;
+                        exportLine.RightWaveSetting = preTimeLine.RightWaveSetting;
+                        exportLine.UpdateByTrackList();
+                        exportLine.UpdateWave();
+                        exportLine.Param["MidiFileFormat"].Enable = false;
+                        exportLine.Param["AudioFileFormat"].Enable = false;
+                        exportLine.Param["TotalTicks"].Enable = false;
+                        exportLine.Param["MidiBeatPerMinute"].Enable = PublicSet.BPM;
+                        exportLine.Param["MidiTracksCount"].Enable = PublicSet.TC;
+                        exportLine.Param["MidiDeltaTicksPerQuarterNote"].Enable = PublicSet.Q;
+                        exportLine.Sound_Stereo(PublicSet.ST - 1);
+                        //命令序列实例化
+                        var commandLine = new CommandLine().Serialize(exportLine);
+                        if (Lrcpath != "") //添加歌词
+                        {
+                            var lrcLine = GetLyrcics();
+                            commandLine = commandLine.Combine(commandLine, lrcLine);
+                        }
+                        //导出
+                        var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width, AutoTeleport = ExportSetting.AutoTeleport };
+                        if (fileDialog.FilterIndex == 3) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WorldEdit
+                        new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName);
+                    };
+                    worker.RunWorkerCompleted += (o, ea) =>
+                    {
+                        w.Close();
+                    };
+                    worker.RunWorkerAsync();
                 }
             }
         }
@@ -549,8 +683,9 @@ namespace Audio2MinecraftUI
             if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
             {
                 var o = JsonConvert.DeserializeObject<FileOutPut>(Decompress(File.ReadAllText(fileDialog.FileName)));
-                //relative or absolute
-                if (MessageBox.Show("是否使用相对路径导入？", "使用相对路径导入", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                //relative or absolute or cancel
+                var msg = MessageBox.Show("是否使用相对路径导入？", "使用相对路径导入", MessageBoxButton.YesNoCancel); if (msg == MessageBoxResult.Cancel) return;
+                if (msg == MessageBoxResult.Yes)
                 {
                     o.Midipath = (o.rMidipath != null) ? new Uri(new Uri(fileDialog.FileName.Replace(" ", "*20")), o.rMidipath).LocalPath.Replace("*20", " ") : "";
                     o.Wavepath = (o.rWavepath != null) ? new Uri(new Uri(fileDialog.FileName.Replace(" ", "*20")), o.rWavepath).LocalPath.Replace("*20", " ") : "";
@@ -567,21 +702,21 @@ namespace Audio2MinecraftUI
                             i.Tracks.Add(_t);
                         }
                     }
-                }
+                } //Link
                 foreach (var i in instruments)
                 {
                     foreach (var _t in (from t in tracks where i.TracksUid.Contains(t.Uid) select t))
                     {
                         i.Tracks.Add(_t);
                     }
-                }
-                if (preTimeLine.TrackList.Count != 0 && preTimeLine.InstrumentList.Count != 0) //Update preTimeLine
+                } //Link
+                if (Midipath == o.Midipath && preTimeLine.TrackList.Count != 0 && preTimeLine.InstrumentList.Count != 0) //Update preTimeLine if the same Midi
                     preTimeLine = UpdateMidiInspector(preTimeLine, new TimeLine() { InstrumentList = instruments, TrackList = tracks });
                 else
-                    preTimeLine = UpdateMidiInspector(new TimeLine() { InstrumentList = instruments, TrackList = tracks }, preTimeLine);
+                    preTimeLine = new TimeLine() { InstrumentList = instruments, TrackList = tracks };
                 MidiSetting.TracksView.ItemsSource = preTimeLine.TrackList;
                 MidiPath.Text = o.Midipath;
-                Midipath = o.Midipath;
+                Midipath = o.Midipath; oldMidi = o.Midipath;
                 preTimeLine.Param["MidiBeatPerMinute"].Value = o.PublicSetting.TBPM;
                 preTimeLine.Param["MidiTracksCount"].Value = o.PublicSetting.TTC;
                 preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value = o.PublicSetting.TQ; //Midi
@@ -623,17 +758,41 @@ namespace Audio2MinecraftUI
                     PublicSetting.MidiPlat.IsEnabled = true;
                     Export.IsEnabled = true;
                     //Export
-                    var a = new AudioStreamMidi().Serialize(MainWindow.Midipath, new TimeLine(), BPM);
-                    Export.Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
-                    var m = a.Param["TotalTicks"].Value / 1200;
-                    var s = a.Param["TotalTicks"].Value % 1200 / 20;
-                    Export.Midi时长.Text = m.ToString() + " : " + s.ToString();
-                    preTimeLine.Param["MidiBeatPerMinute"].Value = a.Param["MidiBeatPerMinute"].Value;
-                    preTimeLine.Param["TotalTicks"].Value = a.Param["TotalTicks"].Value;
-                    //PublicSetting
-                    PublicSetting.TBPM.Text = preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
-                    PublicSetting.TTC.Text = preTimeLine.Param["MidiTracksCount"].Value.ToString();
-                    PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
+                    var a = new TimeLine();
+                    var w = new SubWindow.Waiting(); w.Owner = this;
+                    BackgroundWorker waiting = new BackgroundWorker();
+                    waiting.DoWork += (ee, ea) => { };
+                    waiting.RunWorkerCompleted += (ee, ea) =>
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            w.ShowDialog();
+                        }));
+                    };
+                    waiting.RunWorkerAsync();
+                    //Work
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerReportsProgress = true;
+                    worker.DoWork += (ee, ea) =>
+                    {
+                        a = new AudioStreamMidi().Serialize(MainWindow.Midipath, new TimeLine(), BPM);
+                    };
+                    worker.RunWorkerCompleted += (ee, ea) =>
+                    {
+                        w.Close();
+                        //Caculate
+                        Export.Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
+                        var m = a.Param["TotalTicks"].Value / 1200;
+                        var s = a.Param["TotalTicks"].Value % 1200 / 20;
+                        Export.Midi时长.Text = m.ToString() + " : " + s.ToString();
+                        preTimeLine.Param["MidiBeatPerMinute"].Value = a.Param["MidiBeatPerMinute"].Value;
+                        preTimeLine.Param["TotalTicks"].Value = a.Param["TotalTicks"].Value;
+                        //PublicSetting
+                        PublicSetting.TBPM.Text = preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
+                        PublicSetting.TTC.Text = preTimeLine.Param["MidiTracksCount"].Value.ToString();
+                        PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
+                    };
+                    worker.RunWorkerAsync();
                 }
                 else
                 {
@@ -691,7 +850,8 @@ namespace Audio2MinecraftUI
 
                 load.IsEnabled = true;
                 A2MSave.IsEnabled = true;
-                SetFileShow();
+                projName = new FileInfo(fileDialog.FileName).Name;
+                SetFileShow();  //更新文件显示
             }
         }
         #region Compress
@@ -790,5 +950,12 @@ namespace Audio2MinecraftUI
             public string text = "";
             public string color = "white";
         }
+    }
+
+    public class _Version
+    {
+        public string version = "A-1.1";
+        public string download;
+        public string log;
     }
 }

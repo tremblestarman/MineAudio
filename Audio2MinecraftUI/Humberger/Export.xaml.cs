@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -62,11 +63,8 @@ namespace Audio2MinecraftUI.Humberger
         }
         private void _KeyDown(object sender, KeyEventArgs e)
         {
-            Done.IsEnabled = true;
-        }
-        private void TextChanged(object sender, TextChangedEventArgs e)
-        {
-            Done.IsEnabled = true;
+            if (e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.D2 || e.Key == Key.D3 || e.Key == Key.D4 || e.Key == Key.D5 || e.Key == Key.D6 || e.Key == Key.D7 || e.Key == Key.D8 || e.Key == Key.D9 || e.Key == Key.NumPad0 || e.Key == Key.NumPad1 || e.Key == Key.NumPad2 || e.Key == Key.NumPad3 || e.Key == Key.NumPad4 || e.Key == Key.NumPad5 || e.Key == Key.NumPad6 || e.Key == Key.NumPad7 || e.Key == Key.NumPad8 || e.Key == Key.NumPad9)
+                Done.IsEnabled = true;
         }
         private void _Click(object sender, RoutedEventArgs e)
         {
@@ -95,12 +93,37 @@ namespace Audio2MinecraftUI.Humberger
             MainWindow.PublicSet.ST = 双声道.SelectedIndex;
             if (MainWindow.Midipath != "" && MainWindow.BPM.ToString() != 重设BPM.Text)
             {
-                var a = new AudioStreamMidi().Serialize(MainWindow.Midipath, new TimeLine(), Int32.Parse(重设BPM.Text));
+                var m_ = MainWindow.Midipath; var b = Int32.Parse(重设BPM.Text);
+                var a = new TimeLine();
+                var w = new SubWindow.Waiting();w.Owner = Application.Current.MainWindow;
+                BackgroundWorker waiting = new BackgroundWorker();
+                waiting.DoWork += (ee, ea) => { };
+                waiting.RunWorkerCompleted += (ee, ea) =>
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        w.ShowDialog();
+                    }));
+                };
+                waiting.RunWorkerAsync();
+                //Work
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerReportsProgress = true;
+                worker.DoWork += (ee, ea) =>
+                {
+                    a = new AudioStreamMidi().Serialize(m_, new TimeLine(), b);
+                };
+                worker.RunWorkerCompleted += (ee, ea) =>
+                {
+                    w.Close();
+                    
                 Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
                 var m = a.Param["TotalTicks"].Value / 1200;
                 var s = a.Param["TotalTicks"].Value % 1200 / 20;
                 Midi时长.Text = m.ToString() + " : " + s.ToString();
                 MainWindow.BPM = Int32.Parse(重设BPM.Text);
+                };
+                worker.RunWorkerAsync();
             }
             Done.IsEnabled = false;
         }

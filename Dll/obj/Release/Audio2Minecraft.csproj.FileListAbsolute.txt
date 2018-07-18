@@ -1,0 +1,10 @@
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\bin\Release\Audio2Minecraft.dll
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\bin\Release\Audio2Minecraft.pdb
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\bin\Release\fNbt.dll
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\bin\Release\NAudio.dll
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\bin\Release\Newtonsoft.Json.dll
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\bin\Release\fNbt.xml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\bin\Release\NAudio.xml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\obj\Release\Audio2Minecraft.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\obj\Release\Audio2Minecraft.dll
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\obj\Release\Audio2Minecraft.pdb

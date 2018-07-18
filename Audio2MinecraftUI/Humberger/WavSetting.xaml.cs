@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -84,19 +85,42 @@ namespace Audio2MinecraftUI.Humberger
             if (!(_COMMIT[0] == cir && _COMMIT[1] == fre_c && _COMMIT[2] == vol_c))
             {
                 var path = MainWindow.Wavepath;
-                var wav = new AudioStreamWave().Serialize(MainWindow.Wavepath, new TimeLine(), fre_c, vol_c, cir);
-                最大频率L.Text = Math.Round(highest(wav, "l", "FrequencyPerTick"), 2).ToString();
-                最大振幅L.Text = Math.Round(highest(wav, "l", "VolumePerTick"), 2).ToString();
-                最小频率L.Text = Math.Round(lowest(wav, "l", "FrequencyPerTick"), 2).ToString();
-                最小振幅L.Text = Math.Round(lowest(wav, "l", "VolumePerTick"), 2).ToString();
-                平均频率L.Text = Math.Round(average(wav, "l", "FrequencyPerTick"), 2).ToString();
-                平均振幅L.Text = Math.Round(average(wav, "l", "VolumePerTick"), 2).ToString();
-                最大频率R.Text = Math.Round(highest(wav, "r", "FrequencyPerTick"), 2).ToString();
-                最大振幅R.Text = Math.Round(highest(wav, "r", "VolumePerTick"), 2).ToString();
-                最小频率R.Text = Math.Round(lowest(wav, "r", "FrequencyPerTick"), 2).ToString();
-                最小振幅R.Text = Math.Round(lowest(wav, "r", "VolumePerTick"), 2).ToString();
-                平均频率R.Text = Math.Round(average(wav, "r", "FrequencyPerTick"), 2).ToString();
-                平均振幅R.Text = Math.Round(average(wav, "r", "VolumePerTick"), 2).ToString();
+                var wav = new TimeLine();
+                var w = new SubWindow.Waiting();w.Owner = Application.Current.MainWindow;
+                BackgroundWorker waiting = new BackgroundWorker();
+                waiting.DoWork += (ee, ea) => { };
+                waiting.RunWorkerCompleted += (ee, ea) =>
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        w.ShowDialog();
+                    }));
+                };
+                waiting.RunWorkerAsync();
+                //Work
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerReportsProgress = true;
+                worker.DoWork += (ee, ea) =>
+                {
+                    wav = new AudioStreamWave().Serialize(path, new TimeLine(), fre_c, vol_c, cir);
+                };
+                worker.RunWorkerCompleted += (ee, ea) =>
+                {
+                    w.Close();
+                    最大频率L.Text = Math.Round(highest(wav, "l", "FrequencyPerTick"), 2).ToString();
+                    最大振幅L.Text = Math.Round(highest(wav, "l", "VolumePerTick"), 2).ToString();
+                    最小频率L.Text = Math.Round(lowest(wav, "l", "FrequencyPerTick"), 2).ToString();
+                    最小振幅L.Text = Math.Round(lowest(wav, "l", "VolumePerTick"), 2).ToString();
+                    平均频率L.Text = Math.Round(average(wav, "l", "FrequencyPerTick"), 2).ToString();
+                    平均振幅L.Text = Math.Round(average(wav, "l", "VolumePerTick"), 2).ToString();
+                    最大频率R.Text = Math.Round(highest(wav, "r", "FrequencyPerTick"), 2).ToString();
+                    最大振幅R.Text = Math.Round(highest(wav, "r", "VolumePerTick"), 2).ToString();
+                    最小频率R.Text = Math.Round(lowest(wav, "r", "FrequencyPerTick"), 2).ToString();
+                    最小振幅R.Text = Math.Round(lowest(wav, "r", "VolumePerTick"), 2).ToString();
+                    平均频率R.Text = Math.Round(average(wav, "r", "FrequencyPerTick"), 2).ToString();
+                    平均振幅R.Text = Math.Round(average(wav, "r", "VolumePerTick"), 2).ToString();
+                };
+                worker.RunWorkerAsync();
             }
             _COMMIT[0] = cir;
             _COMMIT[1] = fre_c;
@@ -233,7 +257,8 @@ namespace Audio2MinecraftUI.Humberger
         }
         private void _KeyDown(object sender, KeyEventArgs e)
         {
-            Done.IsEnabled = true;
+            if (e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.D2 || e.Key == Key.D3 || e.Key == Key.D4 || e.Key == Key.D5 || e.Key == Key.D6 || e.Key == Key.D7 || e.Key == Key.D8 || e.Key == Key.D9 || e.Key == Key.NumPad0 || e.Key == Key.NumPad1 || e.Key == Key.NumPad2 || e.Key == Key.NumPad3 || e.Key == Key.NumPad4 || e.Key == Key.NumPad5 || e.Key == Key.NumPad6 || e.Key == Key.NumPad7 || e.Key == Key.NumPad8 || e.Key == Key.NumPad9)
+                Done.IsEnabled = true;
         }
     }
 }

@@ -8,7 +8,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -25,7 +25,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -42,7 +42,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -59,7 +59,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -76,7 +76,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -93,7 +93,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -110,7 +110,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -127,7 +127,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -144,7 +144,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -161,7 +161,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -178,7 +178,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -195,7 +195,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -212,7 +212,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -229,7 +229,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -246,7 +246,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -263,7 +263,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -280,7 +280,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -297,7 +297,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -314,7 +314,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -331,7 +331,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -348,7 +348,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -365,7 +365,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -382,7 +382,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -399,7 +399,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -416,7 +416,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -433,7 +433,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -450,7 +450,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -467,7 +467,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -484,7 +484,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -501,7 +501,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -518,7 +518,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -535,7 +535,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -552,7 +552,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -569,7 +569,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -586,7 +586,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -603,7 +603,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -620,7 +620,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -637,7 +637,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -654,7 +654,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -671,7 +671,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -688,7 +688,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -705,7 +705,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -722,7 +722,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -739,7 +739,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -756,7 +756,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -773,7 +773,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -790,7 +790,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -807,7 +807,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -824,7 +824,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -841,7 +841,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -858,7 +858,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -875,7 +875,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -892,7 +892,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -909,7 +909,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -926,7 +926,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -943,7 +943,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -960,7 +960,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -977,7 +977,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -994,7 +994,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -1011,7 +1011,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -1028,7 +1028,25 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"default_c": {
+			"instrument": "Default",
+			"sound_name": "1c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -1038,7 +1056,7 @@
 			}
 		},
 		"1c": {
-			"instrument": "Acoustic Grand Piano",
+			"instrument": "Acoustic Grand",
 			"sound_name": "1c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -1056,7 +1074,7 @@
 			}
 		},
 		"2c": {
-			"instrument": "Bright Acoustic Piano",
+			"instrument": "Bright Acoustic",
 			"sound_name": "2c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -1074,7 +1092,7 @@
 			}
 		},
 		"3c": {
-			"instrument": "Electric Grand Piano",
+			"instrument": "Electric Grand",
 			"sound_name": "3c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -1092,7 +1110,7 @@
 			}
 		},
 		"4c": {
-			"instrument": "Honky-Tonk Piano",
+			"instrument": "Honky-Tonk",
 			"sound_name": "4c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -1112,6 +1130,24 @@
 		"5c": {
 			"instrument": "Electric Piano 1",
 			"sound_name": "5c",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": true,
+				"extra_delay": 1
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"6c": {
+			"instrument": "Electric Piano 1",
+			"sound_name": "5",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
@@ -1452,7 +1488,7 @@
 			}
 		},
 		"25c": {
-			"instrument": "Acoustic Guitar (nylon)",
+			"instrument": "Acoustic Guitar(nylon)",
 			"sound_name": "25c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -1488,7 +1524,7 @@
 			}
 		},
 		"27c": {
-			"instrument": "Electric Guitar (jazz)",
+			"instrument": "Electric Guitar(jazz)",
 			"sound_name": "27c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -1506,7 +1542,7 @@
 			}
 		},
 		"28c": {
-			"instrument": "Electric Guitar (clean)",
+			"instrument": "Electric Guitar(clean)",
 			"sound_name": "28c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -1524,7 +1560,7 @@
 			}
 		},
 		"29c": {
-			"instrument": "Electric Guitar (muted)",
+			"instrument": "Electric Guitar(muted)",
 			"sound_name": "29c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -2604,7 +2640,7 @@
 			}
 		},
 		"89c": {
-			"instrument": "Pad 1 (new age) ",
+			"instrument": "Pad 1 (new age)",
 			"sound_name": "89c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -2622,7 +2658,7 @@
 			}
 		},
 		"90c": {
-			"instrument": "Pad 2 (warm) ",
+			"instrument": "Pad 2 (warm)",
 			"sound_name": "90c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -2640,7 +2676,7 @@
 			}
 		},
 		"91c": {
-			"instrument": "Pad 3 (polysynth) ",
+			"instrument": "Pad 3 (polysynth)",
 			"sound_name": "91c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -2658,7 +2694,7 @@
 			}
 		},
 		"92c": {
-			"instrument": "Pad 4 (choir) ",
+			"instrument": "Pad 4 (choir)",
 			"sound_name": "92c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -2676,7 +2712,7 @@
 			}
 		},
 		"93c": {
-			"instrument": "Pad 5 (bowed) ",
+			"instrument": "Pad 5 (bowed)",
 			"sound_name": "93c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -2694,7 +2730,7 @@
 			}
 		},
 		"94c": {
-			"instrument": "Pad 6 (metallic) ",
+			"instrument": "Pad 6 (metallic)",
 			"sound_name": "94c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -2712,7 +2748,7 @@
 			}
 		},
 		"95c": {
-			"instrument": "Pad 7 (halo) ",
+			"instrument": "Pad 7 (halo)",
 			"sound_name": "95c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -2730,7 +2766,7 @@
 			}
 		},
 		"96c": {
-			"instrument": "Pad 8 (sweep) ",
+			"instrument": "Pad 8 (sweep)",
 			"sound_name": "96c",
 			"expression": "%p",
 			"volume": 100.0,
@@ -3179,15 +3215,32 @@
 				"z": 0.0
 			}
 		},
-		"1": {
-			"instrument": "Acoustic Grand Piano",
+		"default": {
+			"instrument": "Default",
 			"sound_name": "1",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"1": {
+			"instrument": "Acoustic Grand",
+			"sound_name": "1",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3197,14 +3250,14 @@
 			}
 		},
 		"2": {
-			"instrument": "Bright Acoustic Piano",
+			"instrument": "Bright Acoustic",
 			"sound_name": "2",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3214,14 +3267,14 @@
 			}
 		},
 		"3": {
-			"instrument": "Electric Grand Piano",
+			"instrument": "Electric Grand",
 			"sound_name": "3",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3231,14 +3284,14 @@
 			}
 		},
 		"4": {
-			"instrument": "Honky-Tonk Piano",
+			"instrument": "Honky-Tonk",
 			"sound_name": "4",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3255,7 +3308,24 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
+			},
+			"excute_target": "@a",
+			"excute_pos": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 0.0
+			}
+		},
+		"6": {
+			"instrument": "Electric Piano 1",
+			"sound_name": "5",
+			"expression": "%p",
+			"volume": 100.0,
+			"target": "@a",
+			"source": "record",
+			"stopsound": {
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3272,7 +3342,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3289,7 +3359,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3306,7 +3376,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3323,7 +3393,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3340,7 +3410,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3357,7 +3427,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3374,7 +3444,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3391,7 +3461,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3408,7 +3478,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3425,7 +3495,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3435,14 +3505,14 @@
 			}
 		},
 		"25": {
-			"instrument": "Acoustic Guitar (nylon)",
+			"instrument": "Acoustic Guitar(nylon)",
 			"sound_name": "25",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3459,7 +3529,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3469,14 +3539,14 @@
 			}
 		},
 		"27": {
-			"instrument": "Electric Guitar (jazz)",
+			"instrument": "Electric Guitar(jazz)",
 			"sound_name": "27",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3486,14 +3556,14 @@
 			}
 		},
 		"28": {
-			"instrument": "Electric Guitar (clean)",
+			"instrument": "Electric Guitar(clean)",
 			"sound_name": "28",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3503,14 +3573,14 @@
 			}
 		},
 		"29": {
-			"instrument": "Electric Guitar (muted)",
+			"instrument": "Electric Guitar(muted)",
 			"sound_name": "29",
 			"expression": "%p",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3527,7 +3597,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3544,7 +3614,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3561,7 +3631,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3578,7 +3648,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3595,7 +3665,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3612,7 +3682,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3629,7 +3699,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3646,7 +3716,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3663,7 +3733,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3680,7 +3750,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3697,7 +3767,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3714,7 +3784,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3731,7 +3801,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3748,7 +3818,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3765,7 +3835,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3782,7 +3852,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3799,7 +3869,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3816,7 +3886,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3833,7 +3903,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3850,7 +3920,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3867,7 +3937,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3884,7 +3954,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3901,7 +3971,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3918,7 +3988,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3935,7 +4005,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {
@@ -3952,7 +4022,7 @@
 			"target": "@a",
 			"source": "record",
 			"stopsound": {
-				"enable": false,
+				"enable": false
 			},
 			"excute_target": "@a",
 			"excute_pos": {

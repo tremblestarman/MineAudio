@@ -70,7 +70,8 @@ namespace Audio2MinecraftUI.Humberger
                 音高,
                 力度,
                 Playsound输出,
-                Stopsound
+                Stopsound,
+                音高播放
             };
             TextBoxElements = new List<TextBox>()
             {
@@ -111,6 +112,7 @@ namespace Audio2MinecraftUI.Humberger
                     if (E.Uid == "MinecraftTickDuration") 键持续刻数.IsChecked = Checked;
                     if (E.Uid == "MinecraftTickStart") 键起始刻数.IsChecked = Checked;
                     if (E.Uid == "StopSound") Stopsound.IsChecked = Checked;
+                    if (E.Uid == "PitchPlayble") 音高播放.IsChecked = Checked;
                 }
                 TextSet(T.TrackList);
                 ComboSet(T.TrackList);
@@ -189,6 +191,12 @@ namespace Audio2MinecraftUI.Humberger
             {
                 if (i.All(t => t.Instruments.All(_i => _i.PlaysoundSetting.StopSound == true))) ParentResult = true;
                 else if (i.All(t => t.Instruments.All(_i => _i.PlaysoundSetting.StopSound == false))) ParentResult = false;
+                else ParentResult = null;
+            }
+            if (element == "PitchPlayable")
+            {
+                if (i.All(t => t.Instruments.All(_i => _i.PlaysoundSetting.PitchPlayable == true))) ParentResult = true;
+                else if (i.All(t => t.Instruments.All(_i => _i.PlaysoundSetting.PitchPlayable == false))) ParentResult = false;
                 else ParentResult = null;
             }
             return ParentResult;
@@ -279,6 +287,7 @@ namespace Audio2MinecraftUI.Humberger
             if (键持续刻数.IsChecked != null) i.MinecraftTickDuration = 键持续刻数.IsChecked == true;
             if (键起始刻数.IsChecked != null) i.MinecraftTickStart = 键起始刻数.IsChecked == true;
             if (Stopsound.IsChecked != null) i.PlaysoundSetting.StopSound = Stopsound.IsChecked == true;
+            if (音高播放.IsChecked != null) i.PlaysoundSetting.PitchPlayable = 音高播放.IsChecked == true;
             if (播放相对坐标X.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[0] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标X.Text) : 0;
             if (播放相对坐标Y.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[1] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标Y.Text) : 0;
             if (播放相对坐标Z.GetValue(TextBoxHelper.WatermarkProperty).ToString() == "") i.PlaysoundSetting.ExecuteCood[2] = (播放相对坐标X.Text != "") ? Double.Parse(播放相对坐标Z.Text) : 0;
@@ -315,8 +324,9 @@ namespace Audio2MinecraftUI.Humberger
             {
                 音色名称.SetValue(TextBoxHelper.WatermarkProperty, "");
             }
+            Done.IsEnabled = true;
         }
-        private void TextChanged(object sender, TextChangedEventArgs e)
+        private void TextChanging(object sender, TextChangedEventArgs e)
         {
             var T = e.OriginalSource as TextBox;
             if (T.GetValue(TextBoxHelper.WatermarkProperty).ToString() != "")
