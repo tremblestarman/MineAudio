@@ -401,7 +401,6 @@ namespace Audio2MinecraftUI
                 c.Visibility = Visibility.Hidden;
             }
         }
-
         //更新Midi预览
         private TimeLine UpdateMidiInspector(TimeLine newTimeline, TimeLine baseTimeline)
         {

@@ -10,7 +10,8 @@
              MinHeight="120" MinWidth="200" MaxHeight="120" MaxWidth="200"
              ResizeMode="NoResize"
              WindowStyle="None" Background="{x:Null}"  AllowsTransparency="True"
-             WindowStartupLocation="CenterOwner">
+             WindowStartupLocation="CenterOwner"
+             ShowInTaskbar="False">
     <Grid>
         <Controls:ProgressRing Foreground="{DynamicResource AccentColorBrush}"/>
     </Grid>

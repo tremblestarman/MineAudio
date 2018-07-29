@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Audio2MinecraftUI"
         xmlns:ham="clr-namespace:Audio2MinecraftUI.Humberger"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Height="480" Width="640"
         Title="Audio 2 Minecraft" MinHeight="480" MinWidth="640" MaxHeight="480" MaxWidth="640"
                        
         BorderThickness="2"

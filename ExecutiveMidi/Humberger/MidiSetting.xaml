@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="ExecutiveMidi.Humberger.MidiSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ExecutiveMidi.Humberger"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="620"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             MinHeight="250" MinWidth="620" MaxHeight="250" MaxWidth="620"
+             
+             Initialized="UserControl_Initialized">
+
+    <Grid HorizontalAlignment="Left" Height="250" Margin="6,2,0,0" VerticalAlignment="Top" Width="600">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="10,0,385,10">
+            <TreeView DataContext="{Binding}"  ItemsSource="{Binding Instruments}" x:Name="TracksView" Height="228" Width="202"  SelectedItemChanged="TracksView_SelectedItemChanged">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type local:MidiSetting}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </ScrollViewer>
+        <Grid Margin="220,0,0,10">
+            <Border BorderThickness="1" BorderBrush="DarkGray"/>
+            <Grid x:Name="Plat">
+                <TextBlock x:Name="SelectedName" FontSize="12px" Margin="0,10,83,211" HorizontalAlignment="Center"/>
+                <Button HorizontalAlignment="Left" Margin="347,1,0,0" VerticalAlignment="Top" Height="32" Width="32" MouseLeftButtonDown="SwitchViewType" PreviewMouseLeftButtonDown="SwitchViewType">
+                    <Image x:Name="SwitcherViewType" Source="/img/track_view.png"  Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform X="-5" Y="-7"/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Button>
+                <Button x:Name="Done" HorizontalAlignment="Left" Margin="319,6,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
+                    <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform X="-5" Y="-7"/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Button>
+                <Grid x:Name="Setting">
+                    <Label x:Name="C1" Content="是否在键起始刻执行" Margin="255,32,5,180"/>
+                    <CheckBox x:Name="ExecuteLocation" IsChecked="True" Margin="238,27,109,180" Checked="Checked"/>
+                    <Label x:Name="C2" Content="命令" Margin="7,32,253,180"/>
+                    <TextBox x:Name="Command" Margin="10,57,10,10" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" TextChanged="TextChanging"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

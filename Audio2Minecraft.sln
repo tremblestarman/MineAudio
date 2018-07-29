@@ -5,11 +5,13 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audio2Minecraft", "Dll\Audio2Minecraft.csproj", "{F7AF513A-F31D-4280-8017-67644B387EA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsForm(Old)", "Old_test\WindowsForm(Old).csproj", "{1D41AB27-0FB2-469F-93F4-FFA3741FC7A1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF(New)", "Test\WPF(New).csproj", "{26E187BB-2AB6-414D-A0A2-8099F81704CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPro", "TestBin\TestPro.csproj", "{26E187BB-2AB6-414D-A0A2-8099F81704CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audio2MinecraftUI", "Audio2MinecraftUI\Audio2MinecraftUI.csproj", "{7701EA14-4142-44D5-A478-847665DA08FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{5B38D7CF-14D7-4A4D-AD2D-09B1E85F7FD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecutiveMidi", "ExecutiveMidi\ExecutiveMidi.csproj", "{09350468-B915-49AA-A7E1-7B4FF5D797FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +23,6 @@ Global
 		{F7AF513A-F31D-4280-8017-67644B387EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7AF513A-F31D-4280-8017-67644B387EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7AF513A-F31D-4280-8017-67644B387EA7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D41AB27-0FB2-469F-93F4-FFA3741FC7A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D41AB27-0FB2-469F-93F4-FFA3741FC7A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D41AB27-0FB2-469F-93F4-FFA3741FC7A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D41AB27-0FB2-469F-93F4-FFA3741FC7A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26E187BB-2AB6-414D-A0A2-8099F81704CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26E187BB-2AB6-414D-A0A2-8099F81704CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26E187BB-2AB6-414D-A0A2-8099F81704CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,8 +31,15 @@ Global
 		{7701EA14-4142-44D5-A478-847665DA08FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7701EA14-4142-44D5-A478-847665DA08FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7701EA14-4142-44D5-A478-847665DA08FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09350468-B915-49AA-A7E1-7B4FF5D797FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09350468-B915-49AA-A7E1-7B4FF5D797FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09350468-B915-49AA-A7E1-7B4FF5D797FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09350468-B915-49AA-A7E1-7B4FF5D797FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09350468-B915-49AA-A7E1-7B4FF5D797FA} = {5B38D7CF-14D7-4A4D-AD2D-09B1E85F7FD0}
 	EndGlobalSection
 EndGlobal

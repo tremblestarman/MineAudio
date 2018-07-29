@@ -1,0 +1,75 @@
+﻿<Controls:MetroWindow  x:Class="ExecutiveMidi.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
+        xmlns:local="clr-namespace:ExecutiveMidi"
+        xmlns:ham="clr-namespace:ExecutiveMidi.Humberger"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Height="380" Width="640"
+        Title="Audio 2 Minecraft" MinHeight="380" MinWidth="640" MaxHeight="380" MaxWidth="640"
+                       
+        BorderThickness="2"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        ResizeMode="CanMinimize"
+                       
+        WindowStartupLocation="CenterScreen"
+                       
+        Icon="/img/audio2minecraft.ico">
+    <Grid>
+        <Button x:Name="icon0" HorizontalAlignment="Left" Height="32" Margin="64,8,0,0" VerticalAlignment="Top" Width="32" MouseLeftButtonDown="MidiSelect" PreviewMouseLeftButtonDown="MidiSelect">
+            <Image Source="/img/midi.png" Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-6" Y="-6"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <TextBox x:Name="MidiPath" Controls:TextBoxHelper.Watermark="请选择Midi文件" HorizontalAlignment="Left" Height="24" Margin="128,12,0,0" VerticalAlignment="Top" Width="450" Text="" MouseLeftButtonDown="MidiSelect" PreviewMouseLeftButtonDown="MidiSelect"/>
+        <Button x:Name="cancel0" HorizontalAlignment="Left" Height="24" Margin="584,13,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="MidiCancel" PreviewMouseLeftButtonDown="MidiCancel" >
+            <Image Source="img/cancel.png" Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-6" Y="-6"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <Button x:Name="save" HorizontalAlignment="Left" Height="24" Margin="9,45,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="Save" PreviewMouseLeftButtonDown="Save" >
+            <Image Source="img/save.png" Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-6" Y="-6"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <Button x:Name="load" HorizontalAlignment="Left" Height="24" Margin="35,45,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="Load" PreviewMouseLeftButtonDown="Load" >
+            <Image Source="img/done.png" Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-6" Y="-6"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="64,45,0,0" VerticalAlignment="Top" Width="556" Content=""/>
+        <Grid Margin="10,75,10,8">
+            <Border BorderThickness="1" BorderBrush="DarkGray"/>
+            <ham:MidiSetting x:Name="MidiSetting" Margin="0,10"></ham:MidiSetting>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>
