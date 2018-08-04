@@ -14,7 +14,7 @@
              ResizeMode="CanMinimize"
 
              Initialized="MetroWindow_Initialized"
-             WindowStartupLocation="CenterScreen"
+             WindowStartupLocation="CenterOwner"
                        
              Icon="/img/audio2minecraft.ico">
     <Grid>

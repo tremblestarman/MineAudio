@@ -27,6 +27,8 @@ namespace ExecutiveMidi.Humberger
         public ObservableCollection<MidiMarker> InstrumentMarkerList = new ObservableCollection<MidiMarker>();
         public void ReadListView(TimeLine timeline)
         {
+            TrackMarkerList = new ObservableCollection<MidiMarker>();
+            InstrumentMarkerList = new ObservableCollection<MidiMarker>();
             var _tl = timeline.TrackList;
             var _il = timeline.InstrumentList;
             foreach (var i in _tl)
@@ -36,6 +38,27 @@ namespace ExecutiveMidi.Humberger
             foreach (var i in _il)
             {
                 InstrumentMarkerList.Add(new MidiMarker() { Name = i.Name });
+            }
+        }
+        public void UpdateListView(ObservableCollection<MidiMarker> NewTrackMarkerList, ObservableCollection<MidiMarker> NewInstrumentMarkerList)
+        {
+            foreach (var i in TrackMarkerList)
+            {
+                var t = NewTrackMarkerList.First(k => k.Name == i.Name);
+                if (t != null)
+                {
+                    i.Command = t.Command;
+                    i.Location = t.Location;
+                }
+            }
+            foreach (var i in InstrumentMarkerList)
+            {
+                var p = NewInstrumentMarkerList.First(k => k.Name == i.Name);
+                if (p != null)
+                {
+                    i.Command = p.Command;
+                    i.Location = p.Location;
+                }
             }
         }
         public MidiViewType ViewType = MidiViewType.Track;
@@ -83,17 +106,18 @@ namespace ExecutiveMidi.Humberger
         public void ItemChanged()
         {
             SelectedItem = TracksView.SelectedItem as MidiMarker;
-            Done.IsEnabled = false;
             Setting.IsEnabled = true;
             if (SelectedItem == null) { Setting.IsEnabled = false; return; }
             SelectedName.Text = (ViewType == MidiViewType.Track) ? "音轨：" + SelectedItem.Name : "乐器：" + SelectedItem.Name;
             Command.Text = SelectedItem.Command;
             ExecuteLocation.IsChecked = SelectedItem.Location == MidiMarker.ExecuteLocation.Start;
+            Done.IsEnabled = false;
         } //选项更新
         private void DoneChanges(object sender, MouseButtonEventArgs e)
         {
             SelectedItem.Location = ExecuteLocation.IsChecked == true ? MidiMarker.ExecuteLocation.Start : MidiMarker.ExecuteLocation.End ;
             SelectedItem.Command = Command.Text;
+            Done.IsEnabled = false;
         }
 
         private void TextChanging(object sender, TextChangedEventArgs e)

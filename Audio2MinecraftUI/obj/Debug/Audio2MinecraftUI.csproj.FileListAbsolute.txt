@@ -37,3 +37,7 @@ C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Aud
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\VersionAlarm.baml
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\Waiting.g.cs
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\Waiting.baml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\Extension.g.cs
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\Extension.baml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\ExtensionOption.g.cs
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\ExtensionOption.baml

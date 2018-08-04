@@ -109,6 +109,12 @@
     <Compile Include="SubWindow\AutoFillSelector.xaml.cs">
       <DependentUpon>AutoFillSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SubWindow\Extension.xaml.cs">
+      <DependentUpon>Extension.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubWindow\ExtensionOption.xaml.cs">
+      <DependentUpon>ExtensionOption.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubWindow\VersionAlarm.xaml.cs">
       <DependentUpon>VersionAlarm.xaml</DependentUpon>
     </Compile>
@@ -166,6 +172,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SubWindow\Extension.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SubWindow\ExtensionOption.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SubWindow\VersionAlarm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,6 +218,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="img\add.png" />
     <Resource Include="img\audio2minecraft.ico" />
     <Resource Include="img\instrument_view.png" />
     <Resource Include="img\lrc.png" />
@@ -241,6 +256,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\extension.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

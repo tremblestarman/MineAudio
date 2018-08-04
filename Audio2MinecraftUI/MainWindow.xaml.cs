@@ -69,6 +69,8 @@ namespace Audio2MinecraftUI
             }
         }
         public static string autoFillRule = "无", autoFillMode = ""; //自动补全规则 & 模式
+        public static List<ExtensionFile> ExtensionFiles = new List<ExtensionFile>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -120,7 +122,7 @@ namespace Audio2MinecraftUI
                     }
                     if (_v.version != currentV.version) //版本不同
                     {
-                        var alarm = new SubWindow.VersionAlarm();
+                        var alarm = new SubWindow.VersionAlarm(); alarm.Owner = this;
                         alarm.new_version.Text = "检测到最新版本: " + _v.version;
                         alarm.log.Text = _v.log.Replace("\n", Environment.NewLine);
                         alarm.download_url = _v.download;
@@ -313,7 +315,7 @@ namespace Audio2MinecraftUI
         {
             //Get AutoFills
             GetAutoFills(AppDomain.CurrentDomain.BaseDirectory + "config\\autofill");
-            SubWindow.AutoFillSelector n = new SubWindow.AutoFillSelector();
+            SubWindow.AutoFillSelector n = new SubWindow.AutoFillSelector(); n.Owner = this;
             //Initialize
             var rules = (from r in AutoFills select r.Value.RuleName).OrderBy(r => r).ToList();
             rules.Add("无");
@@ -330,6 +332,13 @@ namespace Audio2MinecraftUI
                 MidiSetting.UpdateAutoFill(null, autoFillRule);
             else
                 MidiSetting.UpdateAutoFill(AutoFills[autoFillRule], autoFillRule);
+        }
+        private void OpenExtension(object sender, MouseButtonEventArgs e)
+        {
+            var n = new SubWindow.Extension(); n.Owner = this;
+            n.ShowDialog();
+            if (ExtensionFiles.Count > 0 && MidiPath.Text == "" && WavePath.Text == "" && LrcPath.Text == "") A2MSave.IsEnabled = true;
+            if (ExtensionFiles.Count == 0 && MidiPath.Text == "" && WavePath.Text == "" && LrcPath.Text == "") A2MSave.IsEnabled = false;
         }
         private void GetAutoFills(string directoryPath, string upper = "")
         {
@@ -543,7 +552,7 @@ namespace Audio2MinecraftUI
             SaveFileDialog fileDialog = new SaveFileDialog();
             fileDialog.Filter = "A2M Project(*.amproj)|*.amproj|Universal Schematic(*.schematic)|*.schematic|WorldEdit Schematic(*.schematic)|*.schematic";
             fileDialog.FilterIndex = 1;
-            foreach (var t in preTimeLine.TrackList)
+            foreach (var t in preTimeLine.TrackList) //New Tracks List
             {
                 foreach (var i in t.Instruments)
                 {
@@ -572,6 +581,10 @@ namespace Audio2MinecraftUI
                     worker.WorkerReportsProgress = true;
                     worker.DoWork += (o, ea) =>
                     {
+                        foreach (var ex in ExtensionFiles) //Update ExtensionFiles
+                        {
+                            ex.AbsToR(fileDialog.FileName);
+                        }
                         var f = new FileOutPut() //写入文件结构
                         {
                             MidiTracks = preTimeLine.TrackList,
@@ -608,9 +621,10 @@ namespace Audio2MinecraftUI
                                     repeat = LyricMode.LyricOutSet.repeat,
                                 }
                             },
+                            ExtensionFiles = ExtensionFiles,
                             wav_COMMIT = new int[] { m_1, m_3, m_3 }
                         };
-                        File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
+                        File.WriteAllText(fileDialog.FileName, _coding.Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
                         projName = new FileInfo(fileDialog.FileName).Name; SetFileShow(); //更新文件显示
                     };
                     worker.RunWorkerCompleted += (o, ea) =>
@@ -656,6 +670,10 @@ namespace Audio2MinecraftUI
                         exportLine.Sound_Stereo(PublicSet.ST - 1);
                         //命令序列实例化
                         var commandLine = new CommandLine().Serialize(exportLine);
+                        foreach (var ex in ExtensionFiles)
+                        {
+                            commandLine = commandLine.Combine(commandLine, ex.ToCommandLine());
+                        }
                         if (Lrcpath != "") //添加歌词
                         {
                             var lrcLine = GetLyrcics();
@@ -681,7 +699,7 @@ namespace Audio2MinecraftUI
             fileDialog.FilterIndex = 1;
             if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
             {
-                var o = JsonConvert.DeserializeObject<FileOutPut>(Decompress(File.ReadAllText(fileDialog.FileName)));
+                var o = JsonConvert.DeserializeObject<FileOutPut>(_coding.Decompress(File.ReadAllText(fileDialog.FileName)));
                 //relative or absolute or cancel
                 var msg = MessageBox.Show("是否使用相对路径导入？", "使用相对路径导入", MessageBoxButton.YesNoCancel); if (msg == MessageBoxResult.Cancel) return;
                 if (msg == MessageBoxResult.Yes)
@@ -846,6 +864,11 @@ namespace Audio2MinecraftUI
                     cancel2.Visibility = Visibility.Hidden;
                 }
                 LrcSetting.UpdateCheckBox();
+                ExtensionFiles = o.ExtensionFiles; //ExtensionFiles
+                foreach (var ex in ExtensionFiles)
+                {
+                    ex.AbsToR(fileDialog.FileName);
+                }
 
                 load.IsEnabled = true;
                 A2MSave.IsEnabled = true;
@@ -853,47 +876,6 @@ namespace Audio2MinecraftUI
                 SetFileShow();  //更新文件显示
             }
         }
-        #region Compress
-        public static string Compress(string text)
-        {
-            byte[] buffer = Encoding.UTF8.GetBytes(text);
-            MemoryStream ms = new MemoryStream();
-            using (GZipStream zip = new GZipStream(ms, CompressionMode.Compress, true))
-            {
-                zip.Write(buffer, 0, buffer.Length);
-            }
-
-            ms.Position = 0;
-            MemoryStream outStream = new MemoryStream();
-
-            byte[] compressed = new byte[ms.Length];
-            ms.Read(compressed, 0, compressed.Length);
-
-            byte[] gzBuffer = new byte[compressed.Length + 4];
-            System.Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
-            System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
-            return Convert.ToBase64String(gzBuffer);
-        }
-        public static string Decompress(string compressedText)
-        {
-            byte[] gzBuffer = Convert.FromBase64String(compressedText);
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int msgLength = BitConverter.ToInt32(gzBuffer, 0);
-                ms.Write(gzBuffer, 4, gzBuffer.Length - 4);
-
-                byte[] buffer = new byte[msgLength];
-
-                ms.Position = 0;
-                using (GZipStream zip = new GZipStream(ms, CompressionMode.Decompress))
-                {
-                    zip.Read(buffer, 0, buffer.Length);
-                }
-
-                return Encoding.UTF8.GetString(buffer);
-            }
-        }
-        #endregion
     }
     /// <summary>
     /// .amproj文件结构
@@ -938,6 +920,7 @@ namespace Audio2MinecraftUI
                 public string color2;
             }
         }
+        public List<ExtensionFile> ExtensionFiles = new List<ExtensionFile>(); //Extension
         public int[] wav_COMMIT = new int[] { 5, 5, 5 };
     }
 
@@ -951,9 +934,88 @@ namespace Audio2MinecraftUI
         }
     }
 
+    public class ExtensionFile
+    {
+        bool missing = false;
+        public string IsMissing {
+            get
+            {
+                if (Path != "" && new FileInfo(Path).Exists) missing = false;
+                else missing = true;
+                return missing == true ? "缺失" : "正常";
+            }
+        }
+        public string Name
+        {
+            get
+            {
+                return new FileInfo(Path).Name;
+            }
+        }
+        public string Path = "";
+        public Uri rPath;
+        public CommandLine ToCommandLine()
+        {
+            return JsonConvert.DeserializeObject<CommandLine>(_coding.Decompress(File.ReadAllText(Path)));
+        }
+        public void RToAbs(string ProjFileName) //When Reading
+        {
+            Path = (rPath != null) ? new Uri(new Uri(ProjFileName.Replace(" ", "*20")), rPath).LocalPath.Replace("*20", " ") : "";
+        }
+        public void AbsToR(string ProjFileName) //When Writing
+        {
+            rPath = (Path != "") ? new Uri(ProjFileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Path.Replace(" ", "*20"))) : null;
+        }
+    }
+
+    public static class _coding
+    {
+        #region Compress
+        public static string Compress(string text)
+        {
+            byte[] buffer = Encoding.UTF8.GetBytes(text);
+            MemoryStream ms = new MemoryStream();
+            using (GZipStream zip = new GZipStream(ms, CompressionMode.Compress, true))
+            {
+                zip.Write(buffer, 0, buffer.Length);
+            }
+
+            ms.Position = 0;
+            MemoryStream outStream = new MemoryStream();
+
+            byte[] compressed = new byte[ms.Length];
+            ms.Read(compressed, 0, compressed.Length);
+
+            byte[] gzBuffer = new byte[compressed.Length + 4];
+            System.Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
+            System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
+            return Convert.ToBase64String(gzBuffer);
+        }
+        public static string Decompress(string compressedText)
+        {
+            byte[] gzBuffer = Convert.FromBase64String(compressedText);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int msgLength = BitConverter.ToInt32(gzBuffer, 0);
+                ms.Write(gzBuffer, 4, gzBuffer.Length - 4);
+
+                byte[] buffer = new byte[msgLength];
+
+                ms.Position = 0;
+                using (GZipStream zip = new GZipStream(ms, CompressionMode.Decompress))
+                {
+                    zip.Read(buffer, 0, buffer.Length);
+                }
+
+                return Encoding.UTF8.GetString(buffer);
+            }
+        }
+        #endregion
+    }
+
     public class _Version
     {
-        public string version = "A-1.1";
+        public string version = "A-1.2";
         public string download;
         public string log;
     }

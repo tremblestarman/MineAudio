@@ -1,0 +1,33 @@
+%t 继承持续刻数
+%t[min..max] 继承持续刻数，范围限定
+%tc[CustomTick.json] 继承自定义持续刻数
+%p 继承音高
+%p[min..max] 继承音高，范围限定
+%pc[CustomPitch.json] 继承自定义音高
+%v 继承力度
+%v[min..max] 继承力度，范围限定
+%vc[CustomVelocity.json] 继承自定义力度
+%bi 小节索引
+%bd 小节长度
+%ch 音轨
+
+数学表达式
+%() 普通运算式
+%sin() 弧度制正弦
+%cos() 弧度制余弦
+%tan() 弧度制正切
+%sina() 角度制正弦
+%cosa() 角度制余弦
+%tana() 角度制正切
+%sinh() 双曲正弦
+%cosh() 双曲余弦
+%tanh() 双曲正切
+%abs() 绝对值
+%round() 四舍五入
+%sqrt() 开方
+
+例如%(%sin(%sqrt(%p*%p*%pi))/(%t+1))
+代入到命令中如：
+summon minecraft:falling_block %(%cosa((%p-32)*45)*2+100) 50 %(%sina((%p-32)*45)*2+1000) {Time:100s,Block:gold_block}
+你能说出来这代表什么吗？
+答案：以(100,50,1000)为极坐标中心，极径为2，极角为(%p-32)*45，生成掉落的金块
