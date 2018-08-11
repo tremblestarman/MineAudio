@@ -36,9 +36,11 @@ namespace ExecutiveMidi
         {
             public string Midipath = "";
             public Uri rMidipath;
+            public int BPM;
             public ObservableCollection<Humberger.MidiMarker> TrackMarkerList;
             public ObservableCollection<Humberger.MidiMarker> InstrumentMarkerList;
         }
+        public static int BPM = -1;
         public static ExportSetting export = new ExportSetting() { Width = 16 };
         public static bool export_cancel = false;
 
@@ -113,6 +115,9 @@ namespace ExecutiveMidi
                     MidiSetting.TracksView.ItemsSource = MidiSetting.TrackMarkerList; //Track
                     MidiSetting.Plat.IsEnabled = true;
                     MidiSetting.ItemChanged();
+
+                    BPM = preTimeLine.Param["MidiBeatPerMinute"].Value;
+
                     save.IsEnabled = true;
                     oldMidi = MidiPath.Text;
                 };
@@ -133,6 +138,7 @@ namespace ExecutiveMidi
                         Midipath = Midipath,
                         rMidipath = (Midipath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Midipath.Replace(" ", "*20"))) : null,
                         InstrumentMarkerList = MidiSetting.InstrumentMarkerList,
+                        BPM = BPM,
                         TrackMarkerList = MidiSetting.TrackMarkerList
                     };
                     File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
@@ -236,6 +242,7 @@ namespace ExecutiveMidi
                                 export_cancel = false;
                             }
                         }
+                        w.Close();
                     };
                     worker.RunWorkerAsync();
                 }
@@ -390,149 +397,333 @@ namespace ExecutiveMidi
             return baseTimeline;
         }
 
-        private string MathCmd(string cmd)
+        #region Math
+        private string mCos(string cmd)
         {
-            var error = false;
-            //%pi
-            cmd = cmd.Replace("%pi", Math.PI.ToString());
             //cos
             var cosL = new Regex(@"(?i)(?<=%cos\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (cosL.Count == 0) return cmd;
             foreach (var m in cosL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Cos(result);
-                cmd = cmd.Replace("%cos(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%cos(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mSin(string cmd)
+        {
             //sin
             var sinL = new Regex(@"(?i)(?<=%sin\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (sinL.Count == 0) return cmd;
             foreach (var m in sinL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Sin(result);
-                cmd = cmd.Replace("%sin(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%sin(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mTan(string cmd)
+        {
             //tan
             var tanL = new Regex(@"(?i)(?<=%tan\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (tanL.Count == 0) return cmd;
             foreach (var m in tanL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Tan(result);
-                cmd = cmd.Replace("%tan(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%tan(" + _c.Value + ")", result.ToString("0.0000"));
             }
-            //cosa
-            var cosaL = new Regex(@"(?i)(?<=%cosa\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            return cmd;
+        }
+        private string mCosa(string cmd)
+        {
+            //cos
+            var cosaL = new Regex(@"(?i)(?<=%cos\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (cosaL.Count == 0) return cmd;
             foreach (var m in cosaL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Cos(result * Math.PI / 180);
-                cmd = cmd.Replace("%cosa(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%cos(" + _c.Value + ")", result.ToString("0.0000"));
+                else
+                    cmd = MathCmd(cmd);
             }
+            return cmd;
+        }
+        private string mSina(string cmd)
+        {
             //sina
             var sinaL = new Regex(@"(?i)(?<=%sina\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (sinaL.Count == 0) return cmd;
             foreach (var m in sinaL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Sin(result * Math.PI / 180);
-                cmd = cmd.Replace("%sina(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%sina(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mTana(string cmd)
+        {
             //tana
             var tanaL = new Regex(@"(?i)(?<=%tana\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (tanaL.Count == 0) return cmd;
             foreach (var m in tanaL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Tan(result * Math.PI / 180);
-                cmd = cmd.Replace("%tana(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%tana(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mCosh(string cmd)
+        {
             //cosh
             var coshL = new Regex(@"(?i)(?<=%cosh\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (coshL.Count == 0) return cmd;
             foreach (var m in coshL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Cosh(result);
-                cmd = cmd.Replace("%cosh(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%cosh(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mSinh(string cmd)
+        {
             //sinh
             var sinhL = new Regex(@"(?i)(?<=%sinh\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (sinhL.Count == 0) return cmd;
             foreach (var m in sinhL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Sinh(result);
-                cmd = cmd.Replace("%sinh(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%sinh(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mTanh(string cmd)
+        {
             //tanh
             var tanhL = new Regex(@"(?i)(?<=%tanh\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (tanhL.Count == 0) return cmd;
             foreach (var m in tanhL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Tanh(result);
-                cmd = cmd.Replace("%tanh(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%tanh(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mAbs(string cmd)
+        {
             //abs
             var absL = new Regex(@"(?i)(?<=%abs\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (absL.Count == 0) return cmd;
             foreach (var m in absL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Abs(result);
-                cmd = cmd.Replace("%abs(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%abs(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mRound(string cmd)
+        {
             //round
             var roundL = new Regex(@"(?i)(?<=%round\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (roundL.Count == 0) return cmd;
             foreach (var m in roundL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Round(result);
-                cmd = cmd.Replace("%round(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%round(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mSqrt(string cmd)
+        {
             //sqrt
             var sqrtL = new Regex(@"(?i)(?<=%sqrt\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (sqrtL.Count == 0) return cmd;
             foreach (var m in sqrtL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
                 result = Math.Sqrt(result);
-                cmd = cmd.Replace("%sqrt(" + _c.Value + ")", result.ToString("0.0000"));
+                if (s)
+                    cmd = cmd.Replace("%sqrt(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+        private string mFloor(string cmd)
+        {
+            //sqrt
+            var floorL = new Regex(@"(?i)(?<=%floor\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (floorL.Count == 0) return cmd;
+            foreach (var m in floorL)
+            {
+                var _c = m as Match;
+                double result = 0;
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
+                result = Math.Floor(result);
+                if (s)
+                    cmd = cmd.Replace("%floor(" + _c.Value + ")", result.ToString("0.0000"));
+            }
+            return cmd;
+        }
+        private string mCeil(string cmd)
+        {
+            //sqrt
+            var ceilL = new Regex(@"(?i)(?<=%ceil\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (ceilL.Count == 0) return cmd;
+            foreach (var m in ceilL)
+            {
+                var _c = m as Match;
+                double result = 0;
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
+                result = Math.Ceiling(result);
+                if (s)
+                    cmd = cmd.Replace("%ceil(" + _c.Value + ")", result.ToString("0.0000"));
+            }
+            return cmd;
+        }
+        private string mLog(string cmd)
+        {
+            //sqrt
+            var logL = new Regex(@"(?i)(?<=%log\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (logL.Count == 0) return cmd;
+            foreach (var m in logL)
+            {
+                var _c = m as Match;
+                double result = 0;
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
+                result = Math.Log(result);
+                if (s)
+                    cmd = cmd.Replace("%log(" + _c.Value + ")", result.ToString("0.0000"));
+            }
+            return cmd;
+        }
+        private string mLog10(string cmd)
+        {
+            //sqrt
+            var log10L = new Regex(@"(?i)(?<=%log10\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (log10L.Count == 0) return cmd;
+            foreach (var m in log10L)
+            {
+                var _c = m as Match;
+                double result = 0;
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
+                result = Math.Log10(result);
+                if (s)
+                    cmd = cmd.Replace("%log10(" + _c.Value + ")", result.ToString("0.0000"));
+            }
+            return cmd;
+        }
+        private string mExp(string cmd)
+        {
+            //sqrt
+            var expL = new Regex(@"(?i)(?<=%exp\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (expL.Count == 0) return cmd;
+            foreach (var m in expL)
+            {
+                var _c = m as Match;
+                double result = 0;
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
+                result = Math.Exp(result);
+                if (s)
+                    cmd = cmd.Replace("%exp(" + _c.Value + ")", result.ToString("0.0000"));
+            }
+            return cmd;
+        }
+        private string mN(string cmd)
+        {
             //normal
             var nL = new Regex(@"(?i)(?<=%\()((?<Open>\()|(?<-Open>\))|[^()]+)*(?(Open)(?!))(?=\))").Matches(cmd);
+            if (nL.Count == 0) return cmd;
             foreach (var m in nL)
             {
                 var _c = m as Match;
                 double result = 0;
-                error = TryMathExpression(_c.Value, out result);
-                result = Math.Sqrt(result);
-                cmd = cmd.Replace("%(" + _c.Value + ")", result.ToString("0.0000"));
+                var s = TryMathExpression(MathCmd(_c.Value), out result);
+                if (s)
+                    cmd = cmd.Replace("%(" + _c.Value + ")", result.ToString("0.0000"));
             }
+            return cmd;
+        }
+
+        private string MathCmd(string cmd)
+        {
+            //%pi
+            cmd = cmd.Replace("%Pi", Math.PI.ToString());
+            //other independent expression
+            cmd = mCos(cmd);
+            cmd = mSin(cmd);
+            cmd = mTan(cmd);
+            cmd = mCosa(cmd);
+            cmd = mSina(cmd);
+            cmd = mTana(cmd);
+            cmd = mCosh(cmd);
+            cmd = mSinh(cmd);
+            cmd = mTanh(cmd);
+            cmd = mAbs(cmd);
+            cmd = mRound(cmd);
+            cmd = mSqrt(cmd);
+            cmd = mFloor(cmd);
+            cmd = mCeil(cmd);
+            cmd = mLog(cmd);
+            cmd = mLog10(cmd);
+            cmd = mExp(cmd);
+            cmd = mN(cmd);
+
             return cmd;
         }
         private bool TryMathExpression(string expression, out double result)
         {
-            object r = new DataTable().Compute(expression, "");
-            result = Convert.ToDouble(r);
-            return true;
+            try
+            {
+                object r = new DataTable().Compute(expression, "");
+                return Double.TryParse(r.ToString(), out result);
+            }
+            catch { Double.TryParse("", out result); return false; }
         }
+        #endregion
         #region Compress
         public static string Compress(string text)
         {

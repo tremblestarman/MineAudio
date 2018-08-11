@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using Audio2Minecraft;
 
 namespace ExecutiveMidi.SubWindow
 {
@@ -33,8 +35,13 @@ namespace ExecutiveMidi.SubWindow
             延伸方向.Items.Add("北（z-）");
             延伸方向.SelectedIndex = 0;
             序列宽度.Text = "16";
+            重设BPM.Text = MainWindow.BPM.ToString();
             保持区块加载.IsChecked = true;
             保持区块加载.IsChecked = false;
+            Midi刻长.Text = MainWindow.preTimeLine.Param["TotalTicks"].Value.ToString() + " ticks";
+            var m = MainWindow.preTimeLine.Param["TotalTicks"].Value / 1200;
+            var s = MainWindow.preTimeLine.Param["TotalTicks"].Value % 1200 / 20;
+            Midi时长.Text = m.ToString() + " : " + s.ToString();
             Done.IsEnabled = true;
         }
 
@@ -63,6 +70,43 @@ namespace ExecutiveMidi.SubWindow
             Done.IsEnabled = true;
         }
 
+        private void OK(object sender, MouseButtonEventArgs e)
+        {
+            if (MainWindow.Midipath != "" && MainWindow.BPM.ToString() != 重设BPM.Text)
+            {
+                var m_ = MainWindow.Midipath; var b = Int32.Parse(重设BPM.Text);
+                var a = new TimeLine();
+                var g = new SubWindow.Waiting(); g.Owner = this;
+                BackgroundWorker waiting = new BackgroundWorker();
+                waiting.DoWork += (ee, ea) => { };
+                waiting.RunWorkerCompleted += (ee, ea) =>
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        g.ShowDialog();
+                    }));
+                };
+                waiting.RunWorkerAsync();
+                //Work
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerReportsProgress = true;
+                worker.DoWork += (ee, ea) =>
+                {
+                    a = new AudioStreamMidi().Serialize(m_, new TimeLine(), b);
+                };
+                worker.RunWorkerCompleted += (ee, ea) =>
+                {
+                    g.Close();
+
+                    Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
+                    var m = a.Param["TotalTicks"].Value / 1200;
+                    var s = a.Param["TotalTicks"].Value % 1200 / 20;
+                    Midi时长.Text = m.ToString() + " : " + s.ToString();
+                    MainWindow.BPM = Int32.Parse(重设BPM.Text);
+                };
+                worker.RunWorkerAsync();
+            }
+        }
         private void DoneChanges(object sender, MouseButtonEventArgs e)
         {
             MainWindow.export = new Audio2Minecraft.ExportSetting() { AlwaysActive = 保持区块加载.IsChecked == true, AlwaysLoadEntities = false, AutoTeleport = false, Direction = 延伸方向.SelectedIndex, Width = Int32.Parse(序列宽度.Text) };

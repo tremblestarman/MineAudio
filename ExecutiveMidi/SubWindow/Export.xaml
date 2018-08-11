@@ -6,19 +6,36 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:ExecutiveMidi.SubWindow"
         mc:Ignorable="d"
-        Title="导出设置" Height="222" Width="212"
+        Title="导出设置" Height="222" Width="400"
         Initialized="Window_Initialized" Closed="MetroWindow_Closed"
-        MaxHeight="222" MaxWidth="212" MinHeight="222" MinWidth="212"
+        MaxHeight="222" MaxWidth="400" MinHeight="222" MinWidth="400"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Icon="/img/executivemidi.ico">
     <Grid Margin="0,-12,0,-2">
-        <TextBlock Text="序列延伸方向" FontSize="12px" Margin="50,24,50,159"/>
-        <ComboBox x:Name="延伸方向" Text="东（x+）" Margin="50,48,50,128" Height="24" SelectionChanged="_SelectionChanged"/>
-        <TextBlock Text="序列宽度" FontSize="12px" Margin="50,83,50,100"/>
-        <TextBox x:Name="序列宽度" Margin="50,108,50,70" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
-        <TextBlock Text="保持区块加载" FontSize="12px" Margin="50,148,50,35"/>
-        <CheckBox x:Name="保持区块加载" Margin="136,146,46,37" Click="_Click"/>
-        <Button x:Name="Done" HorizontalAlignment="Left" Margin="93,173,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
+        <TextBlock Text="序列延伸方向" FontSize="12px" Margin="50,28,257,155"/>
+        <ComboBox x:Name="延伸方向" Text="东（x+）" Margin="50,50,220,125" SelectionChanged="_SelectionChanged"/>
+        <TextBlock Text="序列宽度" FontSize="12px" Margin="50,87,283,96"/>
+        <TextBox x:Name="序列宽度" Margin="50,108,220,70" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
+        <TextBlock Text="保持区块加载" FontSize="12px" Margin="50,148,220,35"/>
+        <CheckBox x:Name="保持区块加载" Margin="136,146,220,37" Click="_Click"/>
+        <TextBlock Text="重设BPM" FontSize="12px" Margin="244,28,63,155"/>
+        <TextBox x:Name="重设BPM" Margin="244,50,50,125" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
+        <TextBlock Text="Midi时长" FontSize="12px" Margin="244,87,83,96"/>
+        <TextBlock x:Name="Midi刻长" Text="" FontSize="12px" Margin="252,108,2,75"/>
+        <TextBlock x:Name="Midi时长" Text="" FontSize="12px" Margin="252,128,2,55"/>
+        <Button x:Name="Ok" HorizontalAlignment="Left" Margin="357,52,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="OK" PreviewMouseLeftButtonDown="OK">
+            <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-5" Y="-7"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <Button x:Name="Done" HorizontalAlignment="Left" Margin="196,174,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
             <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
                 <Image.RenderTransform>
                     <TransformGroup>

@@ -116,12 +116,12 @@ namespace Audio2MinecraftUI.Humberger
                 worker.RunWorkerCompleted += (ee, ea) =>
                 {
                     w.Close();
-                    
-                Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
-                var m = a.Param["TotalTicks"].Value / 1200;
-                var s = a.Param["TotalTicks"].Value % 1200 / 20;
-                Midi时长.Text = m.ToString() + " : " + s.ToString();
-                MainWindow.BPM = Int32.Parse(重设BPM.Text);
+
+                    Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
+                    var m = a.Param["TotalTicks"].Value / 1200;
+                    var s = a.Param["TotalTicks"].Value % 1200 / 20;
+                    Midi时长.Text = m.ToString() + " : " + s.ToString();
+                    MainWindow.BPM = Int32.Parse(重设BPM.Text);
                 };
                 worker.RunWorkerAsync();
             }
