@@ -97,10 +97,12 @@ namespace Audio2MinecraftUI
         }
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            _left = this.Left + 170; _top = this.Top + 140;
             var n = new Thread(g => alarmVersion()) { IsBackground = true };
             n.SetApartmentState(ApartmentState.STA);
             n.Start();
         }
+        double _top = 0, _left = 0;
         private void alarmVersion()//查看版本更新
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; //建立安全通道
@@ -122,7 +124,8 @@ namespace Audio2MinecraftUI
                     }
                     if (_v.version != currentV.version) //版本不同
                     {
-                        var alarm = new SubWindow.VersionAlarm(); alarm.Owner = this;
+                        var alarm = new SubWindow.VersionAlarm();
+                        alarm.Top = _top; alarm.Left = _left;
                         alarm.new_version.Text = "检测到最新版本: " + _v.version;
                         alarm.log.Text = _v.log.Replace("\n", Environment.NewLine);
                         alarm.download_url = _v.download;
@@ -1015,7 +1018,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "A-1.2";
+        public string version = "A-1.21";
         public string download;
         public string log;
     }
