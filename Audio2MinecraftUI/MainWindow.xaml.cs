@@ -22,6 +22,8 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using Audio2Minecraft;
 using System.Text.RegularExpressions;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 
@@ -335,6 +337,81 @@ namespace Audio2MinecraftUI
                 MidiSetting.UpdateAutoFill(null, autoFillRule);
             else
                 MidiSetting.UpdateAutoFill(AutoFills[autoFillRule], autoFillRule);
+        }
+        private void ExportText(object sender, MouseButtonEventArgs e)
+        {
+            if (MidiPath.Text == "")
+            {
+                MessageBox.Show("你还没有选中任何Midi文件", "导出Midi信息");
+                return;
+            }
+            if (!new FileInfo(MidiPath.Text).Exists)
+            {
+                MessageBox.Show("Midi文件不存在", "导出Midi信息");
+                return;
+            }
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "MidiInfo in Excel(*.xlsx)|*.xlsx|MidiInfo in Txt(*.txt)|*.txt";
+            fileDialog.FilterIndex = 1;
+            if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
+            {
+                if (fileDialog.FilterIndex == 1) //Excel
+                {
+                    //Waiting
+                    var w = new SubWindow.Waiting(); w.Owner = this;
+                    BackgroundWorker waiting = new BackgroundWorker();
+                    waiting.DoWork += (ee, ea) => { };
+                    waiting.RunWorkerCompleted += (ee, ea) =>
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            w.ShowDialog();
+                        }));
+                    };
+                    waiting.RunWorkerAsync();
+                    //Work
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerReportsProgress = true;
+                    var midi = MidiPath.Text;
+                    worker.DoWork += (o, ea) =>
+                    {
+                        new MidiInfoExcel(midi, fileDialog.FileName, BPM);
+                    };
+                    worker.RunWorkerCompleted += (o, ea) =>
+                    {
+                        w.Close();
+                    };
+                    worker.RunWorkerAsync();
+                }
+                else if (fileDialog.FilterIndex == 2) //TXT
+                {
+                    //Waiting
+                    var w = new SubWindow.Waiting(); w.Owner = this;
+                    BackgroundWorker waiting = new BackgroundWorker();
+                    waiting.DoWork += (ee, ea) => { };
+                    waiting.RunWorkerCompleted += (ee, ea) =>
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            w.ShowDialog();
+                        }));
+                    };
+                    waiting.RunWorkerAsync();
+                    //Work
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerReportsProgress = true;
+                    var midi = MidiPath.Text;
+                    worker.DoWork += (o, ea) =>
+                    {
+                        new MidiInfoTxt(midi, fileDialog.FileName, BPM);
+                    };
+                    worker.RunWorkerCompleted += (o, ea) =>
+                    {
+                        w.Close();
+                    };
+                    worker.RunWorkerAsync();
+                }
+            }
         }
         private void OpenExtension(object sender, MouseButtonEventArgs e)
         {
@@ -971,6 +1048,125 @@ namespace Audio2MinecraftUI
         }
     }
 
+    public class MidiInfoTxt
+    {
+        public MidiInfoTxt(string fileName, string fileOut, int bpm = -1)
+        {
+            var midi = new AudioStreamMidi().Serialize(fileName, new TimeLine(), bpm);
+            foreach (var n in midi.TickNodes)
+            {
+                if (n.CurrentTick > -1)
+                    Lines.AppendLine("==== Tick : " + n.CurrentTick + " ====");
+                foreach (var t in n.MidiTracks.Keys)
+                {
+                    var m_v = 0;
+                    if (n.MidiTracks[t].Count > 0 && n.MidiTracks[t].First().Value.Count > 0) m_v = n.MidiTracks[t].First().Value[0].PlaySound.MandaVolume;
+                    Lines.AppendLine("\t=-- Track : \"" + t + "\", Volume : " + m_v.ToString() + "%");
+                    foreach (var i in n.MidiTracks[t].Keys)
+                    {
+                        Lines.AppendLine("\t\t--- Instrument : \"" + i + "\"");
+                        foreach (var g in n.MidiTracks[t][i])
+                        {
+                            Lines.AppendLine("\t\t\t- P : " + g.Param["Pitch"].Value + "(" + returnNote(g.Param["Pitch"].Value) + ")" + "\t- V : " + g.Param["Velocity"].Value + "  \t- L : " + g.Param["MinecraftTickDuration"].Value + " ticks");
+                        }
+                    }
+                }
+            }
+            File.WriteAllText(fileOut, Lines.ToString());
+        }
+        public StringBuilder Lines = new StringBuilder();
+
+        private string returnNote(int pitch)
+        {
+            if (pitch > 0 && pitch < 128)
+            {
+                List<string> name_i = new List<string>();
+                name_i.Add("C"); name_i.Add("C#"); name_i.Add("D"); name_i.Add("D#"); name_i.Add("E"); name_i.Add("F"); name_i.Add("F#"); name_i.Add("G"); name_i.Add("G#"); name_i.Add("A"); name_i.Add("A#"); name_i.Add("B");
+                return name_i[pitch % 12] + (pitch/12).ToString();
+            }
+            return "NaN";
+        }
+    }
+    public class MidiInfoExcel
+    {
+        public MidiInfoExcel(string fileName, string fileOut, int bpm = -1)
+        {
+            var timeLine = new TimeLine();
+            var midi = new AudioStreamMidi().Serialize(fileName, timeLine, bpm); //MidiFile
+            var midi_index = new Dictionary<string, int>();
+            var excel = new ExcelPackage();
+            //Midi
+            for (int i = 1; i <= midi.TrackList.Count; i++)
+            {
+                midi_index.Add(midi.TrackList[i - 1].Name, 1/* Index */);
+                var wks = excel.Workbook.Worksheets.Add(midi.TrackList[i-1].Name);
+                wks.Cells[1, 1].Value = "起始时间";
+                wks.Cells[1, 2].Value = "乐器";
+                wks.Cells[1, 3].Value = "MIDI音高";
+                wks.Cells[1, 4].Value = "音高";
+                wks.Cells[1, 5].Value = "力度";
+                wks.Cells[1, 6].Value = "持续时间";
+                wks.Cells[1, 8].Value = "控制器音量";
+                wks.Cells[1, 9].Value = "控制器相位";
+                wks.Row(1).Height = 20;
+                wks.Row(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                wks.Row(1).Style.Font.Bold = true;
+            }
+
+            foreach (var n in midi.TickNodes)
+            {
+                if (n.CurrentTick > -1)
+                {
+                    foreach (var t in n.MidiTracks.Keys)
+                    {
+                        foreach (var i in n.MidiTracks[t].Keys)
+                        {
+                            foreach (var g in n.MidiTracks[t][i])
+                            {
+                                midi_index[t]++;
+
+                                var wks = excel.Workbook.Worksheets[t];
+                                wks.Cells[midi_index[t], 1].Value = n.CurrentTick;
+                                wks.Cells[midi_index[t], 2].Value = i;
+                                wks.Cells[midi_index[t], 3].Value = g.Param["Pitch"].Value;
+                                wks.Cells[midi_index[t], 4].Value = returnNote(g.Param["Pitch"].Value);
+                                wks.Cells[midi_index[t], 5].Value = g.Param["Velocity"].Value;
+                                wks.Cells[midi_index[t], 6].Value = g.Param["MinecraftTickDuration"].Value;
+                                wks.Cells[midi_index[t], 8].Value = g.PlaySound.MandaVolume;
+                                wks.Cells[midi_index[t], 9].Value = g.PlaySound.GetPan();
+                            }
+                        }
+                    }
+                }
+            }
+            //Export
+            foreach (var t in midi.TrackList)
+            {
+                var k = t.Name;
+                excel.Workbook.Worksheets[k].Column(1).AutoFit();
+                excel.Workbook.Worksheets[k].Column(2).AutoFit();
+                excel.Workbook.Worksheets[k].Column(3).AutoFit();
+                excel.Workbook.Worksheets[k].Column(4).AutoFit();
+                excel.Workbook.Worksheets[k].Column(5).AutoFit();
+                excel.Workbook.Worksheets[k].Column(6).AutoFit();
+                excel.Workbook.Worksheets[k].Column(8).AutoFit();
+                excel.Workbook.Worksheets[k].Column(9).AutoFit();
+            }
+            excel.SaveAs(new FileInfo(fileOut));
+        }
+
+        private string returnNote(int pitch)
+        {
+            if (pitch > 0 && pitch < 128)
+            {
+                List<string> name_i = new List<string>();
+                name_i.Add("C"); name_i.Add("C#"); name_i.Add("D"); name_i.Add("D#"); name_i.Add("E"); name_i.Add("F"); name_i.Add("F#"); name_i.Add("G"); name_i.Add("G#"); name_i.Add("A"); name_i.Add("A#"); name_i.Add("B");
+                return name_i[pitch % 12] + (pitch / 12).ToString();
+            }
+            return "NaN";
+        }
+    }
+
     public static class _coding
     {
         #region Compress
@@ -1018,7 +1214,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "A-1.21";
+        public string version = "Snap-A-1.3";
         public string download;
         public string log;
     }

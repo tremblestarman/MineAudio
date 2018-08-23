@@ -99,12 +99,20 @@ namespace Audio2Minecraft
         public bool PitchPlayable { get { return _pitchPlayable; } set { _pitchPlayable = value; } }
         private int _pan = -1;
         /// <summary>
-        /// 设置Panning(播放方向)
+        /// 设置Panning(相位)
         /// </summary>
         /// <param name="pan"></param>
         public void SetPan(int pan)
         {
             _pan = pan;
+        }
+        /// <summary>
+        /// 获取Panning(相位)
+        /// </summary>
+        /// <param name="pan"></param>
+        public int GetPan()
+        {
+            return _pan;
         }
         /// <summary>
         /// 设置双声道

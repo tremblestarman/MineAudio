@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img/add.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img/midi_info.png")]
 
 
