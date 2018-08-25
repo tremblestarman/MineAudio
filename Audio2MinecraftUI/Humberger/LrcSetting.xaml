@@ -20,16 +20,47 @@
     </UserControl.Resources>
     <Grid>
         <CheckBox x:Name="使用Tellraw输出" Margin="9,14,473,210" IsChecked="False" IsEnabled="False" Click="Elements_Click">
-            <TextBlock x:Name="C1" Text="使用Tellraw输出" FontSize="12px"/>
+            <TextBlock x:Name="C1" Text="使用Tellraw输出" FontSize="12px">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            以/title命令在标题栏输出
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
         </CheckBox>
         <CheckBox x:Name="使用SubTitle输出" Margin="145,14,337,210" IsChecked="False" IsEnabled="False" Click="Elements_Click">
-            <TextBlock x:Name="C2" Text="使用SubTitle输出" FontSize="12px"/>
+            <TextBlock x:Name="C2" Text="使用SubTitle输出" FontSize="12px">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            以/title命令在副标题栏输出
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
         </CheckBox>
         <CheckBox x:Name="使用ActionBar输出" Margin="282,14,200,210" IsChecked="False" IsEnabled="False" Click="Elements_Click">
-            <TextBlock x:Name="C3" Text="使用ActionBar输出" FontSize="12px"/>
+            <TextBlock x:Name="C3" Text="使用ActionBar输出" FontSize="12px">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            以/title命令在物品栏上方输出
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
         </CheckBox>
         <CheckBox x:Name="使用Title输出" Margin="428,14,54,210" IsChecked="False" IsEnabled="False" Click="Elements_Click">
-            <TextBlock x:Name="C4" Text="使用Title输出" FontSize="12px"/>
+            <TextBlock x:Name="C4" Text="使用Title输出" FontSize="12px">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            以/tellraw命令在聊天栏输出
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip></TextBlock>
         </CheckBox>
         <Button x:Name="Done" HorizontalAlignment="Left" Margin="585,10,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges" IsEnabled="False">
             <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >

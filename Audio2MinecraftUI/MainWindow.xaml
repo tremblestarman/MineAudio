@@ -29,6 +29,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导入乐器数字接口(.midi)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <TextBox x:Name="MidiPath" Controls:TextBoxHelper.Watermark="请选择Midi文件" HorizontalAlignment="Left" Height="24" Margin="128,12,0,0" VerticalAlignment="Top" Width="450" Text="" MouseLeftButtonDown="MidiSelect" PreviewMouseLeftButtonDown="MidiSelect"/>
@@ -42,6 +49,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            取消文件关联
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="icon1" HorizontalAlignment="Left" Height="32" Margin="64,40,0,0" VerticalAlignment="Top" Width="32" MouseLeftButtonDown="WaveSelect" PreviewMouseLeftButtonDown="WaveSelect">
@@ -54,6 +68,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导入波形(.wav)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <TextBox x:Name="WavePath" Controls:TextBoxHelper.Watermark="请选择Wav文件" HorizontalAlignment="Left" Height="24" Margin="128,44,0,0" VerticalAlignment="Top" Width="450" Text="" MouseLeftButtonDown="WaveSelect" PreviewMouseLeftButtonDown="WaveSelect"/>
@@ -67,6 +88,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            取消文件关联
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="icon2" HorizontalAlignment="Left" Height="32" Margin="64,72,0,0" VerticalAlignment="Top" Width="32" MouseLeftButtonDown="LrcSelect" PreviewMouseLeftButtonDown="LrcSelect">
@@ -79,6 +107,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导入歌词(.lrc) 或 A2M特效歌词(.amlrc)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <TextBox x:Name="LrcPath" Controls:TextBoxHelper.Watermark="请选择歌词文件" HorizontalAlignment="Left" Height="24" Margin="128,76,0,0" VerticalAlignment="Top" Width="450" Text="" MouseLeftButtonDown="LrcSelect" PreviewMouseLeftButtonDown="LrcSelect"/>
@@ -92,6 +127,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            取消文件关联
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="A2MLoad" HorizontalAlignment="Left" Height="24" Margin="8,110,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="LoadFile" PreviewMouseLeftButtonDown="LoadFile" >
@@ -104,6 +146,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导入A2M工程(.amproj)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="A2MSave" HorizontalAlignment="Left" Height="24" Margin="34,110,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="Save" PreviewMouseLeftButtonDown="Save" >
@@ -116,6 +165,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            保存为A2M工程(.amproj) 或 世界信息(.schematic)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="load" HorizontalAlignment="Left" Height="24" Margin="60,110,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="Load" PreviewMouseLeftButtonDown="Load" >
@@ -128,6 +184,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            确认导入
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="setting" HorizontalAlignment="Left" Height="24" Margin="603,110,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="OpenSetting" PreviewMouseLeftButtonDown="OpenSetting" >
@@ -140,6 +203,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            自动补全
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="extension" HorizontalAlignment="Left" Height="24" Margin="577,110,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="OpenExtension" PreviewMouseLeftButtonDown="OpenExtension" >
@@ -152,6 +222,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导入扩展内容(.amextension)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="text" HorizontalAlignment="Left" Height="24" Margin="551,110,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="ExportText" PreviewMouseLeftButtonDown="ExportText" >
@@ -164,16 +241,63 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导出Midi信息为表格(.xlxs) 或 文本(.txt)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,110,0,0" VerticalAlignment="Top" Width="457" Content=""/>
         <Grid HorizontalAlignment="Left" Height="300" Margin="7.5,140,0,0" VerticalAlignment="Top" Width="620" >
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
-            <Button x:Name="Midi设置" Content="Midi设置" HorizontalAlignment="Left" Margin="39,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="Midi设置显示" PreviewMouseLeftButtonDown="Midi设置显示"/>
-            <Button x:Name="Wave设置" Content="Wave设置" HorizontalAlignment="Left" Margin="148,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="Wav设置显示" PreviewMouseLeftButtonDown="Wav设置显示"/>
-            <Button x:Name="全局设置" Content="全局设置" HorizontalAlignment="Left" Margin="257,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="全局设置显示" PreviewMouseLeftButtonDown="全局设置显示"/>
-            <Button x:Name="歌词设置" Content="歌词设置" HorizontalAlignment="Left" Margin="367,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="歌词设置显示" PreviewMouseLeftButtonDown="歌词设置显示"/>
-            <Button x:Name="导出设置" Content="导出设置" HorizontalAlignment="Left" Margin="477,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="导出设置显示" PreviewMouseLeftButtonDown="导出设置显示"/>
+            <Button x:Name="Midi设置" Content="Midi设置" HorizontalAlignment="Left" Margin="39,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="Midi设置显示" PreviewMouseLeftButtonDown="Midi设置显示">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            Playsound命令设置 和 Midi信息的计分板输出
+                        </TextBlock>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button x:Name="Wave设置" Content="Wave设置" HorizontalAlignment="Left" Margin="148,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="Wav设置显示" PreviewMouseLeftButtonDown="Wav设置显示">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            波形中 频率 与 振幅 的计分板输出，但不能通过波形生成红石音乐
+                        </TextBlock>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button x:Name="全局设置" Content="全局设置" HorizontalAlignment="Left" Margin="257,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="全局设置显示" PreviewMouseLeftButtonDown="全局设置显示">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            批量设置 与 全局参数的计分板输出
+                        </TextBlock>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button x:Name="歌词设置" Content="歌词设置" HorizontalAlignment="Left" Margin="367,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="歌词设置显示" PreviewMouseLeftButtonDown="歌词设置显示">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            设置歌词输出位置 与 歌词预览
+                        </TextBlock>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button x:Name="导出设置" Content="导出设置" HorizontalAlignment="Left" Margin="477,5,0,0" VerticalAlignment="Top" Width="94" Height="27" MouseLeftButtonDown="导出设置显示" PreviewMouseLeftButtonDown="导出设置显示">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            设置命令流相关参数 与 调整BPM 与 设置歌词样式
+                        </TextBlock>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
             <Grid Margin="0,37,0,0">
                 <Border BorderThickness="1" BorderBrush="DarkGray"/>
                 <ham:MidiSetting x:Name="MidiSetting" Margin="0,10"></ham:MidiSetting>

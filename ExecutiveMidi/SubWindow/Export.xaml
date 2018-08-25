@@ -12,15 +12,55 @@
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Icon="/img/executivemidi.ico">
     <Grid Margin="0,-12,0,-2">
-        <TextBlock Text="序列延伸方向" FontSize="12px" Margin="50,28,257,155"/>
+        <TextBlock Text="序列延伸方向" FontSize="12px" Margin="50,28,257,155">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        命令流的延伸方向（东、南、西、北）
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <ComboBox x:Name="延伸方向" Text="东（x+）" Margin="50,50,220,125" SelectionChanged="_SelectionChanged"/>
-        <TextBlock Text="序列宽度" FontSize="12px" Margin="50,87,283,96"/>
+        <TextBlock Text="序列宽度" FontSize="12px" Margin="50,87,283,96">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        命令流的宽度（建议≥16）
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <TextBox x:Name="序列宽度" Margin="50,108,220,70" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
-        <TextBlock Text="保持区块加载" FontSize="12px" Margin="50,148,220,35"/>
+        <TextBlock Text="保持区块加载" FontSize="12px" Margin="50,148,220,35">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        是否保持区块为强制加载状态（建议否）
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <CheckBox x:Name="保持区块加载" Margin="136,146,220,37" Click="_Click"/>
-        <TextBlock Text="重设BPM" FontSize="12px" Margin="244,28,63,155"/>
+        <TextBlock Text="重设BPM" FontSize="12px" Margin="244,28,63,155">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        重设BPM 调整Midi的时长
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <TextBox x:Name="重设BPM" Margin="244,50,50,125" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
-        <TextBlock Text="Midi时长" FontSize="12px" Margin="244,87,83,96"/>
+        <TextBlock Text="Midi时长" FontSize="12px" Margin="244,87,83,96">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        在该BPM下 Midi的时长
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <TextBlock x:Name="Midi刻长" Text="" FontSize="12px" Margin="252,108,2,75"/>
         <TextBlock x:Name="Midi时长" Text="" FontSize="12px" Margin="252,128,2,55"/>
         <Button x:Name="Ok" HorizontalAlignment="Left" Margin="357,52,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="OK" PreviewMouseLeftButtonDown="OK">

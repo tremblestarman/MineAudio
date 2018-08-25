@@ -40,6 +40,13 @@
                         <TranslateTransform X="-5" Y="-7"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            确认修改
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="Add" HorizontalAlignment="Left" Margin="329,5,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="Add_MouseLeftButtonDown" PreviewMouseLeftButtonDown="Add_MouseLeftButtonDown">
@@ -52,6 +59,13 @@
                         <TranslateTransform X="-5" Y="-7"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            添加扩展内容(.amextension)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
     </Grid>

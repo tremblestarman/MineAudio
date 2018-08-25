@@ -37,6 +37,13 @@
                                 <TranslateTransform X="-5" Y="-7"/>
                             </TransformGroup>
                         </Image.RenderTransform>
+                        <Image.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                切换为音轨列表 / 乐器列表
+                                </TextBlock>
+                            </ToolTip>
+                        </Image.ToolTip>
                     </Image>
                 </Button>
                 <Button x:Name="Done" HorizontalAlignment="Left" Margin="319,6,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
@@ -49,12 +56,35 @@
                                 <TranslateTransform X="-5" Y="-7"/>
                             </TransformGroup>
                         </Image.RenderTransform>
+                        <Image.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                确认修改
+                                </TextBlock>
+                            </ToolTip>
+                        </Image.ToolTip>
                     </Image>
                 </Button>
                 <Grid x:Name="Setting">
-                    <Label x:Name="C1" Content="是否在键起始刻执行" Margin="255,32,5,180"/>
+                    <Label x:Name="C1" Content="是否在键起始刻执行" Margin="255,32,5,180">
+                        <Label.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    是否在键起始时执行命令（否则将在键结束时执行命令）
+                                </TextBlock>
+                            </ToolTip>
+                        </Label.ToolTip>
+                    </Label>
                     <CheckBox x:Name="ExecuteLocation" IsChecked="True" Margin="238,27,109,180" Checked="Checked"/>
-                    <Label x:Name="C2" Content="命令" Margin="7,32,253,180"/>
+                    <Label x:Name="C2" Content="命令" Margin="7,32,253,180">
+                        <Label.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    可引用参数与数学表达式，详见官网
+                                </TextBlock>
+                            </ToolTip>
+                        </Label.ToolTip>
+                    </Label>
                     <TextBox x:Name="Command" Margin="10,57,10,10" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" TextChanged="TextChanging"/>
                 </Grid>
             </Grid>

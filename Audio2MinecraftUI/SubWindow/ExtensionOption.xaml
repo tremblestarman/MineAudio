@@ -22,6 +22,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            导入扩展内容(.amextension)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <TextBox x:Name="Path" Controls:TextBoxHelper.Watermark="请选择Midi文件" HorizontalAlignment="Left" Height="24" Margin="50,20,0,0" VerticalAlignment="Top" Width="272" Text="" MouseLeftButtonDown="Select" PreviewMouseLeftButtonDown="Select"/>
@@ -35,6 +42,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            取消文件关联
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="done" HorizontalAlignment="Left" Margin="356,21,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="Done" PreviewMouseLeftButtonDown="Done">
@@ -47,6 +61,13 @@
                         <TranslateTransform X="-5" Y="-7"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            确认导入
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
     </Grid>

@@ -28,6 +28,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导入乐器数字接口(.midi)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <TextBox x:Name="MidiPath" Controls:TextBoxHelper.Watermark="请选择Midi文件" HorizontalAlignment="Left" Height="24" Margin="128,12,0,0" VerticalAlignment="Top" Width="450" Text="" MouseLeftButtonDown="MidiSelect" PreviewMouseLeftButtonDown="MidiSelect"/>
@@ -41,6 +48,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            取消文件关联
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="Eload" HorizontalAlignment="Left" Height="24" Margin="8,45,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="LoadFile" PreviewMouseLeftButtonDown="LoadFile" >
@@ -53,6 +67,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导入EM工程(.emidiproj)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="save" HorizontalAlignment="Left" Height="24" Margin="34,45,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="Save" PreviewMouseLeftButtonDown="Save" >
@@ -65,6 +86,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            保存为EM工程(.emidiproj) 或 世界信息(.schematic)文件
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Button x:Name="load" HorizontalAlignment="Left" Height="24" Margin="60,45,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="Load" PreviewMouseLeftButtonDown="Load" >
@@ -77,6 +105,13 @@
                         <TranslateTransform X="-6" Y="-6"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            确认导入
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
         <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,45,0,0" VerticalAlignment="Top" Width="531" Content=""/>

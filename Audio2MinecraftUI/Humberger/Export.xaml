@@ -20,40 +20,159 @@
                         <TranslateTransform X="-5" Y="-7"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            确认修改
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
-        <TextBlock Text="Schematic序列设置" FontSize="12px" Margin="0,15,400,211" HorizontalAlignment="Center"/>
+        <TextBlock Text="Schematic序列设置" FontSize="12px" Margin="0,15,400,211" HorizontalAlignment="Center">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                            命令流相关参数设置
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <Grid Margin="0,38,400,10">
-            <TextBlock Text="序列延伸方向" FontSize="12px" Margin="50,24,50,159"/>
+            <TextBlock Text="序列延伸方向" FontSize="12px" Margin="50,24,50,159">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            命令流的延伸方向（东、南、西、北）
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <ComboBox x:Name="延伸方向" Text="东（x+）" Margin="50,48,50,128" Height="24" SelectionChanged="_SelectionChanged"/>
-            <TextBlock Text="序列宽度" FontSize="12px" Margin="50,83,50,100"/>
+            <TextBlock Text="序列宽度" FontSize="12px" Margin="50,83,50,100">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            命令流的宽度（建议≥16）
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <TextBox x:Name="序列宽度" Margin="50,107,50,69" Height="24" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
-            <TextBlock Text="保持区块加载" FontSize="12px" Margin="7,144,93,39"/>
+            <TextBlock Text="保持区块加载" FontSize="12px" Margin="7,144,93,39">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            是否保持区块为强制加载状态（建议否）
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <CheckBox x:Name="保持区块加载" Margin="82,142,18,41" Click="_Click"/>
-            <TextBlock Text="保持实体加载" FontSize="12px" Margin="106,144,-6,39"/>
+            <TextBlock Text="保持实体加载" FontSize="12px" Margin="106,144,-6,39">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            是否保持生成的实体始终被加载（若涉及到计分板输出 建议是）
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <CheckBox x:Name="保持实体加载" Margin="181,142,-81,41" Click="_Click"/>
-            <TextBlock Text="玩家自动跟进" FontSize="12px" Margin="7,170,93,13"/>
+            <TextBlock Text="玩家自动跟进" FontSize="12px" Margin="7,170,93,13">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            是否让玩家自动跟进播放进度
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <CheckBox x:Name="自动传送" Margin="82,169,18,14" Click="_Click"/>
-            <ComboBox x:Name="双声道" Uid="Stereo" Margin="107,165,5,10" Height="24" IsEditable="False" SelectionChanged="双声道_SelectionChanged"/>
+            <ComboBox x:Name="双声道" Uid="Stereo" Margin="107,165,5,10" Height="24" IsEditable="False" SelectionChanged="双声道_SelectionChanged">
+                <ComboBox.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            双声道设置
+                        </TextBlock>
+                    </ToolTip>
+                </ComboBox.ToolTip>
+            </ComboBox>
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
         </Grid>
-        <TextBlock Text="Midi输出" FontSize="12px" Margin="200,15,200,211" HorizontalAlignment="Center"/>
+        <TextBlock Text="Midi输出" FontSize="12px" Margin="200,15,200,211" HorizontalAlignment="Center">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                          Midi输出
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <Grid Margin="200,38,200,10" x:Name="Midi">
-            <TextBlock Text="重设BPM" FontSize="12px" Margin="50,24,50,159"/>
+            <TextBlock Text="重设BPM" FontSize="12px" Margin="50,24,50,159">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            重设BPM 调整Midi的时长
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <TextBox x:Name="重设BPM" Margin="50,48,50,128" Height="24" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
-            <TextBlock Text="Midi时长" FontSize="12px" Margin="50,83,50,100"/>
+            <TextBlock Text="Midi时长" FontSize="12px" Margin="50,83,50,100">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            在该BPM下 Midi的时长
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <TextBlock x:Name="Midi刻长" Text="" FontSize="12px" Margin="10,107,10,69" HorizontalAlignment="Center"/>
             <TextBlock x:Name="Midi时长" Text="" FontSize="12px" Margin="10,132,10,44" HorizontalAlignment="Center"/>
         </Grid>
-        <TextBlock Text="歌词输出" FontSize="12px" Margin="400,15,0,211" HorizontalAlignment="Center"/>
+        <TextBlock Text="歌词输出" FontSize="12px" Margin="400,15,0,211" HorizontalAlignment="Center">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                          歌词样式设置
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <Grid Margin="400,38,0,10" x:Name="Lrc">
-            <TextBlock Text="播放模式" FontSize="12px" Margin="50,24,50,159"/>
+            <TextBlock Text="播放模式" FontSize="12px" Margin="50,24,50,159">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            单次输出 或 同步输出
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <!--1.同步刷新 2.单次输出-->
             <ComboBox x:Name="播放模式" Margin="50,48,50,128" Height="24" SelectionChanged="_SelectionChanged"/>
-            <TextBlock Text="已播放颜色" FontSize="12px" Margin="50,83,50,100"/>
+            <TextBlock Text="已播放颜色" FontSize="12px" Margin="50,83,50,100">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            已播放的歌词的颜色
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <ComboBox x:Name="已播放颜色" Margin="50,107,50,69" Height="24" SelectionChanged="_SelectionChanged"/>
-            <TextBlock Text="未播放颜色" FontSize="12px" Margin="50,142,50,41"/>
+            <TextBlock Text="未播放颜色" FontSize="12px" Margin="50,142,50,41">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            未播放的歌词的颜色
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
             <ComboBox x:Name="未播放颜色" Margin="50,166,50,10" SelectionChanged="_SelectionChanged"/>
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
         </Grid>

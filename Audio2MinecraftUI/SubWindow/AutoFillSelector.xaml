@@ -18,9 +18,33 @@
                        
              Icon="/img/audio2minecraft.ico">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="补全规则" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="150,10,0,0" TextWrapping="Wrap" Text="匹配模式" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="简介" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="补全规则" VerticalAlignment="Top">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        补全规则（在 config\autofill 下）
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="150,10,0,0" TextWrapping="Wrap" Text="匹配模式" VerticalAlignment="Top">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        补全规则中的匹配模式
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="简介" VerticalAlignment="Top">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        匹配模式的简介
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <ComboBox x:Name="rule" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="rule_Selected"/>
         <ComboBox x:Name="mode" HorizontalAlignment="Left" ItemsSource="{Binding source}" Margin="150,30,0,0" VerticalAlignment="Top" Width="178" SelectionChanged="mode_SelectionChanged"/>
         <Grid Margin="10,76,48,10">
@@ -37,6 +61,13 @@
                         <TranslateTransform X="-5" Y="-7"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            确认修改
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
     </Grid>

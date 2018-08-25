@@ -11,12 +11,36 @@
              
              Initialized="UserControl_Initialized">
     <Grid HorizontalAlignment="Left" Height="250" Margin="6,2,0,0" VerticalAlignment="Top" Width="600">
-        <TextBlock Text="采样周期" FontSize="12px" Margin="31,14,518,213"/>
+        <TextBlock Text="采样周期" FontSize="12px" Margin="31,14,518,213">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        采样的周期（即波形信息输出的周期）
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <TextBox x:Name="采样周期" Uid="采样周期" Text="5" Margin="86,8,454,216" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
         <TextBlock Text="Ticks" FontSize="12px" Margin="149,14,400,213"/>
-        <TextBlock Text="单刻频率采样数" FontSize="12px" Margin="192,14,304,213"/>
+        <TextBlock Text="单刻频率采样数" FontSize="12px" Margin="192,14,304,213">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        每段采样中包含多少个频率信息
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <TextBox x:Name="单刻频率采样数" Uid="单刻频率采样数" Text="5" Margin="283,8,257,216" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
-        <TextBlock Text="单刻振幅采样数" FontSize="12px" Margin="359,14,137,213"/>
+        <TextBlock Text="单刻振幅采样数" FontSize="12px" Margin="359,14,137,213">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        每段采样中包含多少个振幅信息
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <TextBox x:Name="单刻振幅采样数" Uid="单刻振幅采样数" Text="5" Margin="449,8,91,216" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
         <Button x:Name="Done" HorizontalAlignment="Left" Margin="571,6,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
             <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >

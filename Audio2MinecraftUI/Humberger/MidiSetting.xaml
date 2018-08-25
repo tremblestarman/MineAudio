@@ -40,6 +40,13 @@
                             <TranslateTransform X="-5" Y="-7"/>
                         </TransformGroup>
                     </Image.RenderTransform>
+                    <Image.ToolTip>
+                        <ToolTip>
+                            <TextBlock>
+                                切换为音轨列表 / 乐器列表
+                            </TextBlock>
+                        </ToolTip>
+                    </Image.ToolTip>
                 </Image>
             </Button>
             <Button x:Name="Done" HorizontalAlignment="Left" Margin="319,6,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
@@ -52,11 +59,26 @@
                             <TranslateTransform X="-5" Y="-7"/>
                         </TransformGroup>
                     </Image.RenderTransform>
+                    <Image.ToolTip>
+                        <ToolTip>
+                            <TextBlock>
+                                确认修改
+                            </TextBlock>
+                        </ToolTip>
+                    </Image.ToolTip>
                 </Image>
             </Button>
             <Grid x:Name="Plat" Margin="0,33,0,0">
                 <CheckBox x:Name="计分板输出" Uid="EnableScore" Margin="8,6,271,183" IsChecked="{x:Null}" Click="Elements_Click">
-                    <TextBlock Text="计分板输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray"/>
+                    <TextBlock Text="计分板输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    以计分板输出Midi信息
+                                </TextBlock>
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </CheckBox>
                 <Grid x:Name="KeyScore" Margin="0,1,0,109">
                     <CheckBox x:Name="键起始时间" Uid="DeltaTickStart" Margin="20,27,271,51" IsChecked="{x:Null}" Click="Elements_Click">
@@ -89,7 +111,15 @@
                     <Border BorderThickness="1" BorderBrush="DarkGray"/>
                 </Grid>
                 <CheckBox x:Name="Playsound输出" Uid="EnablePlaysound" Margin="8,103,256,86" IsChecked="{x:Null}" Click="Elements_Click">
-                    <TextBlock Text="Playsound输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray"/>
+                    <TextBlock Text="Playsound输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    以/playsound命令播放资源包音效
+                                </TextBlock>
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </CheckBox>
                 <Grid x:Name="PlaySound" Margin="0,105,0,0">
                     <CheckBox x:Name="Stopsound" Uid="StopSound" Margin="206,-4,86,82" IsChecked="{x:Null}" Click="Elements_Click">

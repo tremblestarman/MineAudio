@@ -26,13 +26,45 @@
                 </Image.RenderTransform>
             </Image>
         </Button>
-        <TextBlock Text="Midi输出设置" FontSize="12px" Margin="226,9,300,226" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="基本信息输出设置" FontSize="12px" Margin="7,9,497,225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="Wave输出设置" FontSize="12px" Margin="7,141,513,93" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="Midi输出设置" FontSize="12px" Margin="226,9,300,226" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        批量设置Midi输出
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
+        <TextBlock Text="基本信息输出设置" FontSize="12px" Margin="7,9,497,225" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        批量设置波形输出
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
+        <TextBlock Text="Wave输出设置" FontSize="12px" Margin="7,141,513,93" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock>
+                        输出全局参数到计分板
+                    </TextBlock>
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <Grid Margin="220,0,0,10">
             <Grid x:Name="MidiPlat" Margin="0,33,0,0">
                 <CheckBox x:Name="计分板输出" Uid="EnableScore" Margin="8,6,271,183" IsChecked="{x:Null}" Click="Elements_Click">
-                    <TextBlock Text="计分板输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray"/>
+                    <TextBlock Text="计分板输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    以计分板输出Midi信息
+                                </TextBlock>
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </CheckBox>
                 <Grid x:Name="KeyScore" Margin="0,1,0,109">
                     <CheckBox x:Name="键起始时间" Uid="DeltaTickStart" Margin="20,27,271,51" IsChecked="{x:Null}" Click="Elements_Click">
@@ -65,7 +97,15 @@
                     <Border BorderThickness="1" BorderBrush="DarkGray"/>
                 </Grid>
                 <CheckBox x:Name="Playsound输出" Uid="EnablePlaysound" Margin="8,103,256,86" IsChecked="{x:Null}" Click="Elements_Click">
-                    <TextBlock Text="Playsound输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray"/>
+                    <TextBlock Text="Playsound输出" FontSize="12px" FontWeight="Black" Foreground="DarkGray">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    以/playsound命令播放资源包音效
+                                </TextBlock>
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </CheckBox>
                 <Grid x:Name="PlaySound" Margin="0,105,0,0">
                     <CheckBox x:Name="Stopsound" Uid="StopSound" Margin="206,-4,86,82" IsChecked="{x:Null}" Click="Elements_Click">
@@ -111,16 +151,47 @@
                                 <TranslateTransform X="-5" Y="-7"/>
                             </TransformGroup>
                         </Image.RenderTransform>
+                        <Image.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    确认修改（这是不可逆的）
+                                </TextBlock>
+                            </ToolTip>
+                        </Image.ToolTip>
                     </Image>
                 </Button>
                 <CheckBox x:Name="音轨数" Uid="Pitch" Margin="32,12,124,57" IsChecked="False" Click="PublicElements_Click">
-                    <TextBlock Text="音轨数" FontSize="12px"/>
+                    <TextBlock Text="音轨数" FontSize="12px">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Midi中的音轨总数
+                                </TextBlock>
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </CheckBox>
                 <CheckBox x:Name="音符占刻" Uid="Pitch" Margin="32,34,78,35" IsChecked="False" Click="PublicElements_Click">
-                    <TextBlock Text="¼音符占刻" FontSize="12px"/>
+                    <TextBlock Text="¼音符占刻" FontSize="12px">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Midi中的一个四分音符所占的刻数
+                                </TextBlock>
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </CheckBox>
                 <CheckBox x:Name="BPM" Uid="Pitch" Margin="32,57,124,12" IsChecked="False" Click="PublicElements_Click">
-                    <TextBlock Text="BPM" FontSize="12px"/>
+                    <TextBlock Text="BPM" FontSize="12px">
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    当前Midi的BPM
+                                </TextBlock>
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </CheckBox>
                 <TextBlock Text="" x:Name="TTC" FontSize="12px" Margin="125,12,39,55"/>
                 <TextBlock Text="" x:Name="TQ" FontSize="12px" Margin="125,34,39,33"/>
