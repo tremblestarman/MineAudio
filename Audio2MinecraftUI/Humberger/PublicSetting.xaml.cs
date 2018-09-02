@@ -538,10 +538,9 @@ namespace Audio2MinecraftUI.Humberger
                 MidiItemChanged();
             if (WavePlat.IsEnabled == true)
                 WaveItemChanged();
-            BPM.IsChecked = MainWindow.PublicSet.BPM;
+            OBPM.IsChecked = MainWindow.PublicSet.OBPM;
             音符占刻.IsChecked = MainWindow.PublicSet.Q;
             音轨数.IsChecked = MainWindow.PublicSet.TC;
-            TBPM.Text = MainWindow.preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
             TTC.Text = MainWindow.preTimeLine.Param["MidiTracksCount"].Value.ToString();
             TQ.Text = MainWindow.preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
         }
@@ -552,7 +551,7 @@ namespace Audio2MinecraftUI.Humberger
         } //选中/取消选中元素
         private void DonePublic_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindow.PublicSet.BPM = BPM.IsChecked == true;
+            MainWindow.PublicSet.OBPM = OBPM.IsChecked == true;
             MainWindow.PublicSet.Q = 音符占刻.IsChecked == true;
             MainWindow.PublicSet.TC = 音轨数.IsChecked == true;
             DonePublic.IsEnabled = false;

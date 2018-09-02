@@ -182,12 +182,12 @@
                         </TextBlock.ToolTip>
                     </TextBlock>
                 </CheckBox>
-                <CheckBox x:Name="BPM" Uid="Pitch" Margin="32,57,124,12" IsChecked="False" Click="PublicElements_Click">
-                    <TextBlock Text="BPM" FontSize="12px">
+                <CheckBox x:Name="OBPM" Uid="Pitch" Margin="32,57,106,12" IsChecked="False" Click="PublicElements_Click">
+                    <TextBlock Text="输出BPM" FontSize="12px">
                         <TextBlock.ToolTip>
                             <ToolTip>
                                 <TextBlock>
-                                    当前Midi的BPM
+                                    是否输出Midi的BPM
                                 </TextBlock>
                             </ToolTip>
                         </TextBlock.ToolTip>
@@ -195,7 +195,6 @@
                 </CheckBox>
                 <TextBlock Text="" x:Name="TTC" FontSize="12px" Margin="125,12,39,55"/>
                 <TextBlock Text="" x:Name="TQ" FontSize="12px" Margin="125,34,39,33"/>
-                <TextBlock Text="" x:Name="TBPM" FontSize="12px" Margin="125,57,39,10"/>
                 <Border BorderThickness="1" BorderBrush="DarkGray" Margin="0,-9,0,0"/>
             </Grid>
         </Grid>

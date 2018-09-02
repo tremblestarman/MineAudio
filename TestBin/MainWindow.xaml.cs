@@ -32,7 +32,7 @@ namespace WpfApplication1
         private void button_Click(object sender, RoutedEventArgs e)
         {
             InheritExpression.SetCompareLists(System.Windows.Forms.Application.StartupPath + "\\test");
-            var a = new TimeLine().Serialize(MidiPath.Text, null, 180);
+            var a = new TimeLine().Serialize(MidiPath.Text, null);
             /*a.EnableMidi(false);
             a.EnableMidi(true, "", "", -1, "PlaySound");
             a.Sound_SoundName("block.note.harp");

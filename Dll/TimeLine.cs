@@ -870,10 +870,10 @@ namespace Audio2Minecraft
         /// <param name="vol_count">波形振幅采样数</param>
         /// <param name="tick_cycle">采样周期</param>
         /// <returns></returns>
-        public TimeLine Serialize(string MidiFilePath = null, string WaveFilePath = null, int tBpm = 160, int fre_count = 1, int vol_count = 1, int tick_cycle = 1)
+        public TimeLine Serialize(string MidiFilePath = null, string WaveFilePath = null, double rate = 1.0, int fre_count = 1, int vol_count = 1, int tick_cycle = 1)
         {
             var timeLine = new TimeLine();
-            if (MidiFilePath != null && MidiFilePath != "") timeLine = new AudioStreamMidi().Serialize(MidiFilePath, timeLine, tBpm);
+            if (MidiFilePath != null && MidiFilePath != "") timeLine = new AudioStreamMidi().Serialize(MidiFilePath, timeLine, rate);
             if (WaveFilePath != null && WaveFilePath != "") timeLine = new AudioStreamWave().Serialize(WaveFilePath, timeLine, fre_count, vol_count, tick_cycle);
             return timeLine;
         }
@@ -897,7 +897,6 @@ namespace Audio2Minecraft
             {"MidiFileFormat", new _Node_INT() { Name = "MidiFileFormat" } } ,
             {"MidiTracksCount", new _Node_INT() { Name = "MidiTracksCount" } } ,
             {"MidiDeltaTicksPerQuarterNote", new _Node_INT() { Name = "MidiDeltaTdiv4" } } ,
-            {"MidiBeatPerMinute", new _Node_INT() { Name = "MidiBPM" } } ,
             {"AudioFileFormat", new _Node_INT() { Name = "AudioFileFormat" } } ,
             {"TotalTicks", new _Node_INT() { Name = "TotalTicks" } } ,
         };
@@ -919,6 +918,11 @@ namespace Audio2Minecraft
         /// 输出当前时间
         /// </summary>
         public bool OutPutTick { get { return _tick_out; } set { _tick_out = value; } }
+        private bool _bpm_out = true;
+        /// <summary>
+        /// 输出当前BPM
+        /// </summary>
+        public bool OutPutBPM { get { return _bpm_out; } set { _bpm_out = value; } }
         /// <summary>
         /// 序列设置的自动补全
         /// </summary>
@@ -1597,6 +1601,9 @@ namespace Audio2Minecraft
             {"Channel", new _Node_INT() { Name = "Channel" } } ,
             {"Pitch", new _Node_INT() { Name = "Pitch" } } ,
             {"Velocity", new _Node_INT() { Name = "Velocity" } } ,
+            {"Panning", new _Node_INT() { Name = "Panning" } } ,
+            //Event-related
+            {"BeatPerMinute", new _Node_INT() { Name = "EventBPM" } } ,
         };
         //Track-related
         private string _trackname = "none";
@@ -1611,6 +1618,9 @@ namespace Audio2Minecraft
         public string Instrument { get { return _instrumentname; } set { _instrumentname = value; } }
         //Timbre-related
         public PlaySoundInfo PlaySound = new PlaySoundInfo();
+
+        //Event or not for BPM calculating
+        public bool IsEvent = false;
     }
     /// <summary>
     /// 波形帧

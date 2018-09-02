@@ -49,14 +49,10 @@ namespace Audio2Minecraft
         /// 根据子表达式获取实际表达式
         /// </summary>
         /// <param name="Expression">子表达式</param>
-        /// <param name="MinecraftTickDuration">持续刻数</param>
         /// <param name="Pitch">音高</param>
-        /// <param name="Velocity">力度</param>
-        /// <param name="BarIndex">小节索引</param>
-        /// <param name="BeatDuration">小节长度</param>
-        /// <param name="Channel">频道</param>
+        /// <param name="MinecraftTickDuration">持续刻数</param>
         /// <returns></returns>
-        public static string Expression(string Expression, int Pitch = 0, int MinecraftTickDuration = 0, int Velocity = 0, int BarIndex = 0, int BeatDuration = 0, int Channel = 0)
+        public static string Expression(string Expression, int Pitch = 0, int MinecraftTickDuration = 0, int Velocity = 0, int BarIndext = 0, int BeatDuration = 0, int Channel = 0)
         {
             if (Expression == "" || Expression == null) return "";
             //%pc[]
@@ -138,7 +134,7 @@ namespace Audio2Minecraft
             }
             Expression = Expression.Replace("%v", Velocity.ToString());
             //%bi
-            Expression = Expression.Replace("%bi", BarIndex.ToString());
+            Expression = Expression.Replace("%bi", BarIndext.ToString());
             //%bd
             Expression = Expression.Replace("%bd", BeatDuration.ToString());
             //%ch

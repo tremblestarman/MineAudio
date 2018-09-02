@@ -51,7 +51,7 @@
                 </ToolTip>
             </TextBlock.ToolTip>
         </TextBlock>
-        <TextBox x:Name="重设BPM" Margin="244,50,50,125" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
+        <TextBox x:Name="重设播放倍率" Margin="244,50,50,125" TextChanged="FloatOnly" KeyDown="_KeyDownFloat" PreviewKeyDown="_KeyDownFloat" />
         <TextBlock Text="Midi时长" FontSize="12px" Margin="244,87,83,96">
             <TextBlock.ToolTip>
                 <ToolTip>

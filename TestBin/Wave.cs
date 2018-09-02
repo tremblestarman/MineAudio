@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NAudio.Wave;
-using System.Windows.Forms;
 
 namespace Audio2Minecraft
 {

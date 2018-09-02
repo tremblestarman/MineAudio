@@ -36,11 +36,11 @@ namespace ExecutiveMidi
         {
             public string Midipath = "";
             public Uri rMidipath;
-            public int BPM;
+            public double Rate;
             public ObservableCollection<Humberger.MidiMarker> TrackMarkerList;
             public ObservableCollection<Humberger.MidiMarker> InstrumentMarkerList;
         }
-        public static int BPM = -1;
+        public static double Rate = 1;
         public static ExportSetting export = new ExportSetting() { Width = 16 };
         public static bool export_cancel = false;
 
@@ -116,8 +116,6 @@ namespace ExecutiveMidi
                     MidiSetting.Plat.IsEnabled = true;
                     MidiSetting.ItemChanged();
 
-                    BPM = preTimeLine.Param["MidiBeatPerMinute"].Value;
-
                     save.IsEnabled = true;
                     oldMidi = MidiPath.Text;
                 };
@@ -138,7 +136,7 @@ namespace ExecutiveMidi
                         Midipath = Midipath,
                         rMidipath = (Midipath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Midipath.Replace(" ", "*20"))) : null,
                         InstrumentMarkerList = MidiSetting.InstrumentMarkerList,
-                        BPM = BPM,
+                        Rate = Rate,
                         TrackMarkerList = MidiSetting.TrackMarkerList
                     };
                     File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
@@ -146,91 +144,62 @@ namespace ExecutiveMidi
                 else
                 {
                     var commandLine = new CommandLine();
-                    //Waiting...
-                    var w = new SubWindow.Waiting(); w.Owner = this;
-                    BackgroundWorker waiting = new BackgroundWorker();
-                    waiting.DoWork += (ee, ea) => { };
-                    waiting.RunWorkerCompleted += (ee, ea) =>
+                    if (fileDialog.FilterIndex == 1) //A2Mextension
                     {
-                        Dispatcher.BeginInvoke(new Action(() =>
+                        //Waiting...
+                        var w = new SubWindow.Waiting(); w.Owner = this;
+                        BackgroundWorker waiting = new BackgroundWorker();
+                        waiting.DoWork += (ee, ea) => { };
+                        waiting.RunWorkerCompleted += (ee, ea) =>
                         {
-                            w.ShowDialog();
-                        }));
-                    };
-                    waiting.RunWorkerAsync();
-                    //Work
-                    BackgroundWorker worker = new BackgroundWorker();
-                    worker.WorkerReportsProgress = true;
-                    worker.DoWork += (o, ea) =>
-                    {
-                        for (var i = 0; i < preTimeLine.TickNodes.Count; i++)
-                        {
-                            commandLine.Keyframe.Add(new Command());
-                        }
-                        for (var i = 0; i < preTimeLine.TickNodes.Count; i++)
-                        {
-                            foreach (var t in preTimeLine.TickNodes[i].MidiTracks.Keys)
+                            Dispatcher.BeginInvoke(new Action(() =>
                             {
-                                var track = preTimeLine.TickNodes[i].MidiTracks[t];
-                                foreach (var _i in track.Keys)
-                                {
-                                    var instrument = track[_i];
-                                    var cmd = "";
-                                    var start = true;
-                                    var track_cmd = MidiSetting.TrackMarkerList.First(k => k.Name == t);
-                                    var instr_cmd = MidiSetting.InstrumentMarkerList.First(k => k.Name == _i);
-                                    if (track_cmd != null && track_cmd.Command != "")
-                                    {
-                                        cmd = track_cmd.Command;
-                                        start = track_cmd.Location == Humberger.MidiMarker.ExecuteLocation.Start;
-                                    }
-                                    if (instr_cmd != null && instr_cmd.Command != "")
-                                    {
-                                        cmd = instr_cmd.Command;
-                                        start = instr_cmd.Location == Humberger.MidiMarker.ExecuteLocation.Start;
-                                    }
-                                    if (cmd != "")
-                                    {
-                                        foreach (var node in instrument)
-                                        {
-                                            var cmds = cmd.Split(Environment.NewLine.ToCharArray());
-                                            var k = start ? i : i + node.Param["MinecraftTickDuration"].Value;
-                                            foreach (var c in cmds)
-                                            {
-                                                commandLine.Keyframe[k].Commands.Add(
-                                                    MathCmd(
-                                                        InheritExpression.Expression(
-                                                            cmd,
-                                                            node.Param["Pitch"].Value,
-                                                            node.Param["MinecraftTickDuration"].Value,
-                                                            node.Param["Velocity"].Value,
-                                                            node.Param["BarIndex"].Value,
-                                                            node.Param["BeatDuration"].Value,
-                                                            node.Param["Channel"].Value
-                                                            )
-                                                    )
-                                                );
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    };
-                    worker.RunWorkerCompleted += (o, ea) =>
-                    {
-                        if (fileDialog.FilterIndex == 1) //A2Mextension
+                                w.ShowDialog();
+                            }));
+                        };
+                        waiting.RunWorkerAsync();
+                        //Work
+                        BackgroundWorker worker = new BackgroundWorker();
+                        worker.WorkerReportsProgress = true;
+                        worker.DoWork += (o, ea) =>
+                        {
+                            commandLine = getCommandLine();
+                        };
+                        worker.RunWorkerCompleted += (o, ea) =>
                         {
                             File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(commandLine))); //加密压缩并输出
                             w.Close();
-                        }
-                        else if (fileDialog.FilterIndex == 3 || fileDialog.FilterIndex == 4) //Schematic
+                        };
+                        worker.RunWorkerAsync();
+                    }
+                    else if (fileDialog.FilterIndex == 3 || fileDialog.FilterIndex == 4) //Schematic
+                    {
+                        var _w = new SubWindow.Export(); _w.Owner = this;
+                        _w.序列宽度.Text = export.Width.ToString();
+                        _w.保持区块加载.IsChecked = export.AlwaysLoadEntities;
+                        _w.延伸方向.SelectedIndex = export.Direction;
+                        _w.ShowDialog();
+                        //Waiting...
+                        var w = new SubWindow.Waiting(); w.Owner = this;
+                        BackgroundWorker waiting = new BackgroundWorker();
+                        waiting.DoWork += (ee, ea) => { };
+                        waiting.RunWorkerCompleted += (ee, ea) =>
                         {
-                            var _w = new SubWindow.Export(); _w.Owner = this;
-                            _w.序列宽度.Text = export.Width.ToString();
-                            _w.保持区块加载.IsChecked = export.AlwaysLoadEntities;
-                            _w.延伸方向.SelectedIndex = export.Direction;
-                            _w.ShowDialog();
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                w.ShowDialog();
+                            }));
+                        };
+                        waiting.RunWorkerAsync();
+                        //Work
+                        BackgroundWorker worker = new BackgroundWorker();
+                        worker.WorkerReportsProgress = true;
+                        worker.DoWork += (o, ea) =>
+                        {
+                            commandLine = getCommandLine();
+                        };
+                        worker.RunWorkerCompleted += (o, ea) =>
+                        {
                             if (!export_cancel)
                             {
                                 new Schematic().ExportSchematic(commandLine, export, fileDialog.FileName);
@@ -241,13 +210,71 @@ namespace ExecutiveMidi
                                 w.Close();
                                 export_cancel = false;
                             }
-                        }
-                        w.Close();
-                    };
-                    worker.RunWorkerAsync();
+                            w.Close();
+                        };
+                        worker.RunWorkerAsync();
+                    }
                 }
             }
         }
+        private CommandLine getCommandLine()
+    {
+        var commandLine = new CommandLine();
+        for (var i = 0; i < preTimeLine.TickNodes.Count; i++)
+        {
+            commandLine.Keyframe.Add(new Command());
+        }
+        for (var i = 0; i < preTimeLine.TickNodes.Count; i++)
+        {
+            foreach (var t in preTimeLine.TickNodes[i].MidiTracks.Keys)
+            {
+                var track = preTimeLine.TickNodes[i].MidiTracks[t];
+                foreach (var _i in track.Keys)
+                {
+                    var instrument = track[_i];
+                    var cmd = "";
+                    var start = true;
+                    var track_cmd = MidiSetting.TrackMarkerList.First(k => k.Name == t);
+                    var instr_cmd = MidiSetting.InstrumentMarkerList.First(k => k.Name == _i);
+                    if (track_cmd != null && track_cmd.Command != "")
+                    {
+                        cmd = track_cmd.Command;
+                        start = track_cmd.Location == Humberger.MidiMarker.ExecuteLocation.Start;
+                    }
+                    if (instr_cmd != null && instr_cmd.Command != "")
+                    {
+                        cmd = instr_cmd.Command;
+                        start = instr_cmd.Location == Humberger.MidiMarker.ExecuteLocation.Start;
+                    }
+                    if (cmd != "")
+                    {
+                        foreach (var node in instrument)
+                        {
+                            var cmds = cmd.Split(Environment.NewLine.ToCharArray());
+                            var k = start ? i : i + node.Param["MinecraftTickDuration"].Value;
+                            foreach (var c in cmds)
+                            {
+                                commandLine.Keyframe[k].Commands.Add(
+                                    MathCmd(
+                                        InheritExpression.Expression(
+                                            cmd,
+                                            node.Param["Pitch"].Value,
+                                            node.Param["MinecraftTickDuration"].Value,
+                                            node.Param["Velocity"].Value,
+                                            node.Param["BarIndex"].Value,
+                                            node.Param["BeatDuration"].Value,
+                                            node.Param["Channel"].Value
+                                            )
+                                    )
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return commandLine;
+    }
         private void LoadFile(object sender, MouseButtonEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();

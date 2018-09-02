@@ -38,6 +38,8 @@ namespace Audio2Minecraft
                 }
                 if (timeLine.OutPutTick)
                     scoreboards.Add("CurrentTick");
+                if (timeLine.OutPutBPM)
+                    scoreboards.Add("CurrentBPM");
                 #endregion
                 #region Keyframes
                 //Create Keyframes
@@ -64,6 +66,12 @@ namespace Audio2Minecraft
                                 for (int j = 0; j < nodes.Count; j++)
                                 {
                                     var node = nodes[j];
+                                    if (node.IsEvent == true)
+                                    {
+                                        if (timeLine.OutPutBPM)
+                                            commandLine.Keyframe[i].Commands.Add(setCommand("GenParam", "CurrentBPM", node.Param["BeatPerMinute"].Value, version));
+                                        continue;
+                                    }
                                     //Set Midi Tag
                                     var regex = new Regex("[^a-z^A-Z^0-9_]");
                                     var TrackName = regex.Replace(node.TrackName, "_");

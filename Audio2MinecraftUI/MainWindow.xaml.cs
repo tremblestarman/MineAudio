@@ -41,7 +41,7 @@ namespace Audio2MinecraftUI
         public static string Midipath = "", oldMidi = ""; //Midi路径
         public static string Wavepath = ""; //波形路径
         public static string Lrcpath = ""; //歌词路径
-        public static int BPM = -1; //BPM
+        public static double Rate = 1; //播放速率
         public static ExportSetting ExportSetting = new ExportSetting() //导出设置
         {
             Direction = 0, //序列方向
@@ -52,7 +52,7 @@ namespace Audio2MinecraftUI
         };
         public static class PublicSet //通用设置
         {
-            static public bool BPM = false; //BPM计分板输出
+            static public bool OBPM = false; //BPM计分板输出
             static public bool Q = false; //¼音符占刻输出
             static public bool TC = false; //总刻数输出
             static public int ST = 0; //双声道方向
@@ -271,7 +271,7 @@ namespace Audio2MinecraftUI
                     MidiSetting.ItemChanged();
                     PublicSetting.MidiPlat.IsEnabled = true;
 
-                    PublicSetting.TBPM.Text = preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
+                    PublicSetting.OBPM.IsChecked = preTimeLine.OutPutBPM;
                     PublicSetting.TTC.Text = preTimeLine.Param["MidiTracksCount"].Value.ToString();
                     PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
 
@@ -375,7 +375,7 @@ namespace Audio2MinecraftUI
                     var midi = MidiPath.Text;
                     worker.DoWork += (o, ea) =>
                     {
-                        new MidiInfoExcel(midi, fileDialog.FileName, BPM);
+                        new MidiInfoExcel(midi, fileDialog.FileName, Rate);
                     };
                     worker.RunWorkerCompleted += (o, ea) =>
                     {
@@ -403,7 +403,7 @@ namespace Audio2MinecraftUI
                     var midi = MidiPath.Text;
                     worker.DoWork += (o, ea) =>
                     {
-                        new MidiInfoTxt(midi, fileDialog.FileName, BPM);
+                        new MidiInfoTxt(midi, fileDialog.FileName, Rate);
                     };
                     worker.RunWorkerCompleted += (o, ea) =>
                     {
@@ -678,13 +678,13 @@ namespace Audio2MinecraftUI
                             Lrcpath = Lrcpath,
                             rLrcpath = (Lrcpath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Lrcpath.Replace(" ", "*20"))) : null,
                             ExportSetting = ExportSetting,
+                            Rate = Rate,
                             PublicSetting = new FileOutPut._PublicSetting()
                             {
-                                BPM = PublicSet.BPM,
+                                OBPM = preTimeLine.OutPutBPM,
                                 Q = PublicSet.Q,
                                 TC = PublicSet.TC,
                                 ST = PublicSet.ST,
-                                TBPM = preTimeLine.Param["MidiBeatPerMinute"].Value,
                                 TTC = preTimeLine.Param["MidiTracksCount"].Value,
                                 TQ = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value
                             },
@@ -734,7 +734,7 @@ namespace Audio2MinecraftUI
                     worker.DoWork += (o, ea) =>
                     {
                         InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "config\\compare"); //设置匹配列表 *
-                        TimeLine exportLine = new TimeLine().Serialize(Midipath, Wavepath, BPM, m_1, m_3, m_3); //时间序列                                                                                                                                                                                    //时间序列写入 & 更新
+                        TimeLine exportLine = new TimeLine().Serialize(Midipath, Wavepath, Rate, m_1, m_3, m_3); //时间序列                                                                                                                                                                                    //时间序列写入 & 更新
                         exportLine.InstrumentList = preTimeLine.InstrumentList;
                         exportLine.TrackList = preTimeLine.TrackList;
                         exportLine.LeftWaveSetting = preTimeLine.LeftWaveSetting;
@@ -744,7 +744,7 @@ namespace Audio2MinecraftUI
                         exportLine.Param["MidiFileFormat"].Enable = false;
                         exportLine.Param["AudioFileFormat"].Enable = false;
                         exportLine.Param["TotalTicks"].Enable = false;
-                        exportLine.Param["MidiBeatPerMinute"].Enable = PublicSet.BPM;
+                        exportLine.OutPutBPM = PublicSet.OBPM;
                         exportLine.Param["MidiTracksCount"].Enable = PublicSet.TC;
                         exportLine.Param["MidiDeltaTicksPerQuarterNote"].Enable = PublicSet.Q;
                         exportLine.Sound_Stereo(PublicSet.ST - 1);
@@ -814,7 +814,7 @@ namespace Audio2MinecraftUI
                 MidiSetting.TracksView.ItemsSource = preTimeLine.TrackList;
                 MidiPath.Text = o.Midipath;
                 Midipath = o.Midipath; oldMidi = o.Midipath;
-                preTimeLine.Param["MidiBeatPerMinute"].Value = o.PublicSetting.TBPM;
+                preTimeLine.OutPutBPM = o.PublicSetting.OBPM;
                 preTimeLine.Param["MidiTracksCount"].Value = o.PublicSetting.TTC;
                 preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value = o.PublicSetting.TQ; //Midi
                 WavSetting.采样周期.Text = (o.wav_COMMIT[0] < 1) ? "1" : o.wav_COMMIT[0].ToString();
@@ -836,15 +836,15 @@ namespace Audio2MinecraftUI
                 LyricMode.LyricOutSet.repeat = o.LyricMode.LyricOutSetting.repeat;
                 ExportSetting = o.ExportSetting; //Export
                 PublicSetting.ItemChanged();
-                PublicSetting.BPM.IsChecked = o.PublicSetting.BPM;
+                PublicSetting.OBPM.IsChecked = o.PublicSetting.OBPM;
                 PublicSetting.音符占刻.IsChecked = o.PublicSetting.Q;
                 PublicSetting.音轨数.IsChecked = o.PublicSetting.TC;
-                PublicSet.BPM = o.PublicSetting.BPM;
+                PublicSet.OBPM = o.PublicSetting.OBPM;
                 PublicSet.Q = o.PublicSetting.Q;
                 PublicSet.TC = o.PublicSetting.TC;
                 PublicSet.ST = o.PublicSetting.ST; //Public
-                BPM = o.BPM;
-                Export.重设BPM.Text = BPM.ToString();
+                Rate = o.Rate;
+                Export.重设播放倍率.Text = Rate.ToString();
                 Export.Update(); //Export
                 if (Midipath != "" && new FileInfo(Midipath).Exists) //MidiPath
                 {
@@ -872,7 +872,7 @@ namespace Audio2MinecraftUI
                     worker.WorkerReportsProgress = true;
                     worker.DoWork += (ee, ea) =>
                     {
-                        a = new AudioStreamMidi().Serialize(MainWindow.Midipath, new TimeLine(), BPM);
+                        a = new AudioStreamMidi().Serialize(MainWindow.Midipath, new TimeLine(), Rate);
                     };
                     worker.RunWorkerCompleted += (ee, ea) =>
                     {
@@ -882,10 +882,8 @@ namespace Audio2MinecraftUI
                         var m = a.Param["TotalTicks"].Value / 1200;
                         var s = a.Param["TotalTicks"].Value % 1200 / 20;
                         Export.Midi时长.Text = m.ToString() + " : " + s.ToString();
-                        preTimeLine.Param["MidiBeatPerMinute"].Value = a.Param["MidiBeatPerMinute"].Value;
                         preTimeLine.Param["TotalTicks"].Value = a.Param["TotalTicks"].Value;
                         //PublicSetting
-                        PublicSetting.TBPM.Text = preTimeLine.Param["MidiBeatPerMinute"].Value.ToString();
                         PublicSetting.TTC.Text = preTimeLine.Param["MidiTracksCount"].Value.ToString();
                         PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
                     };
@@ -972,16 +970,15 @@ namespace Audio2MinecraftUI
         public Uri rWavepath;
         public string Lrcpath = "";
         public Uri rLrcpath;
-        public int BPM = -1;
+        public double Rate = -1;
         public ExportSetting ExportSetting;
         public _PublicSetting PublicSetting;
         public _LyricMode LyricMode;
         public class _PublicSetting
         {
-            public bool BPM = false;
             public bool Q = false;
             public bool TC = false;
-            public int TBPM = 0;
+            public bool OBPM = false;
             public int TQ = 0;
             public int TTC = 0;
             public int ST = 0;
@@ -1050,9 +1047,9 @@ namespace Audio2MinecraftUI
 
     public class MidiInfoTxt
     {
-        public MidiInfoTxt(string fileName, string fileOut, int bpm = -1)
+        public MidiInfoTxt(string fileName, string fileOut, double rate = -1)
         {
-            var midi = new AudioStreamMidi().Serialize(fileName, new TimeLine(), bpm);
+            var midi = new AudioStreamMidi().Serialize(fileName, new TimeLine(), rate);
             foreach (var n in midi.TickNodes)
             {
                 if (n.CurrentTick > -1)
@@ -1089,10 +1086,10 @@ namespace Audio2MinecraftUI
     }
     public class MidiInfoExcel
     {
-        public MidiInfoExcel(string fileName, string fileOut, int bpm = -1)
+        public MidiInfoExcel(string fileName, string fileOut, double rate = -1)
         {
             var timeLine = new TimeLine();
-            var midi = new AudioStreamMidi().Serialize(fileName, timeLine, bpm); //MidiFile
+            var midi = new AudioStreamMidi().Serialize(fileName, timeLine, rate); //MidiFile
             var midi_index = new Dictionary<string, int>();
             var excel = new ExcelPackage();
             //Midi
@@ -1108,6 +1105,7 @@ namespace Audio2MinecraftUI
                 wks.Cells[1, 6].Value = "持续时间";
                 wks.Cells[1, 8].Value = "控制器音量";
                 wks.Cells[1, 9].Value = "控制器相位";
+                wks.Cells[1, 10].Value = "控制器BPM";
                 wks.Row(1).Height = 20;
                 wks.Row(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 wks.Row(1).Style.Font.Bold = true;
@@ -1123,6 +1121,18 @@ namespace Audio2MinecraftUI
                         {
                             foreach (var g in n.MidiTracks[t][i])
                             {
+                                if (g.IsEvent == true) //BPM Change
+                                {
+                                    foreach (var t1 in n.MidiTracks.Keys)
+                                    {
+                                        if (t1 == "none") continue; //BPM Event
+                                        midi_index[t1]++;
+                                        var wks1 = excel.Workbook.Worksheets[t1];
+                                        wks1.Cells[midi_index[t1], 1].Value = n.CurrentTick;
+                                        wks1.Cells[midi_index[t1], 10].Value = g.Param["BeatPerMinute"].Value.ToString();
+                                    }
+                                    continue;
+                                }
                                 midi_index[t]++;
 
                                 var wks = excel.Workbook.Worksheets[t];
@@ -1132,8 +1142,8 @@ namespace Audio2MinecraftUI
                                 wks.Cells[midi_index[t], 4].Value = returnNote(g.Param["Pitch"].Value);
                                 wks.Cells[midi_index[t], 5].Value = g.Param["Velocity"].Value;
                                 wks.Cells[midi_index[t], 6].Value = g.Param["MinecraftTickDuration"].Value;
-                                wks.Cells[midi_index[t], 8].Value = g.PlaySound.MandaVolume;
-                                wks.Cells[midi_index[t], 9].Value = g.PlaySound.GetPan();
+                                wks.Cells[midi_index[t], 8].Value = g.PlaySound.MandaVolume == -1 ? 100 : g.PlaySound.MandaVolume;
+                                wks.Cells[midi_index[t], 9].Value = g.PlaySound.GetPan() == -1 ? 64 : g.PlaySound.GetPan();
                             }
                         }
                     }
@@ -1151,6 +1161,7 @@ namespace Audio2MinecraftUI
                 excel.Workbook.Worksheets[k].Column(6).AutoFit();
                 excel.Workbook.Worksheets[k].Column(8).AutoFit();
                 excel.Workbook.Worksheets[k].Column(9).AutoFit();
+                excel.Workbook.Worksheets[k].Column(10).AutoFit();
             }
             excel.SaveAs(new FileInfo(fileOut));
         }
@@ -1214,7 +1225,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "Snap-A-1.3";
+        public string version = "A-1.3";
         public string download;
         public string log;
     }

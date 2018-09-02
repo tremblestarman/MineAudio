@@ -35,7 +35,7 @@ namespace ExecutiveMidi.SubWindow
             延伸方向.Items.Add("北（z-）");
             延伸方向.SelectedIndex = 0;
             序列宽度.Text = "16";
-            重设BPM.Text = MainWindow.BPM.ToString();
+            重设播放倍率.Text = MainWindow.Rate.ToString();
             保持区块加载.IsChecked = true;
             保持区块加载.IsChecked = false;
             Midi刻长.Text = MainWindow.preTimeLine.Param["TotalTicks"].Value.ToString() + " ticks";
@@ -45,6 +45,17 @@ namespace ExecutiveMidi.SubWindow
             Done.IsEnabled = true;
         }
 
+        string old_text_float = "";
+        private void FloatOnly(object sender, TextChangedEventArgs e)
+        {
+            var t = e.OriginalSource as TextBox;
+            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("^[0-9]+([.][0-9]*)?$");
+            if (!reg.IsMatch(t.Text))
+                t.Text = old_text_float;
+            else if (t.Text == "")
+                t.Text = "1";
+            else old_text_float = t.Text;
+        }
         string old_text = "";
         private void NumericOnly(object sender, TextChangedEventArgs e)
         {
@@ -55,6 +66,11 @@ namespace ExecutiveMidi.SubWindow
             else if (t.Text == "" || Int32.Parse(t.Text) < 1)
                 t.Text = "1";
             else old_text = t.Text;
+        }
+        private void _KeyDownFloat(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.D0 || e.Key == Key.D1 || e.Key == Key.D2 || e.Key == Key.D3 || e.Key == Key.D4 || e.Key == Key.D5 || e.Key == Key.D6 || e.Key == Key.D7 || e.Key == Key.D8 || e.Key == Key.D9 || e.Key == Key.NumPad0 || e.Key == Key.NumPad1 || e.Key == Key.NumPad2 || e.Key == Key.NumPad3 || e.Key == Key.NumPad4 || e.Key == Key.NumPad5 || e.Key == Key.NumPad6 || e.Key == Key.NumPad7 || e.Key == Key.NumPad8 || e.Key == Key.NumPad9 || e.Key == Key.Decimal || e.Key == Key.OemPeriod)
+                Done.IsEnabled = true;
         }
         private void _KeyDown(object sender, KeyEventArgs e)
         {
@@ -72,9 +88,11 @@ namespace ExecutiveMidi.SubWindow
 
         private void OK(object sender, MouseButtonEventArgs e)
         {
-            if (MainWindow.Midipath != "" && MainWindow.BPM.ToString() != 重设BPM.Text)
+            if (MainWindow.Midipath != "" && MainWindow.Rate.ToString() != 重设播放倍率.Text)
             {
-                var m_ = MainWindow.Midipath; var b = Int32.Parse(重设BPM.Text);
+                System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("^[0-9]+\\.$");
+                if (reg.IsMatch(重设播放倍率.Text)) 重设播放倍率.Text += "0";
+                var m_ = MainWindow.Midipath; var b = double.Parse(重设播放倍率.Text); if (b == 0) { 重设播放倍率.Text = "1"; b = 1; }
                 var a = new TimeLine();
                 var g = new SubWindow.Waiting(); g.Owner = this;
                 BackgroundWorker waiting = new BackgroundWorker();
@@ -102,7 +120,8 @@ namespace ExecutiveMidi.SubWindow
                     var m = a.Param["TotalTicks"].Value / 1200;
                     var s = a.Param["TotalTicks"].Value % 1200 / 20;
                     Midi时长.Text = m.ToString() + " : " + s.ToString();
-                    MainWindow.BPM = Int32.Parse(重设BPM.Text);
+                    MainWindow.Rate = Double.Parse(重设播放倍率.Text);
+                    MainWindow.preTimeLine = a;
                 };
                 worker.RunWorkerAsync();
             }

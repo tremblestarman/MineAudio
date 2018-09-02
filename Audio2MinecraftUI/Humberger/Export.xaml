@@ -110,16 +110,16 @@
             </TextBlock.ToolTip>
         </TextBlock>
         <Grid Margin="200,38,200,10" x:Name="Midi">
-            <TextBlock Text="重设BPM" FontSize="12px" Margin="50,24,50,159">
+            <TextBlock Text="重设播放倍率" FontSize="12px" Margin="50,24,50,159">
                 <TextBlock.ToolTip>
                     <ToolTip>
                         <TextBlock>
-                            重设BPM 调整Midi的时长
+                            重设播放倍率 调整Midi的时长
                         </TextBlock>
                     </ToolTip>
                 </TextBlock.ToolTip>
             </TextBlock>
-            <TextBox x:Name="重设BPM" Margin="50,48,50,128" Height="24" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
+            <TextBox x:Name="重设播放倍率" Margin="50,48,50,128" Height="24" TextChanged="FloatOnly" KeyDown="_KeyDownFloat" PreviewKeyDown="_KeyDownFloat"/>
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
             <TextBlock Text="Midi时长" FontSize="12px" Margin="50,83,50,100">
                 <TextBlock.ToolTip>

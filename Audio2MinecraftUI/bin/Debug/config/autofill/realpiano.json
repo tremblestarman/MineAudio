@@ -2,8 +2,8 @@
 	"matches": {
 		"f_0": {
 			"instrument": "Acoustic Grand",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -16,12 +16,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_1": {
 			"instrument": "Bright Acoustic",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -34,12 +34,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_2": {
 			"instrument": "Electric Grand",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -52,12 +52,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_3": {
 			"instrument": "Honky-Tonk",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -70,12 +70,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_4": {
 			"instrument": "Electric Piano 1",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -88,12 +88,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_5": {
 			"instrument": "Default",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -106,12 +106,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_6": {
 			"instrument": "Electric Piano 2",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -124,12 +124,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_7": {
 			"instrument": "Harpsichord",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -142,12 +142,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_8": {
 			"instrument": "Clavinet",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -160,12 +160,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_9": {
 			"instrument": "Orchestral Strings",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -178,12 +178,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"f_10": {
 			"instrument": "Acoustic Bass",
-			"sound_name": "lkrb.piano.p%pf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -196,12 +196,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_0": {
 			"instrument": "Acoustic Grand",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -214,12 +214,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_1": {
 			"instrument": "Bright Acoustic",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -232,12 +232,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_2": {
 			"instrument": "Electric Grand",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -250,12 +250,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_3": {
 			"instrument": "Honky-Tonk",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -268,12 +268,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_4": {
 			"instrument": "Electric Piano 1",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -286,12 +286,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_5": {
 			"instrument": "Default",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -304,12 +304,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_6": {
 			"instrument": "Electric Piano 2",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -322,12 +322,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_7": {
 			"instrument": "Harpsichord",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -340,12 +340,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_8": {
 			"instrument": "Clavinet",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -358,12 +358,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_9": {
 			"instrument": "Orchestral Strings",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -376,12 +376,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ff_10": {
 			"instrument": "Acoustic Bass",
-			"sound_name": "lkrb.piano.p%pff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -394,12 +394,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_0": {
 			"instrument": "Acoustic Grand",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -412,12 +412,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_1": {
 			"instrument": "Bright Acoustic",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -430,12 +430,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_2": {
 			"instrument": "Electric Grand",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -448,12 +448,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_3": {
 			"instrument": "Honky-Tonk",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -466,12 +466,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_4": {
 			"instrument": "Electric Piano 1",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -484,12 +484,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_5": {
 			"instrument": "Default",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -502,12 +502,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_6": {
 			"instrument": "Electric Piano 2",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -520,12 +520,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_7": {
 			"instrument": "Harpsichord",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -538,12 +538,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_8": {
 			"instrument": "Clavinet",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -556,12 +556,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_9": {
 			"instrument": "Orchestral Strings",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -574,12 +574,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"fff_10": {
 			"instrument": "Acoustic Bass",
-			"sound_name": "lkrb.piano.p%pfff",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pfff",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -592,12 +592,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_0": {
 			"instrument": "Acoustic Grand",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -610,12 +610,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_1": {
 			"instrument": "Bright Acoustic",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -628,12 +628,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_2": {
 			"instrument": "Electric Grand",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -646,12 +646,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_3": {
 			"instrument": "Honky-Tonk",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -664,12 +664,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_4": {
 			"instrument": "Electric Piano 1",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -682,12 +682,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_5": {
 			"instrument": "Default",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -700,12 +700,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_6": {
 			"instrument": "Electric Piano 2",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -718,12 +718,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_7": {
 			"instrument": "Harpsichord",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -736,12 +736,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_8": {
 			"instrument": "Clavinet",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -754,12 +754,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_9": {
 			"instrument": "Orchestral Strings",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -772,12 +772,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mf_10": {
 			"instrument": "Acoustic Bass",
-			"sound_name": "lkrb.piano.p%pmf",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmf",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -790,12 +790,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_0": {
 			"instrument": "Acoustic Grand",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -808,12 +808,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_1": {
 			"instrument": "Bright Acoustic",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -826,12 +826,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_2": {
 			"instrument": "Electric Grand",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -844,12 +844,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_3": {
 			"instrument": "Honky-Tonk",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -862,12 +862,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_4": {
 			"instrument": "Electric Piano 1",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -880,12 +880,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_5": {
 			"instrument": "Default",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -898,12 +898,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_6": {
 			"instrument": "Electric Piano 2",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -916,12 +916,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_7": {
 			"instrument": "Harpsichord",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -934,12 +934,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_8": {
 			"instrument": "Clavinet",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -952,12 +952,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_9": {
 			"instrument": "Orchestral Strings",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -970,12 +970,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"mp_10": {
 			"instrument": "Acoustic Bass",
-			"sound_name": "lkrb.piano.p%pmp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pmp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -988,12 +988,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_0": {
 			"instrument": "Acoustic Grand",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1006,12 +1006,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_1": {
 			"instrument": "Bright Acoustic",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1024,12 +1024,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_2": {
 			"instrument": "Electric Grand",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1042,12 +1042,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_3": {
 			"instrument": "Honky-Tonk",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1060,12 +1060,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_4": {
 			"instrument": "Electric Piano 1",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1078,12 +1078,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_5": {
 			"instrument": "Default",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1096,12 +1096,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_6": {
 			"instrument": "Electric Piano 2",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1114,12 +1114,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_7": {
 			"instrument": "Harpsichord",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1132,12 +1132,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_8": {
 			"instrument": "Clavinet",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1150,12 +1150,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_9": {
 			"instrument": "Orchestral Strings",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1168,12 +1168,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"p_10": {
 			"instrument": "Acoustic Bass",
-			"sound_name": "lkrb.piano.p%pp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1186,12 +1186,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_0": {
 			"instrument": "Acoustic Grand",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1204,12 +1204,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_1": {
 			"instrument": "Bright Acoustic",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1222,12 +1222,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_2": {
 			"instrument": "Electric Grand",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1240,12 +1240,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_3": {
 			"instrument": "Honky-Tonk",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1258,12 +1258,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_4": {
 			"instrument": "Electric Piano 1",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1276,12 +1276,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_5": {
 			"instrument": "Default",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1294,12 +1294,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_6": {
 			"instrument": "Electric Piano 2",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1312,12 +1312,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_7": {
 			"instrument": "Harpsichord",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1330,12 +1330,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_8": {
 			"instrument": "Clavinet",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1348,12 +1348,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_9": {
 			"instrument": "Orchestral Strings",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1366,12 +1366,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"pp_10": {
 			"instrument": "Acoustic Bass",
-			"sound_name": "lkrb.piano.p%ppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%ppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1384,12 +1384,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_0": {
 			"instrument": "Acoustic Grand",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1402,12 +1402,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_1": {
 			"instrument": "Bright Acoustic",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1420,12 +1420,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_2": {
 			"instrument": "Electric Grand",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1438,12 +1438,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_3": {
 			"instrument": "Honky-Tonk",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1456,12 +1456,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_4": {
 			"instrument": "Electric Piano 1",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1474,12 +1474,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_5": {
 			"instrument": "Default",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1492,12 +1492,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_6": {
 			"instrument": "Electric Piano 2",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1510,12 +1510,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_7": {
 			"instrument": "Harpsichord",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1528,12 +1528,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_8": {
 			"instrument": "Clavinet",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1546,12 +1546,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_9": {
 			"instrument": "Orchestral Strings",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1564,12 +1564,12 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		},
 		"ppp_10": {
 			"instrument": "Acoustic Bass",
-			"sound_name": "lkrb.piano.p%pppp",
-			"expression": "",
+			"sound_name": "lkrb.piano",
+			"expression": "p%pppp",
 			"volume": 100.0,
 			"target": "@a",
 			"source": "record",
@@ -1582,7 +1582,7 @@
 				"y": 0.0,
 				"z": 0.0
 			},
-			"pitch_playable": true
+			"pitch_playable": false
 		}
 	},
 	"modes": {
