@@ -1064,6 +1064,7 @@ namespace Audio2MinecraftUI
                         Lines.AppendLine("\t\t--- Instrument : \"" + i + "\"");
                         foreach (var g in n.MidiTracks[t][i])
                         {
+                            if (g.IsEvent == true) continue;
                             Lines.AppendLine("\t\t\t- P : " + g.Param["Pitch"].Value + "(" + returnNote(g.Param["Pitch"].Value) + ")" + "\t- V : " + g.Param["Velocity"].Value + "  \t- L : " + g.Param["MinecraftTickDuration"].Value + " ticks");
                         }
                     }
