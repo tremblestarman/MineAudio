@@ -125,7 +125,7 @@ namespace ExecutiveMidi
         private void Save(object sender, MouseButtonEventArgs e)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "A2M Extended Content(*.amextension)|*.amextend|ExecutiveMidi Project(*.emidiproj)|*.emidiproj|Universal Schematic(*.schematic)|*.schematic|WorldEdit Schematic(*.schematic)|*.schematic";
+            fileDialog.Filter = "A2M Extended Content(*.amextension)|*.amextend|ExecutiveMidi Project(*.emidiproj)|*.emidiproj|Universal Schematic(*.schematic)|*.schematic|WorldEdit Schematic(*.schematic)|*.schematic|WorldEdit 1.13 Schematic(*.schem)|*.schem";
             fileDialog.FilterIndex = 1;
             if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
             {
@@ -172,7 +172,7 @@ namespace ExecutiveMidi
                         };
                         worker.RunWorkerAsync();
                     }
-                    else if (fileDialog.FilterIndex == 3 || fileDialog.FilterIndex == 4) //Schematic
+                    else if (fileDialog.FilterIndex == 3 || fileDialog.FilterIndex == 4 || fileDialog.FilterIndex == 5) //Schematic
                     {
                         var _w = new SubWindow.Export(); _w.Owner = this;
                         _w.序列宽度.Text = export.Width.ToString();
@@ -202,6 +202,9 @@ namespace ExecutiveMidi
                             };
                             worker.RunWorkerCompleted += (o, ea) =>
                             {
+                                if (fileDialog.FilterIndex == 3) export.Type = ExportSetting.ExportType.Universal;
+                                if (fileDialog.FilterIndex == 4) export.Type = ExportSetting.ExportType.WorldEdit;
+                                if (fileDialog.FilterIndex == 5) export.Type = ExportSetting.ExportType.WorldEdit_113;
                                 new Schematic().ExportSchematic(commandLine, export, fileDialog.FileName);
                                 w.Close();
                             };

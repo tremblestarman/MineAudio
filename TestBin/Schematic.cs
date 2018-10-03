@@ -29,7 +29,7 @@ namespace Audio2Minecraft
                 //Export Schematic
                 if (SettingParam.Type == ExportSetting.ExportType.Universal)
                     new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.None);
-                else if (SettingParam.Type == ExportSetting.ExportType.WorldEdit)
+                else if (SettingParam.Type == ExportSetting.ExportType.WorldEdit || SettingParam.Type == ExportSetting.ExportType.WorldEdit_113)
                     new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.GZip);
             }
             catch { }
@@ -46,7 +46,7 @@ namespace Audio2Minecraft
             {
                 var Schematic = new NbtCompound("Schematic");
                 //CommandLine -> BlockInfo
-                var blockInfo = CommandLine2SchematicInfo(commandLine, SettingParam);
+                var blockInfo = CommandLine2SchematicInfo(commandLine, SettingParam, (SettingParam.Type == ExportSetting.ExportType.WorldEdit_113) ? "1.13" : "");
                 //BlockInfo -> Schematic
                 Schematic.Add(blockInfo.Height);
                 Schematic.Add(blockInfo.Length);
@@ -58,6 +58,7 @@ namespace Audio2Minecraft
                 if (SettingParam.Type == ExportSetting.ExportType.WorldEdit)
                 {
                     var weInfo = BlockInfo2WorldEditBlockInfo(blockInfo, SettingParam.Direction);
+                    Schematic.Remove("Entities");
                     Schematic.Add(weInfo.Materials);
                     Schematic.Add(weInfo.WEOriginX);
                     Schematic.Add(weInfo.WEOriginY);
@@ -66,6 +67,20 @@ namespace Audio2Minecraft
                     Schematic.Add(weInfo.WEOffsetY);
                     Schematic.Add(weInfo.WEOffsetZ);
                 }
+                else if (SettingParam.Type == ExportSetting.ExportType.WorldEdit_113) //1.13
+                {
+                    var schem = BlockInfo2Schema113Info(blockInfo, SettingParam.Direction);
+                    Schematic.Remove(blockInfo.Data);
+                    Schematic.Remove(blockInfo.Blocks);
+                Schematic.Remove("Entities");
+                Schematic.Add(schem.Metadata);
+                    Schematic.Add(schem.Palette);
+                    Schematic.Add(schem.PaletteMax);
+                    Schematic.Add(schem.Version);
+                    Schematic.Add(schem.BlockData);
+                    Schematic.Add(schem.Offset);
+                }
+            Console.Write(new List<string>()[0]);
                 return Schematic;
             }
             catch
@@ -73,8 +88,11 @@ namespace Audio2Minecraft
                 return null;
             }
         }
-        private BlockInfo CommandLine2SchematicInfo(CommandLine commandLine, ExportSetting SettingParam)
+        private BlockInfo CommandLine2SchematicInfo(CommandLine commandLine, ExportSetting SettingParam, string mode)
         {
+            //Setblock Command
+            var redstone_block = "minecraft:redstone_block 0";
+            if (mode == "1.13") redstone_block = "minecraft:redstone_block";
             try
             {
                 var blockInfo = new BlockInfo();
@@ -190,14 +208,14 @@ namespace Audio2Minecraft
                             {
                                 blocks[index] = 137;
                                 datas[index] = 1;
-                                if (commandLine.Keyframe[i].Commands[0] == "$setblock") blockInfo.TileEntities.Add(AddCommand("setblock ~" + vector2[0].ToString() + " ~-1 ~" + vector2[1].ToString() + " minecraft:redstone_block 0 keep", x, y, z, false));
-                                else blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, false));
+                                if (commandLine.Keyframe[i].Commands[0] == "$setblock") blockInfo.TileEntities.Add(AddCommand("setblock ~" + vector2[0].ToString() + " ~-1 ~" + vector2[1].ToString() + " " + redstone_block + " keep", x, y, z, false, mode));
+                                else blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, false, mode));
                             }
                             else
                             {
                                 blocks[index] = 211;
                                 datas[index] = 1;
-                                blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, true));
+                                blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, true, mode));
                             }
                         }
                         //Z+ Z-
@@ -208,14 +226,14 @@ namespace Audio2Minecraft
                             {
                                 blocks[index] = 137;
                                 datas[index] = 1;
-                                if (commandLine.Keyframe[i].Commands[0] == "$setblock") blockInfo.TileEntities.Add(AddCommand("setblock ~" + vector2[0].ToString() + " ~-1 ~" + vector2[1].ToString() + " minecraft:redstone_block 0 keep", x, y, z, false));
-                                else blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, false));
+                                if (commandLine.Keyframe[i].Commands[0] == "$setblock") blockInfo.TileEntities.Add(AddCommand("setblock ~" + vector2[0].ToString() + " ~-1 ~" + vector2[1].ToString() + " " + redstone_block + " 0 keep", x, y, z, false, mode));
+                                else blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, false, mode));
                             }
                             else
                             {
                                 blocks[index] = 211;
                                 datas[index] = 1;
-                                blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, true));
+                                blockInfo.TileEntities.Add(AddCommand(commandLine.Keyframe[i].Commands[y], x, y, z, true, mode));
                             }
                         }
                     }
@@ -230,21 +248,37 @@ namespace Audio2Minecraft
                 return null;
             }
         }
-        private NbtCompound AddCommand(string command, int x, int y, int z, bool auto)
+        private NbtCompound AddCommand(string command, int x, int y, int z, bool auto, string mode)
         {
             var NodePoint = new NbtCompound();
-            NodePoint.Add(new NbtString("id", "minecraft:command_block"));
-            NodePoint.Add(new NbtString("Command", command));
-            NodePoint.Add(new NbtByte("TrackOutput", 1));
-            NodePoint.Add(new NbtString("CustomName", "@"));
-            NodePoint.Add(new NbtInt("SuccessCount", 0));
-            NodePoint.Add(new NbtByte("auto", auto ? (byte)1 : (byte)0));
-            NodePoint.Add(new NbtByte("powered", 0));
-            NodePoint.Add(new NbtByte("conditionMet", 0));
-            NodePoint.Add(new NbtByte("UpdateLastExecution", 1));
-            NodePoint.Add(new NbtInt("x", x));
-            NodePoint.Add(new NbtInt("y", y));
-            NodePoint.Add(new NbtInt("z", z));
+            if (mode == "1.13")
+            {
+                NodePoint.Add(new NbtString("Id", "minecraft:command_block"));
+                NodePoint.Add(new NbtString("Command", command));
+                NodePoint.Add(new NbtByte("TrackOutput", 1));
+                NodePoint.Add(new NbtString("CustomName", "{\"text\":\"@\"}"));
+                NodePoint.Add(new NbtInt("SuccessCount", 0));
+                NodePoint.Add(new NbtByte("auto", auto ? (byte)1 : (byte)0));
+                NodePoint.Add(new NbtByte("powered", 0));
+                NodePoint.Add(new NbtByte("conditionMet", 0));
+                NodePoint.Add(new NbtByte("UpdateLastExecution", 1));
+                NodePoint.Add(new NbtIntArray("Pos", new int[] { x, y, z }));
+            }
+            else
+            {
+                NodePoint.Add(new NbtString("id", "minecraft:command_block"));
+                NodePoint.Add(new NbtString("Command", command));
+                NodePoint.Add(new NbtByte("TrackOutput", 1));
+                NodePoint.Add(new NbtString("CustomName", "@"));
+                NodePoint.Add(new NbtInt("SuccessCount", 0));
+                NodePoint.Add(new NbtByte("auto", auto ? (byte)1 : (byte)0));
+                NodePoint.Add(new NbtByte("powered", 0));
+                NodePoint.Add(new NbtByte("conditionMet", 0));
+                NodePoint.Add(new NbtByte("UpdateLastExecution", 1));
+                NodePoint.Add(new NbtInt("x", x));
+                NodePoint.Add(new NbtInt("y", y));
+                NodePoint.Add(new NbtInt("z", z));
+            }
             return NodePoint;
         }
         private WorldEditBlockInfo BlockInfo2WorldEditBlockInfo(BlockInfo blockInfo, int direction)
@@ -275,6 +309,46 @@ namespace Audio2Minecraft
                     break;
             }
             return weInfo;
+        }
+        /// For 1.13
+        private SchemaInfo_133 BlockInfo2Schema113Info(BlockInfo blockInfo, int direction)
+        {
+            var schemInfo = new SchemaInfo_133();
+            //Palette
+            schemInfo.Palette.Add(new NbtInt("minecraft:command_block[conditional=false,facing=up]", 0));
+            schemInfo.Palette.Add(new NbtInt("minecraft:chain_command_block[conditional=false,facing=up]", 1));
+            schemInfo.Palette.Add(new NbtInt("minecraft:air", 2));
+            //Block Merge
+            var blocks = new List<byte>();
+            for (int i = 0; i < blockInfo.Blocks.Value.Length; i++)
+            {
+                if (blockInfo.Blocks.Value[i] == 137) blocks.Add(0);
+                else if (blockInfo.Blocks.Value[i] == 211) blocks.Add(1);
+                else blocks.Add(2);
+            }
+            schemInfo.BlockData.Value = blocks.ToArray();
+            //Offset
+            switch (direction)
+            {
+                case 0:
+                    schemInfo.WEOffsetZ.Value = 1;
+                    break;
+                case 1:
+                    schemInfo.WEOffsetX.Value = blockInfo.Length.IntValue - 1;
+                    schemInfo.WEOffsetZ.Value = blockInfo.Width.IntValue - 2;
+                    break;
+                case 2:
+                    schemInfo.WEOffsetZ.Value = -1;
+                    break;
+                case 3:
+                    schemInfo.WEOffsetX.Value = -(blockInfo.Length.IntValue - 2);
+                    schemInfo.WEOffsetZ.Value = blockInfo.Width.IntValue - 1;
+                    break;
+            }
+            schemInfo.Metadata.Add(schemInfo.WEOffsetX);
+            schemInfo.Metadata.Add(schemInfo.WEOffsetY);
+            schemInfo.Metadata.Add(schemInfo.WEOffsetZ);
+            return schemInfo;
         }
     }
     /// <summary>
@@ -316,7 +390,8 @@ namespace Audio2Minecraft
         public enum ExportType
         {
             Universal,
-            WorldEdit
+            WorldEdit,
+            WorldEdit_113,
         }
     }
 
@@ -344,5 +419,17 @@ namespace Audio2Minecraft
         public NbtInt WEOffsetY = new NbtInt("WEOffsetY", 0);
         public NbtInt WEOffsetZ = new NbtInt("WEOffsetZ", 0);
         public NbtString Materials = new NbtString("Materials", "Alpha");
+    }
+    class SchemaInfo_133
+    {
+        public NbtCompound Metadata = new NbtCompound("Metadata");
+        public NbtInt WEOffsetX = new NbtInt("WEOffsetX", 0);
+        public NbtInt WEOffsetY = new NbtInt("WEOffsetY", 0);
+        public NbtInt WEOffsetZ = new NbtInt("WEOffsetZ", 0);
+        public NbtCompound Palette = new NbtCompound("Palette");
+        public NbtInt PaletteMax = new NbtInt("PaletteMax", 3);
+        public NbtInt Version = new NbtInt("Version", 1);
+        public NbtByteArray BlockData = new NbtByteArray("BlockData");
+        public NbtIntArray Offset = new NbtIntArray("Offset", new int[] { 0, 0, 0 });
     }
 }

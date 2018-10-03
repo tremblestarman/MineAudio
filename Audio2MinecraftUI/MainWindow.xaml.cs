@@ -630,7 +630,7 @@ namespace Audio2MinecraftUI
         public void Save(object sender, MouseButtonEventArgs e)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "A2M Project(*.amproj)|*.amproj|Universal Schematic(*.schematic)|*.schematic|WorldEdit Schematic(*.schematic)|*.schematic";
+            fileDialog.Filter = "A2M Project(*.amproj)|*.amproj|Universal Schematic(*.schematic)|*.schematic|WorldEdit Schematic(*.schematic)|*.schematic|WorldEdit 1.13 Schematic(*.schem)|*.schem";
             fileDialog.FilterIndex = 1;
             foreach (var t in preTimeLine.TrackList) //New Tracks List
             {
@@ -762,6 +762,7 @@ namespace Audio2MinecraftUI
                         //导出
                         var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width, AutoTeleport = ExportSetting.AutoTeleport };
                         if (fileDialog.FilterIndex == 3) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WorldEdit
+                        else if (fileDialog.FilterIndex == 4) exportSetting.Type = ExportSetting.ExportType.WorldEdit_113; //For WorldEdit 1.13
                         new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName);
                     };
                     worker.RunWorkerCompleted += (o, ea) =>
@@ -1226,7 +1227,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "A-1.3-2";
+        public string version = "Snap-A-1.4";
         public string download;
         public string log;
     }
