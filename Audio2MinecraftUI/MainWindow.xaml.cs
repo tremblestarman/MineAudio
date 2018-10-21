@@ -1097,8 +1097,8 @@ namespace Audio2MinecraftUI
             //Midi
             for (int i = 1; i <= midi.TrackList.Count; i++)
             {
-                midi_index.Add(midi.TrackList[i - 1].Name, 1/* Index */);
-                var wks = excel.Workbook.Worksheets.Add(midi.TrackList[i-1].Name);
+                midi_index.Add(midi.TrackList[i - 1].Name == "" ? "default" : midi.TrackList[i - 1].Name, 1/* Index */);
+                var wks = excel.Workbook.Worksheets.Add(midi.TrackList[i-1].Name == "" ? "default" : midi.TrackList[i - 1].Name);
                 wks.Cells[1, 1].Value = "起始时间";
                 wks.Cells[1, 2].Value = "乐器";
                 wks.Cells[1, 3].Value = "MIDI音高";
@@ -1108,6 +1108,9 @@ namespace Audio2MinecraftUI
                 wks.Cells[1, 8].Value = "控制器音量";
                 wks.Cells[1, 9].Value = "控制器相位";
                 wks.Cells[1, 10].Value = "控制器BPM";
+                wks.Cells[1, 12].Value = "小节";
+                wks.Cells[1, 13].Value = "拍";
+                wks.Cells[1, 14].Value = "频道";
                 wks.Row(1).Height = 20;
                 wks.Row(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 wks.Row(1).Style.Font.Bold = true;
@@ -1128,24 +1131,27 @@ namespace Audio2MinecraftUI
                                     foreach (var t1 in n.MidiTracks.Keys)
                                     {
                                         if (t1 == "none") continue; //BPM Event
-                                        midi_index[t1]++;
-                                        var wks1 = excel.Workbook.Worksheets[t1];
-                                        wks1.Cells[midi_index[t1], 1].Value = n.CurrentTick;
-                                        wks1.Cells[midi_index[t1], 10].Value = g.Param["BeatPerMinute"].Value.ToString();
+                                        midi_index[t1 == "" ? "default" : t1]++;
+                                        var wks1 = excel.Workbook.Worksheets[t1 == "" ? "default" : t1];
+                                        wks1.Cells[midi_index[t1 == "" ? "default" : t1], 1].Value = n.CurrentTick;
+                                        wks1.Cells[midi_index[t1 == "" ? "default" : t1], 10].Value = g.Param["BeatPerMinute"].Value.ToString();
                                     }
                                     continue;
                                 }
-                                midi_index[t]++;
+                                midi_index[t == "" ? "default" : t]++;
 
-                                var wks = excel.Workbook.Worksheets[t];
-                                wks.Cells[midi_index[t], 1].Value = n.CurrentTick;
-                                wks.Cells[midi_index[t], 2].Value = i;
-                                wks.Cells[midi_index[t], 3].Value = g.Param["Pitch"].Value;
-                                wks.Cells[midi_index[t], 4].Value = returnNote(g.Param["Pitch"].Value);
-                                wks.Cells[midi_index[t], 5].Value = g.Param["Velocity"].Value;
-                                wks.Cells[midi_index[t], 6].Value = g.Param["MinecraftTickDuration"].Value;
-                                wks.Cells[midi_index[t], 8].Value = g.PlaySound.MandaVolume == -1 ? 100 : g.PlaySound.MandaVolume;
-                                wks.Cells[midi_index[t], 9].Value = g.PlaySound.GetPan() == -1 ? 64 : g.PlaySound.GetPan();
+                                var wks = excel.Workbook.Worksheets[t == "" ? "default" : t];
+                                wks.Cells[midi_index[t == "" ? "default" : t], 1].Value = n.CurrentTick;
+                                wks.Cells[midi_index[t == "" ? "default" : t], 2].Value = i;
+                                wks.Cells[midi_index[t == "" ? "default" : t], 3].Value = g.Param["Pitch"].Value;
+                                wks.Cells[midi_index[t == "" ? "default" : t], 4].Value = returnNote(g.Param["Pitch"].Value);
+                                wks.Cells[midi_index[t == "" ? "default" : t], 5].Value = g.Param["Velocity"].Value;
+                                wks.Cells[midi_index[t == "" ? "default" : t], 6].Value = g.Param["MinecraftTickDuration"].Value;
+                                wks.Cells[midi_index[t == "" ? "default" : t], 8].Value = g.PlaySound.MandaVolume == -1 ? 100 : g.PlaySound.MandaVolume;
+                                wks.Cells[midi_index[t == "" ? "default" : t], 9].Value = g.PlaySound.GetPan() == -1 ? 64 : g.PlaySound.GetPan();
+                                wks.Cells[midi_index[t == "" ? "default" : t], 12].Value = g.Param["BarIndex"].Value;
+                                wks.Cells[midi_index[t == "" ? "default" : t], 13].Value = g.Param["BeatDuration"].Value;
+                                wks.Cells[midi_index[t == "" ? "default" : t], 14].Value = g.Param["Channel"].Value;
                             }
                         }
                     }
@@ -1155,15 +1161,8 @@ namespace Audio2MinecraftUI
             foreach (var t in midi.TrackList)
             {
                 var k = t.Name;
-                excel.Workbook.Worksheets[k].Column(1).AutoFit();
-                excel.Workbook.Worksheets[k].Column(2).AutoFit();
-                excel.Workbook.Worksheets[k].Column(3).AutoFit();
-                excel.Workbook.Worksheets[k].Column(4).AutoFit();
-                excel.Workbook.Worksheets[k].Column(5).AutoFit();
-                excel.Workbook.Worksheets[k].Column(6).AutoFit();
-                excel.Workbook.Worksheets[k].Column(8).AutoFit();
-                excel.Workbook.Worksheets[k].Column(9).AutoFit();
-                excel.Workbook.Worksheets[k].Column(10).AutoFit();
+                for (var m = 1; m <= 14; m++)
+                    excel.Workbook.Worksheets[k == "" ? "default" : k].Column(m).AutoFit();
             }
             excel.SaveAs(new FileInfo(fileOut));
         }
@@ -1227,7 +1226,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "Snap-A-1.4";
+        public string version = "A-1.4";
         public string download;
         public string log;
     }
