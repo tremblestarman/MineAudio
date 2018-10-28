@@ -80,7 +80,6 @@ namespace Audio2Minecraft
                     Schematic.Add(schem.BlockData);
                     Schematic.Add(schem.Offset);
                 }
-            Console.Write(new List<string>()[0]);
                 return Schematic;
             }
             catch
