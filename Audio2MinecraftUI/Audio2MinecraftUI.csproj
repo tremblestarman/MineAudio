@@ -115,6 +115,9 @@
     <Compile Include="SubWindow\AutoFillSelector.xaml.cs">
       <DependentUpon>AutoFillSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SubWindow\DataPackOutPut.xaml.cs">
+      <DependentUpon>DataPackOutPut.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubWindow\Extension.xaml.cs">
       <DependentUpon>Extension.xaml</DependentUpon>
     </Compile>
@@ -175,6 +178,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SubWindow\AutoFillSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SubWindow\DataPackOutPut.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,6 +273,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\extension.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\datapack.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -43,3 +43,5 @@ C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Aud
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\ExtensionOption.baml
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\bin\Debug\EPPlus.dll
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\bin\Debug\EPPlus.xml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\DataPackOutPut.g.cs
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\DataPackOutPut.baml

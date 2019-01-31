@@ -1,4 +1,4 @@
-{
+﻿{
 	"matches": {
 		"f_0": {
 			"instrument": "Acoustic Grand",
@@ -1587,42 +1587,42 @@
 	},
 	"modes": {
 		"f": {
-			"description": "应用于realpiano资源包。力度: f。",
+			"description": "应用于realpiano资源包。力度: f。仅对钢琴乐器进行自动补全。",
 			"auto": true,
 			"matches": ["f_0", "f_1", "f_2", "f_3", "f_4", "f_5", "f_6", "f_7", "f_8", "f_9", "f_10"]
 		},
 		"ff": {
-			"description": "应用于realpiano资源包。力度: ff。",
+			"description": "应用于realpiano资源包。力度: ff。仅对钢琴乐器进行自动补全。",
 			"auto": true,
 			"matches": ["ff_0", "ff_1", "ff_2", "ff_3", "ff_4", "ff_5", "ff_6", "ff_7", "ff_8", "ff_9", "ff_10"]
 		},
 		"fff": {
-			"description": "应用于realpiano资源包。力度: fff。",
+			"description": "应用于realpiano资源包。力度: fff。仅对钢琴乐器进行自动补全。",
 			"auto": true,
 			"matches": ["fff_0", "fff_1", "fff_2", "fff_3", "fff_4", "fff_5", "fff_6", "fff_7", "fff_8", "fff_9", "fff_10"]
 		},
 		"mf": {
-			"description": "应用于realpiano资源包。力度: mf。",
+			"description": "应用于realpiano资源包。力度: mf。仅对钢琴乐器进行自动补全。",
 			"auto": true,
 			"matches": ["mf_0", "mf_1", "mf_2", "mf_3", "mf_4", "mf_5", "mf_6", "mf_7", "mf_8", "mf_9", "mf_10"]
 		},
 		"mp": {
-			"description": "应用于realpiano资源包。力度: mp。",
+			"description": "应用于realpiano资源包。力度: mp。仅对钢琴乐器进行自动补全。",
 			"auto": true,
 			"matches": ["mp_0", "mp_1", "mp_2", "mp_3", "mp_4", "mp_5", "mp_6", "mp_7", "mp_8", "mp_9", "mp_10"]
 		},
 		"p": {
-			"description": "应用于realpiano资源包。力度: p。",
+			"description": "应用于realpiano资源包。力度: p。仅对钢琴乐器进行自动补全。",
 			"auto": true,
 			"matches": ["p_0", "p_1", "p_2", "p_3", "p_4", "p_5", "p_6", "p_7", "p_8", "p_9", "p_10"]
 		},
 		"pp": {
-			"description": "应用于realpiano资源包。力度: pp。",
+			"description": "应用于realpiano资源包。力度: pp。仅对钢琴乐器进行自动补全。",
 			"auto": true,
 			"matches": ["pp_0", "pp_1", "pp_2", "pp_3", "pp_4", "pp_5", "pp_6", "pp_7", "pp_8", "pp_9", "pp_10"]
 		},
 		"ppp": {
-			"description": "应用于realpiano资源包。力度: ppp。",
+			"description": "应用于realpiano资源包。力度: ppp。仅对钢琴乐器进行自动补全。",
 			"auto": true,
 			"matches": ["ppp_0", "ppp_1", "ppp_2", "ppp_3", "ppp_4", "ppp_5", "ppp_6", "ppp_7", "ppp_8", "ppp_9", "ppp_10"]
 		}

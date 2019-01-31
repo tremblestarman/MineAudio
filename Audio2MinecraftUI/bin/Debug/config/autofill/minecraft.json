@@ -1081,12 +1081,12 @@
 	},
 	"modes": {
 		"默认": {
-			"description": "应用于原版资源包。默认模式。",
+			"description": "应用于原版资源包。默认模式。不进行自动补全",
 			"auto": false,
 			"matches": ["harp_0", "harp_1", "harp_2", "harp_3", "harp_4", "harp_5", "harp_6", "harp_7", "harp_8", "harp_9", "harp_10", "basedrum_0", "basedrum_1", "bass_0", "bass_1", "bass_2", "bass_3", "bass_4", "bass_5", "bass_6", "bass_7", "bell_0", "bell_1", "bell_2", "bell_3", "bell_4", "click_0", "click_1", "click_2", "chime_0", "chime_1", "chime_2", "chime_3", "flute_1", "flute_2", "flute_3", "flute_4", "flute_5", "flute_6", "flute_7", "guitar_0", "guitar_1", "guitar_2", "guitar_3", "guitar_4", "guitar_5", "guitar_6", "guitar_7", "hat_0", "hat_1", "hat_2", "snare_0", "snare_1", "snare_2", "snare_3", "snare_4", "snare_5", "xylophone_0", "xylophone_1"]
 		},
 		"自动补全": {
-			"description": "应用于原版资源包，自动补全。确认后将覆盖原先设置，谨慎选择。",
+			"description": "应用于原版资源包，自动补全。自动补全会覆盖原先的设置，慎重选择。",
 			"auto": true,
 			"matches": ["harp_0", "harp_1", "harp_2", "harp_3", "harp_4", "harp_5", "harp_6", "harp_7", "harp_8", "harp_9", "harp_10", "basedrum_0", "basedrum_1", "bass_0", "bass_1", "bass_2", "bass_3", "bass_4", "bass_5", "bass_6", "bass_7", "bell_0", "bell_1", "bell_2", "bell_3", "bell_4", "click_0", "click_1", "click_2", "chime_0", "chime_1", "chime_2", "chime_3", "flute_1", "flute_2", "flute_3", "flute_4", "flute_5", "flute_6", "flute_7", "guitar_0", "guitar_1", "guitar_2", "guitar_3", "guitar_4", "guitar_5", "guitar_6", "guitar_7", "hat_0", "hat_1", "hat_2", "snare_0", "snare_1", "snare_2", "snare_3", "snare_4", "snare_5", "xylophone_0", "xylophone_1"]
 		}

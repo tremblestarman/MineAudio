@@ -16,7 +16,6 @@ namespace Audio2Minecraft
         /// 通过时间序列生成命令序列
         /// </summary>
         /// <param name="timeLine">时间序列</param>
-        /// <param name="PitchPlayable">启用Playsound中音高的同步更新</param>
         /// <param name="version">游戏版本</param>
         /// <returns></returns>
         public CommandLine Serialize(TimeLine timeLine, string version = "1.12")
@@ -42,6 +41,9 @@ namespace Audio2Minecraft
                     scoreboards.Add("CurrentBPM");
                 #endregion
                 #region Keyframes
+                //Command:
+                var cmdExecute = "execute "; var cmdRelative = ""; var isrun = false;
+                if (version == "1.13" || version == "1.14") { cmdExecute = "execute as "; cmdRelative = " at @s positioned"; isrun = true; }
                 //Create Keyframes
                 for (int c = 0; c < timeLine.TickNodes.Count; c++) commandLine.Keyframe.Add(new Command());
                 //Foreach Tick
@@ -115,7 +117,7 @@ namespace Audio2Minecraft
                                                 var nowCount = commandLine.Keyframe.Count;
                                                 for (int m = 0; m < endtick - nowCount + 1; m++) commandLine.Keyframe.Add(new Command());
                                             }
-                                            var command1 = "execute " + playsound.ExecuteTarget + " ~ ~ ~ stopsound " + playsound.PlayTarget + " " + playsound.PlaySource + " " + playsound.SoundName + rxp + subName;
+                                            var command1 = cmdExecute + playsound.ExecuteTarget + cmdRelative + " ~ ~ ~ " + ((isrun) ? "run " : "") + "stopsound " + playsound.PlayTarget + " " + playsound.PlaySource + " " + playsound.SoundName + rxp + subName;
                                             for (int _t = node.Param["MinecraftTickStart"].Value + 1; _t < endtick; _t++)//Avoid Stopping Ahead
                                             {
                                                 if (commandLine.Keyframe[_t].Commands.Contains(command1)) commandLine.Keyframe[_t].Commands.Remove(command1);
@@ -128,7 +130,7 @@ namespace Audio2Minecraft
                                         double vp = ((playsound.PercVolume < 0) ? (double)100 : (double)playsound.PercVolume) / 100;
                                         double manda_vol = (playsound.MandaVolume < 0) ? 1 : (double)playsound.MandaVolume / 100;
                                         var volume = (node.Param["Velocity"].Value * manda_vol * vp / 100 > 2) ? 2 : (node.Param["Velocity"].Value * manda_vol * vp / 100 < 0) ? 0 : (double)node.Param["Velocity"].Value * vp * manda_vol / 100;
-                                        var command = "execute " + playsound.ExecuteTarget + " ~ ~ ~ playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume + ((node.PlaySound.PitchPlayable) ? (" " + setPlaysoundPitch(node.Param["Pitch"].Value)) : "");
+                                        var command = cmdExecute + playsound.ExecuteTarget + cmdRelative + " ~ ~ ~ " + ((isrun) ? "run " : "") + "playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume + ((node.PlaySound.PitchPlayable) ? (" " + setPlaysoundPitch(node.Param["Pitch"].Value)) : "");
                                         commandLine.Keyframe[i].Commands.Add(command);
                                     }
                                     #endregion
@@ -168,6 +170,219 @@ namespace Audio2Minecraft
                     }
                     //Wave Right
                     if (waveNodesR.Count > 0)
+                    {
+                        for (int j = 0; j < waveNodesR.Count; j++)
+                        {
+                            var node = waveNodesR[j];
+                            //Set Wave Tag
+                            var feature = "wave" + j.ToString() + "_r";
+                            var param = node.Param;
+                            foreach (string k in node.Param.Keys)
+                            {
+                                for (int n = 0; n < node.Param[k].Count; n++)
+                                {
+                                    if (node.Param[k][n].Enable)
+                                    {
+                                        //Update ScoreboardsList & EntitiesList
+                                        if (!entities.Keys.Contains(feature))
+                                            entities.Add(feature, new DescribeEntity() { Feature = feature, Count = node.Param[k].Count });
+                                        if (param[k][n].Enable && !scoreboards.Contains(param[k][n].Name))
+                                            scoreboards.Add(param[k][n].Name);
+                                        commandLine.Keyframe[i].Commands.Add(setCommand(feature + "_" + n, param[k][n].Name, param[k][n].Value, version));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+                }
+                #endregion
+                #region End of Timeline
+                foreach (var feature in entities.Keys)
+                {
+                    var entity = entities[feature];
+                    for (int m = 0; m < entity.Count; m++)
+                    {
+                        var tags = entity.Feature + "_" + m + "," + entity.Track + "," + entity.Instrument;
+                        commandLine.Start.Insert(0, "summon area_effect_cloud ~ ~ ~ {Tags:[" + tags + ",AudioRiptideNode],Duration:" + (commandLine.Keyframe.Count * 10).ToString() + "}");
+                    }
+                }
+                foreach (var scoreboard in scoreboards)
+                {
+                    commandLine.Start.Insert(0, "scoreboard objectives add " + scoreboard + " dummy");
+                    commandLine.End.Add("scoreboard objectives remove " + scoreboard);
+                }
+                commandLine.End.Add("kill @e[tag=AudioRiptideNode]");
+                #endregion
+                return commandLine;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// 通过时间序列生成指定音轨/乐器的命令序列
+        /// </summary>
+        /// <param name="timeLine">时间序列</param>
+        /// <param name="trackName">音轨名(默认null)</param>
+        /// <param name="instrumentName">乐器名(默认null)</param>
+        /// <param name="version">游戏版本</param>
+        /// <returns></returns>
+        public CommandLine SerializeSpecified(TimeLine timeLine, string trackName = null, string instrumentName = null, bool waveLeft = true, bool waveRight = true, string version = "1.12")
+        {
+            try
+            {
+                var commandLine = new CommandLine();
+                //List of Scoreboards
+                var scoreboards = new List<string>();
+                //List of Entities
+                var entities = new Dictionary<string, DescribeEntity>();
+                #region Head of TimeLine
+                entities.Add("GenParam", new DescribeEntity() { Feature = "GenParam", Count = 1 });
+                scoreboards = Param2ScoreboardsList(timeLine.Param, scoreboards);
+                foreach (string param in timeLine.Param.Keys)
+                {
+                    if (timeLine.Param[param].Enable == true)
+                        commandLine.Start.Add(setCommand("GenParam", timeLine.Param[param].Name, timeLine.Param[param].Value, version));
+                }
+                if (timeLine.OutPutTick)
+                    scoreboards.Add("CurrentTick");
+                if (timeLine.OutPutBPM)
+                    scoreboards.Add("CurrentBPM");
+                #endregion
+                #region Keyframes
+                //Command:
+                var cmdExecute = "execute "; var cmdRelative = ""; var isrun = false;
+                if (version == "1.13" || version == "1.14") { cmdExecute = "execute as "; cmdRelative = " at @s positioned"; isrun = true; }
+                //Create Keyframes
+                for (int c = 0; c < timeLine.TickNodes.Count; c++) commandLine.Keyframe.Add(new Command());
+                //Foreach Tick
+                for (int i = 0; i < timeLine.TickNodes.Count; i++)
+                {
+                    var tickNode = timeLine.TickNodes[i];
+                    var midiNodes = tickNode.MidiTracks;
+                    var waveNodesL = tickNode.WaveNodesLeft;
+                    var waveNodesR = tickNode.WaveNodesRight;
+                    if (timeLine.OutPutTick)
+                    {
+                        commandLine.Keyframe[i].Commands.Add(setCommand("GenParam", "CurrentTick", i, version));
+                    }
+                    #region Midi
+                    if (midiNodes.Count > 0 && !(trackName == null && instrumentName == null))
+                    {
+                        foreach (string track in midiNodes.Keys)
+                        {
+                            if (trackName != track && trackName != null) continue;
+                            foreach (string instrument in midiNodes[track].Keys)
+                            {
+                                if (instrumentName != track && instrumentName != null) continue;
+                                var nodes = midiNodes[track][instrument];
+                                for (int j = 0; j < nodes.Count; j++)
+                                {
+                                    var node = nodes[j];
+                                    if (node.IsEvent == true)
+                                    {
+                                        if (timeLine.OutPutBPM)
+                                            commandLine.Keyframe[i].Commands.Add(setCommand("GenParam", "CurrentBPM", node.Param["BeatPerMinute"].Value, version));
+                                        continue;
+                                    }
+                                    //Set Midi Tag
+                                    var regex = new Regex("[^a-z^A-Z^0-9_]");
+                                    var TrackName = regex.Replace(node.TrackName, "_");
+                                    var Instrument = regex.Replace(node.Instrument, "_");
+                                    var _track = "t_" + TrackName;
+                                    var _instrument = "i_" + Instrument;
+                                    var feature = ((TrackName.Length > 5) ? TrackName.Substring(0, 5) : TrackName) + "_" + ((Instrument.Length > 5) ? Instrument.Substring(0, 5) : Instrument);
+                                    //Add Command
+                                    foreach (string k in node.Param.Keys)
+                                    {
+                                        if (node.Param[k].Enable)
+                                        {
+                                            //Update ScoreboardsList & EntitiesList
+                                            if (entities.Keys.Contains(feature))
+                                            {
+                                                if (j >= entities[feature].Count)
+                                                    entities[feature].Count = j + 1;
+                                            }
+                                            else
+                                            {
+                                                entities.Add(feature, new DescribeEntity() { Feature = feature, Instrument = _instrument, Track = _track, Count = 1 });
+                                            }
+                                            scoreboards = Param2ScoreboardsList(node.Param, scoreboards);
+                                            var f = feature + "_" + j;
+                                            commandLine.Keyframe[i].Commands.Add(setCommand(f, node.Param[k].Name, node.Param[k].Value, version));
+                                        }
+                                    }
+                                    #region Playsound & Stopsound
+                                    if (node.PlaySound.Enable && node.PlaySound.PlaySource != "" && node.PlaySound.PlaySource != null)//Enable Playsound
+                                    {
+                                        //PlaySound
+                                        var playsound = node.PlaySound;
+                                        //Set Expression
+                                        var subName = InheritExpression.Expression(playsound.InheritExpression, node.Param["Pitch"].Value, node.Param["MinecraftTickDuration"].Value, node.Param["Velocity"].Value, node.Param["BarIndex"].Value, node.Param["BeatDuration"].Value, node.Param["Channel"].Value);
+                                        var rxp = (playsound.SoundName != "" && subName != "") ? "." : "";
+                                        if (playsound.StopSound)//Enable Stopsound
+                                        {
+                                            var endtick = node.Param["MinecraftTickStart"].Value + node.Param["MinecraftTickDuration"].Value + node.PlaySound.ExtraDelay;
+                                            if (endtick >= timeLine.TickNodes.Count)
+                                            {
+                                                var nowCount = commandLine.Keyframe.Count;
+                                                for (int m = 0; m < endtick - nowCount + 1; m++) commandLine.Keyframe.Add(new Command());
+                                            }
+                                            var command1 = cmdExecute + playsound.ExecuteTarget + cmdRelative + " ~ ~ ~ " + ((isrun) ? "run " : "") + "stopsound " + playsound.PlayTarget + " " + playsound.PlaySource + " " + playsound.SoundName + rxp + subName;
+                                            for (int _t = node.Param["MinecraftTickStart"].Value + 1; _t < endtick; _t++)//Avoid Stopping Ahead
+                                            {
+                                                if (commandLine.Keyframe[_t].Commands.Contains(command1)) commandLine.Keyframe[_t].Commands.Remove(command1);
+                                            }
+                                            commandLine.Keyframe[endtick].Commands.Add(command1);
+                                        }
+                                        //Set Cood
+                                        string cood = "~" + ((playsound.ExecuteCood[0] == 0) ? "" : playsound.ExecuteCood[0].ToString()) + " ~" + ((playsound.ExecuteCood[1] == 0) ? "" : playsound.ExecuteCood[1].ToString()) + " ~" + ((playsound.ExecuteCood[2] == 0) ? "" : playsound.ExecuteCood[2].ToString());
+                                        //Set Volume
+                                        double vp = ((playsound.PercVolume < 0) ? (double)100 : (double)playsound.PercVolume) / 100;
+                                        double manda_vol = (playsound.MandaVolume < 0) ? 1 : (double)playsound.MandaVolume / 100;
+                                        var volume = (node.Param["Velocity"].Value * manda_vol * vp / 100 > 2) ? 2 : (node.Param["Velocity"].Value * manda_vol * vp / 100 < 0) ? 0 : (double)node.Param["Velocity"].Value * vp * manda_vol / 100;
+                                        var command = cmdExecute + playsound.ExecuteTarget + cmdRelative + " ~ ~ ~ " + ((isrun) ? "run " : "") + "playsound " + playsound.SoundName + rxp + subName + " " + playsound.PlaySource + " " + playsound.PlayTarget + " " + cood + " " + volume + ((node.PlaySound.PitchPlayable) ? (" " + setPlaysoundPitch(node.Param["Pitch"].Value)) : "");
+                                        commandLine.Keyframe[i].Commands.Add(command);
+                                    }
+                                    #endregion
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+                    #region Wave
+                    //Wave Left
+                    if (waveNodesL.Count > 0 && waveLeft == true)
+                    {
+                        for (int j = 0; j < waveNodesL.Count; j++)
+                        {
+                            var node = waveNodesL[j];
+                            //Set Wave Tag
+                            var feature = "wave" + j.ToString() + "_l";
+
+                            var param = node.Param;
+                            foreach (string k in node.Param.Keys)
+                            {
+                                for (int n = 0; n < node.Param[k].Count; n++)
+                                {
+                                    if (node.Param[k][n].Enable)
+                                    {
+                                        //Update ScoreboardsList & EntitiesList
+                                        if (!entities.Keys.Contains(feature))
+                                            entities.Add(feature, new DescribeEntity() { Feature = feature, Count = node.Param[k].Count });
+                                        if (param[k][n].Enable && !scoreboards.Contains(param[k][n].Name))
+                                            scoreboards.Add(param[k][n].Name);
+                                        commandLine.Keyframe[i].Commands.Add(setCommand(feature + "_" + n, param[k][n].Name, param[k][n].Value, version));
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    //Wave Right
+                    if (waveNodesR.Count > 0 && waveRight == true)
                     {
                         for (int j = 0; j < waveNodesR.Count; j++)
                         {

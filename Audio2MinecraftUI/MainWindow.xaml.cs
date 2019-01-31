@@ -36,7 +36,7 @@ namespace Audio2MinecraftUI
     {
         public static _Version currentV = new _Version();
         public static TimeLine preTimeLine = new TimeLine(); //预览时间序列
-        private static string projName = ""; //工程名
+        public static string projName = ""; //工程名
         private static List<UserControl> Controls; //所有的子用户控件
         public static string Midipath = "", oldMidi = ""; //Midi路径
         public static string Wavepath = ""; //波形路径
@@ -72,6 +72,7 @@ namespace Audio2MinecraftUI
         }
         public static string autoFillRule = "无", autoFillMode = ""; //自动补全规则 & 模式
         public static List<ExtensionFile> ExtensionFiles = new List<ExtensionFile>();
+        public static string datapackName = "NewMusic"; //数据包名称
 
         public MainWindow()
         {
@@ -336,7 +337,14 @@ namespace Audio2MinecraftUI
             if (autoFillRule == "无")
                 MidiSetting.UpdateAutoFill(null, autoFillRule);
             else
+            {
                 MidiSetting.UpdateAutoFill(AutoFills[autoFillRule], autoFillRule);
+                if (MidiSetting.Visibility == Visibility.Visible) Midi设置显示(null, null);
+                if (WavSetting.Visibility == Visibility.Visible) Wav设置显示(null, null);
+                if (PublicSetting.Visibility == Visibility.Visible) 全局设置显示(null, null);
+                if (LrcSetting.Visibility == Visibility.Visible) 歌词设置显示(null, null);
+                if (Export.Visibility == Visibility.Visible) 导出设置显示(null, null);//refresh
+            }
         }
         private void ExportText(object sender, MouseButtonEventArgs e)
         {
@@ -574,7 +582,7 @@ namespace Audio2MinecraftUI
         }
 
         //歌词获取
-        private CommandLine GetLyrcics()
+        public CommandLine GetLyrics()
         {
             var lrc = new FileInfo(Lrcpath);
             if (lrc.Extension == ".amlrc")
@@ -734,29 +742,16 @@ namespace Audio2MinecraftUI
                     worker.DoWork += (o, ea) =>
                     {
                         InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "config\\compare"); //设置匹配列表 *
-                        TimeLine exportLine = new TimeLine().Serialize(Midipath, Wavepath, Rate, m_1, m_3, m_3); //时间序列                                                                                                                                                                                    //时间序列写入 & 更新
-                        exportLine.InstrumentList = preTimeLine.InstrumentList;
-                        exportLine.TrackList = preTimeLine.TrackList;
-                        exportLine.LeftWaveSetting = preTimeLine.LeftWaveSetting;
-                        exportLine.RightWaveSetting = preTimeLine.RightWaveSetting;
-                        exportLine.UpdateByTrackList();
-                        exportLine.UpdateWave();
-                        exportLine.Param["MidiFileFormat"].Enable = false;
-                        exportLine.Param["AudioFileFormat"].Enable = false;
-                        exportLine.Param["TotalTicks"].Enable = false;
-                        exportLine.OutPutBPM = PublicSet.OBPM;
-                        exportLine.Param["MidiTracksCount"].Enable = PublicSet.TC;
-                        exportLine.Param["MidiDeltaTicksPerQuarterNote"].Enable = PublicSet.Q;
-                        exportLine.Sound_Stereo(PublicSet.ST - 1);
+
                         //命令序列实例化
-                        var commandLine = new CommandLine().Serialize(exportLine);
+                        var commandLine = new CommandLine().Serialize(ConfirmTimeLine(m_1, m_2, m_3));
                         foreach (var ex in ExtensionFiles)
                         {
                             commandLine = commandLine.Combine(commandLine, ex.ToCommandLine());
                         }
                         if (Lrcpath != "") //添加歌词
                         {
-                            var lrcLine = GetLyrcics();
+                            var lrcLine = GetLyrics();
                             commandLine = commandLine.Combine(commandLine, lrcLine);
                         }
                         //导出
@@ -772,6 +767,24 @@ namespace Audio2MinecraftUI
                     worker.RunWorkerAsync();
                 }
             }
+        }
+        public static TimeLine ConfirmTimeLine(int frec, int volc, int circle)
+        {
+            TimeLine exportLine = new TimeLine().Serialize(Midipath, Wavepath, Rate, frec, volc, circle); //时间序列                                                                                                                                                                                    //时间序列写入 & 更新
+            exportLine.InstrumentList = preTimeLine.InstrumentList;
+            exportLine.TrackList = preTimeLine.TrackList;
+            exportLine.LeftWaveSetting = preTimeLine.LeftWaveSetting;
+            exportLine.RightWaveSetting = preTimeLine.RightWaveSetting;
+            exportLine.UpdateByTrackList();
+            exportLine.UpdateWave();
+            exportLine.Param["MidiFileFormat"].Enable = false;
+            exportLine.Param["AudioFileFormat"].Enable = false;
+            exportLine.Param["TotalTicks"].Enable = false;
+            exportLine.OutPutBPM = PublicSet.OBPM;
+            exportLine.Param["MidiTracksCount"].Enable = PublicSet.TC;
+            exportLine.Param["MidiDeltaTicksPerQuarterNote"].Enable = PublicSet.Q;
+            exportLine.Sound_Stereo(PublicSet.ST - 1);
+            return exportLine;
         }
         public void LoadFile(object sender, MouseButtonEventArgs e)
         {
@@ -954,6 +967,15 @@ namespace Audio2MinecraftUI
                 projName = new FileInfo(fileDialog.FileName).Name;
                 SetFileShow();  //更新文件显示
             }
+        }
+        //DataPack操作
+        public static string DataPackPath = "";
+        public static bool DataPackOrderByInstruments = false;
+        public void SaveAsDatapack(object sender, MouseButtonEventArgs e)
+        {
+            var n = new SubWindow.DataPackOutPut(); n.Owner = this;
+            n.frec = Int32.Parse(WavSetting.单刻频率采样数.Text); n.volc = Int32.Parse(WavSetting.单刻振幅采样数.Text); n.cycle = Int32.Parse(WavSetting.采样周期.Text);
+            n.Show();
         }
     }
     /// <summary>
@@ -1226,7 +1248,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "A-1.4-1";
+        public string version = "Snap-A-1.5";
         public string download;
         public string log;
     }
