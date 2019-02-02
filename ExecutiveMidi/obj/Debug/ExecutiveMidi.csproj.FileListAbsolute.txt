@@ -62,3 +62,5 @@ C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Exe
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\ExecutiveMidi\obj\Debug\ExecutiveMidi.csproj.GenerateResource.Cache
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\ExecutiveMidi\obj\Debug\SubWindow\Export.g.cs
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\ExecutiveMidi\obj\Debug\SubWindow\Export.baml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\ExecutiveMidi\obj\Debug\SubWindow\DataPackOutPut.g.cs
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\ExecutiveMidi\obj\Debug\SubWindow\DataPackOutPut.baml

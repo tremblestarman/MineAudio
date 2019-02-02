@@ -34,7 +34,7 @@
                                 <ScaleTransform/>
                                 <SkewTransform/>
                                 <RotateTransform/>
-                                <TranslateTransform X="-5" Y="-7"/>
+                                <TranslateTransform X="-6" Y="-7"/>
                             </TransformGroup>
                         </Image.RenderTransform>
                         <Image.ToolTip>
@@ -53,7 +53,7 @@
                                 <ScaleTransform/>
                                 <SkewTransform/>
                                 <RotateTransform/>
-                                <TranslateTransform X="-5" Y="-7"/>
+                                <TranslateTransform X="-6" Y="-6.5"/>
                             </TransformGroup>
                         </Image.RenderTransform>
                         <Image.ToolTip>

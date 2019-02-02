@@ -970,12 +970,13 @@ namespace Audio2MinecraftUI
         }
         //DataPack操作
         public static string DataPackPath = "";
+        public static int DataPackMax = 65536;
         public static bool DataPackOrderByInstruments = false;
         public void SaveAsDatapack(object sender, MouseButtonEventArgs e)
         {
             var n = new SubWindow.DataPackOutPut(); n.Owner = this;
             n.frec = Int32.Parse(WavSetting.单刻频率采样数.Text); n.volc = Int32.Parse(WavSetting.单刻振幅采样数.Text); n.cycle = Int32.Parse(WavSetting.采样周期.Text);
-            n.Show();
+            n.ShowDialog();
         }
     }
     /// <summary>
@@ -1248,7 +1249,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "Snap-A-1.5";
+        public string version = "A-1.5";
         public string download;
         public string log;
     }

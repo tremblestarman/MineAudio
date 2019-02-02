@@ -114,7 +114,26 @@
                 </Image.ToolTip>
             </Image>
         </Button>
-        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,45,0,0" VerticalAlignment="Top" Width="531" Content=""/>
+        <Button x:Name="datapack" HorizontalAlignment="Left" Height="24" Margin="600,45,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="SaveAsDatapack" PreviewMouseLeftButtonDown="SaveAsDatapack" >
+            <Image Source="img/datapack.png" Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-6" Y="-6"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导出项目为DataPack (用于1.13+)
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+        </Button>
+        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,45,0,0" VerticalAlignment="Top" Width="506" Content=""/>
         <Grid Margin="10,75,10,8">
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
             <ham:MidiSetting x:Name="MidiSetting" Margin="0,10"></ham:MidiSetting>

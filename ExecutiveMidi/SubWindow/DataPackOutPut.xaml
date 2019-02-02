@@ -1,0 +1,59 @@
+﻿<Controls:MetroWindow x:Class="ExecutiveMidi.SubWindow.DataPackOutPut"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExecutiveMidi.SubWindow"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Initialized="MetroWindow_Initialized"
+        Title="导出为数据包" Icon="/img/executivemidi.ico" Height="143.685" Width="300"
+        MinHeight="112" MaxHeight="200" MinWidth="112" MaxWidth="300"
+        BorderThickness="2"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterOwner">
+    <Grid>
+        <TextBox x:Name="Path" Controls:TextBoxHelper.Watermark="请选择导出位置 (datapacks文件夹)" HorizontalAlignment="Left" Height="24" Margin="13,10,0,0" VerticalAlignment="Top" Width="272" Text="" MouseLeftButtonDown="Select" PreviewMouseLeftButtonDown="Select"/>
+        <TextBox x:Name="Name1" Controls:TextBoxHelper.Watermark="请输入数据包名称" HorizontalAlignment="Left" Height="24" Margin="63,44,0,0" VerticalAlignment="Top" Width="172" Text="" KeyDown="Name_KeyDown" PreviewKeyDown="Name_KeyDown" TextChanged="Name_TextChanged"/>
+        <TextBlock Text="命令长度限制" Margin="14,82,190,11"></TextBlock>
+        <TextBox x:Name="Max" Controls:TextBoxHelper.Watermark="" HorizontalAlignment="Left" Height="24" Margin="94,77,0,0" VerticalAlignment="Top" Width="73" Text="65536" KeyDown="Name_KeyDown" PreviewKeyDown="Number_KeyDown" TextChanged="Number_TextChanged"/>
+        <Button HorizontalAlignment="Left" Margin="13,41,0,0" VerticalAlignment="Top" Height="32" Width="32" MouseLeftButtonDown="Switch" PreviewMouseLeftButtonDown="Switch">
+            <Image x:Name="Switcher" Source="/img/track_view.png"  Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-11,-10">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-5" Y="-7"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                                切换为音轨导出 / 乐器导出
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+        </Button>
+        <Button x:Name="OK" HorizontalAlignment="Left" Margin="253,41,0,0" VerticalAlignment="Top" Height="32" Width="32" MouseLeftButtonDown="Done" PreviewMouseLeftButtonDown="Done">
+            <Image Source="/img/done.png"  Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-10,-14" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-5" Y="-7"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                                确认修改
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+        </Button>
+    </Grid>
+</Controls:MetroWindow>

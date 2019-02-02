@@ -17,7 +17,7 @@ using System.ComponentModel;
 using MahApps.Metro.Controls;
 using Audio2Minecraft;
 
-namespace Audio2MinecraftUI.SubWindow
+namespace ExecutiveMidi.SubWindow
 {
     /// <summary>
     /// DataPackOutPut.xaml 的交互逻辑
@@ -33,7 +33,7 @@ namespace Audio2MinecraftUI.SubWindow
             OK.IsEnabled = false;
             if (MainWindow.DataPackPath != "") Path.Text = MainWindow.DataPackPath;
             if (MainWindow.DataPackOrderByInstruments) Switcher.Source = new BitmapImage(new Uri(@"\img\instrument_view.png", UriKind.Relative)); //If Selected Instrument
-            //Max.Text = MainWindow.DataPackMax.ToString();
+            Max.Text = MainWindow.DataPackMax.ToString();
         }
 
         private void Select(object sender, MouseButtonEventArgs e)
@@ -140,38 +140,8 @@ namespace Audio2MinecraftUI.SubWindow
             MainWindow.datapackName = Name1.Text;
             commandMax = Int32.Parse(Max.Text);
 
-            #region TimeLineGenerate
-            //Waiting
-            var w = new SubWindow.Waiting(); w.Owner = this;
-            BackgroundWorker waiting = new BackgroundWorker();
-            waiting.DoWork += (ee, ea) => { };
-            waiting.RunWorkerCompleted += (ee, ea) =>
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    w.ShowDialog();
-                }));
-            };
-            waiting.RunWorkerAsync();
-            //Work
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += (o, ea) =>
-            {
-                exportLine = MainWindow.ConfirmTimeLine(frec, volc, cycle);
-            };
-            worker.RunWorkerCompleted += (o, ea) =>
-            {
-                w.Close();
-                if (exportLine.TickNodes.Count == 0)
-                {
-                    System.Windows.MessageBox.Show("输出序列为空", "提示"); return;
-                }
-                scoreboard = Guid.NewGuid().ToString("N").Substring(0, 8);
-                DataPackWork();
-            };
-            worker.RunWorkerAsync();
-            #endregion
+            scoreboard = Guid.NewGuid().ToString("N").Substring(0, 8);
+            DataPackWork();
         }
         #region DataPackGenerate
         private void DataPackWork()
@@ -193,9 +163,9 @@ namespace Audio2MinecraftUI.SubWindow
             worker.WorkerReportsProgress = true;
             worker.DoWork += (o, ea) =>
             {
-                if (MainWindow.Midipath != "") sliceMidi(exportLine, !MainWindow.DataPackOrderByInstruments);
-                if (MainWindow.Wavepath != "") sliceWav(exportLine);
-                if (MainWindow.Lrcpath != "") sliceLrc();
+                var space = new DataPackSpace();
+                space.mcfunctions.Add(getPackName(), modifyCommands(MainWindow.cmdLine));
+                DatapackSpaces.Add(space);
                 cutByMaximum(commandMax);
             };
             worker.RunWorkerCompleted += (o, ea) =>
@@ -297,8 +267,6 @@ namespace Audio2MinecraftUI.SubWindow
             return path;
         }
         #endregion
-        public int frec, volc, cycle = 0;
-        private TimeLine exportLine = new TimeLine();
         public static int commandMax = 65536;
         static string scoreboard = "tick";
 
@@ -310,62 +278,18 @@ namespace Audio2MinecraftUI.SubWindow
         public static List<string> TrackEnabled = new List<string>();
         public static List<string> InstrumentEnabled = new List<string>();
         public static int StreamLength = -1;
-        private void sliceMidi(TimeLine timeLine, bool isTrack = true)
-        {
-            TrackEnabled = new List<string>(); InstrumentEnabled = new List<string>();
-            if (isTrack) //Track
-            {
-                foreach (var track in timeLine.TrackList)
-                    DatapackSpaces.Add(new DataPackSpace() { Name = track.Name, mcfunctions = new Dictionary<string, List<string>>() { { track.Name, simplifyCommands(new CommandLine().SerializeSpecified(timeLine, track.Name, null, false, false, "1.13")) } } }); //New Space for Track
-            }
-            else //Instrument
-            {
-                foreach (var instrument in timeLine.InstrumentList)
-                    DatapackSpaces.Add(new DataPackSpace() { Name = instrument.Name, mcfunctions = new Dictionary<string, List<string>>() { { instrument.Name, simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, instrument.Name, false, false, "1.13")) } } }); //New Space for Instrument
-            }
-            if (exportLine.TickNodes.Count > StreamLength) StreamLength = exportLine.TickNodes.Count; //GetLength
-        }
-        private void sliceWav(TimeLine timeLine)
-        {
-            timeLine.EnableWave(false, -1, "");
-            if (timeLine.LeftWaveSetting.Enable == true)
-                DatapackSpaces.Add(new DataPackSpace() { Name = "WaveLeftChannel", mcfunctions = new Dictionary<string, List<string>>() { { "left", simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, null, true, false, "1.13")) } } }); //New Space for WaveLeft
-            if (timeLine.RightWaveSetting.Enable == true)
-                DatapackSpaces.Add(new DataPackSpace() { Name = "WaveRightChannel", mcfunctions = new Dictionary<string, List<string>>() { { "right", simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, null, false, true, "1.13")) } } }); //New Space for WaveRight
-        }
-        private void sliceLrc()
-        {
-            var p = this.Owner as MainWindow;
-            var c = p.GetLyrics();
-            if (c == null || c.Keyframe.Count == 0) return;
-            DatapackSpaces.Add(new DataPackSpace() { Name = "Lyrics", mcfunctions = new Dictionary<string, List<string>>() { { "lrc", simplifyCommands(p.GetLyrics()) } } }); //New Space for Lrc
-            if (c.Keyframe.Count > StreamLength) StreamLength = c.Keyframe.Count;
-        }
 
-        private List<string> simplifyCommands(CommandLine commandLine)
+        private List<string> modifyCommands(CommandLine commandLine)
         {
             var commands = new List<string>();
             for (var t = 0; t < commandLine.Keyframe.Count; t++)
             {
                 var c = commandLine.Keyframe[t];
-                for (var i = 0; i < c.Commands.Count; i++)
+                for (var i = 4; i < c.Commands.Count; i++)
                 {
                     var _ = c.Commands[i];
-                    if (_.StartsWith("execute"))
-                    {
-                        var regex = "^execute as @[aesp]\\[";
-                        var r = new Regex(regex).Match(_).Value;
-                        if (r == "")
-                        {
-                            regex = "^execute as @[aesp]"; r = new Regex(regex).Match(_).Value;
-                            commands.Add(new Regex(regex).Replace(_, "execute as @s[scores={" + scoreboard + "=" + t + "}]"));
-                        } //without []
-                        else commands.Add(new Regex(regex).Replace(_, "execute as @s[scores={" + scoreboard + "=" + t + "},"));
-                    }
-                    else if ((_.StartsWith("scoreboard") && !_.StartsWith("scoreboard players set @e[type=area_effect_cloud,tag=GenParam] CurrentTick")))
-                    {
-                        commands.Add(_);
-                    }
+                    if (_ != null && _ != "")
+                        commands.Add(setTick(_, t));
                 }
             }
             return commands;
@@ -400,6 +324,10 @@ namespace Audio2MinecraftUI.SubWindow
                 c.mcfunctions = new Dictionary<string, List<string>>(); //Reset mcfunction
                 foreach (var _cmdl in _adding) { c.mcfunctions.Add(_cmdl.Key, _cmdl.Value); } //Add ne
             }
+        }
+        private static string setTick(string command, int tick)
+        {
+            return "execute as @a[scores={" + scoreboard + "=" + tick + "}] run " + command;
         }
         private static int getTick(string command)
         {

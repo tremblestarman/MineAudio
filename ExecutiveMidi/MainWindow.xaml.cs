@@ -43,6 +43,7 @@ namespace ExecutiveMidi
         public static double Rate = 1;
         public static ExportSetting export = new ExportSetting() { Width = 16 };
         public static bool export_cancel = false;
+        public static string datapackName = "NewMusic"; //数据包名称
 
         public MainWindow()
         {
@@ -420,6 +421,44 @@ namespace ExecutiveMidi
             });
             task.Wait();
             return baseTimeline;
+        }
+
+        //DataPack操作
+        public static string DataPackPath = "";
+        public static int DataPackMax = 65536;
+        public static bool DataPackOrderByInstruments = false;
+        public static CommandLine cmdLine = new CommandLine();
+        public void SaveAsDatapack(object sender, MouseButtonEventArgs e)
+        {
+            if (preTimeLine == null || preTimeLine.TickNodes.Count == 0) { MessageBox.Show("你还有没有导入任何项目", "提示"); return; }
+            #region TimeLineGenerate
+            //Waiting
+            var w = new SubWindow.Waiting(); w.Owner = this;
+            BackgroundWorker waiting = new BackgroundWorker();
+            waiting.DoWork += (ee, ea) => { };
+            waiting.RunWorkerCompleted += (ee, ea) =>
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    w.ShowDialog();
+                }));
+            };
+            waiting.RunWorkerAsync();
+            //Work
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += (o, ea) =>
+            {
+                cmdLine = getCommandLine();
+            };
+            worker.RunWorkerCompleted += (o, ea) =>
+            {
+                w.Close();
+                var n = new SubWindow.DataPackOutPut(); n.Owner = this;
+                n.ShowDialog();
+            };
+            worker.RunWorkerAsync();
+            #endregion
         }
 
         #region Math

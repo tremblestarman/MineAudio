@@ -83,6 +83,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SubWindow\DataPackOutPut.xaml.cs">
+      <DependentUpon>DataPackOutPut.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubWindow\Export.xaml.cs">
       <DependentUpon>Export.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SubWindow\DataPackOutPut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SubWindow\Export.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,6 +190,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="executivemidi.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\datapack.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
