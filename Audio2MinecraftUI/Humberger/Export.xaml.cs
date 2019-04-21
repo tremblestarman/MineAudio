@@ -133,12 +133,12 @@ namespace Audio2MinecraftUI.Humberger
                 worker.RunWorkerCompleted += (ee, ea) =>
                 {
                     w.Close();
-
                     Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
                     var m = a.Param["TotalTicks"].Value / 1200;
                     var s = a.Param["TotalTicks"].Value % 1200 / 20;
                     Midi时长.Text = m.ToString() + " : " + s.ToString();
                     MainWindow.Rate = Double.Parse(重设播放倍率.Text);
+                    MainWindow.preTick = a.Param["TotalTicks"].Value;
                 };
                 worker.RunWorkerAsync();
             }
@@ -157,9 +157,9 @@ namespace Audio2MinecraftUI.Humberger
             {
                 Midi.IsEnabled = true;
                 重设播放倍率.Text = MainWindow.Rate.ToString();
-                Midi刻长.Text = MainWindow.preTimeLine.Param["TotalTicks"].Value.ToString() + " ticks";
-                var m = MainWindow.preTimeLine.Param["TotalTicks"].Value / 1200;
-                var s = MainWindow.preTimeLine.Param["TotalTicks"].Value % 1200 / 20;
+                Midi刻长.Text = MainWindow.preTick.ToString() + " ticks";
+                var m = MainWindow.preTick / 1200;
+                var s = MainWindow.preTick % 1200 / 20;
                 Midi时长.Text = m.ToString() + " : " + s.ToString();
             }
             else

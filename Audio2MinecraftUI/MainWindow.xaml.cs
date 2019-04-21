@@ -42,6 +42,7 @@ namespace Audio2MinecraftUI
         public static string Wavepath = ""; //波形路径
         public static string Lrcpath = ""; //歌词路径
         public static double Rate = 1; //播放速率
+        public static int preTick = 0; //重设BPM后的预览序列的播放时长
         public static ExportSetting ExportSetting = new ExportSetting() //导出设置
         {
             Direction = 0, //序列方向
@@ -277,6 +278,8 @@ namespace Audio2MinecraftUI
                     PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
 
                     oldMidi = MidiPath.Text;
+
+                    preTick = preTimeLine.Param["TotalTicks"].Value;
                 };
                 worker.RunWorkerAsync();
             }
@@ -687,6 +690,7 @@ namespace Audio2MinecraftUI
                             rLrcpath = (Lrcpath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Lrcpath.Replace(" ", "*20"))) : null,
                             ExportSetting = ExportSetting,
                             Rate = Rate,
+                            preTick = preTick,
                             PublicSetting = new FileOutPut._PublicSetting()
                             {
                                 OBPM = preTimeLine.OutPutBPM,
@@ -858,6 +862,7 @@ namespace Audio2MinecraftUI
                 PublicSet.TC = o.PublicSetting.TC;
                 PublicSet.ST = o.PublicSetting.ST; //Public
                 Rate = o.Rate;
+                preTick = o.preTick;
                 Export.重设播放倍率.Text = Rate.ToString();
                 Export.Update(); //Export
                 if (Midipath != "" && new FileInfo(Midipath).Exists) //MidiPath
@@ -995,6 +1000,7 @@ namespace Audio2MinecraftUI
         public string Lrcpath = "";
         public Uri rLrcpath;
         public double Rate = -1;
+        public int preTick = 0;
         public ExportSetting ExportSetting;
         public _PublicSetting PublicSetting;
         public _LyricMode LyricMode;
