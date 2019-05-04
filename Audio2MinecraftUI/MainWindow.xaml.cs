@@ -979,9 +979,9 @@ namespace Audio2MinecraftUI
         public static bool DataPackOrderByInstruments = false;
         public void SaveAsDatapack(object sender, MouseButtonEventArgs e)
         {
-            var n = new SubWindow.DataPackOutPut(); n.Owner = this;
-            n.frec = Int32.Parse(WavSetting.单刻频率采样数.Text); n.volc = Int32.Parse(WavSetting.单刻振幅采样数.Text); n.cycle = Int32.Parse(WavSetting.采样周期.Text);
-            n.ShowDialog();
+            var n = new SubWindow.DataPackOutPut(); n.Owner = this; var c = GetLyrics();
+            n.frec = Int32.Parse(WavSetting.单刻频率采样数.Text); n.volc = Int32.Parse(WavSetting.单刻振幅采样数.Text); n.cycle = Int32.Parse(WavSetting.采样周期.Text); if (c != null && c.Keyframe.Count > 0) n.lrcs = c;
+            n.Show();
         }
     }
     /// <summary>
@@ -1255,7 +1255,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "A-1.5-1";
+        public string version = "A-1.5-2";
         public string download;
         public string log;
     }

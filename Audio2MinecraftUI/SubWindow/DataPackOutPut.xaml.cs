@@ -195,7 +195,7 @@ namespace Audio2MinecraftUI.SubWindow
             {
                 if (MainWindow.Midipath != "") sliceMidi(exportLine, !MainWindow.DataPackOrderByInstruments);
                 if (MainWindow.Wavepath != "") sliceWav(exportLine);
-                if (MainWindow.Lrcpath != "") sliceLrc();
+                if (lrcs != null) sliceLrc();
                 cutByMaximum(commandMax);
             };
             worker.RunWorkerCompleted += (o, ea) =>
@@ -298,7 +298,7 @@ namespace Audio2MinecraftUI.SubWindow
         }
         #endregion
         public int frec, volc, cycle = 0;
-        private TimeLine exportLine = new TimeLine();
+        private TimeLine exportLine = new TimeLine(); public CommandLine lrcs = new CommandLine();
         public static int commandMax = 65536;
         static string scoreboard = "tick";
 
@@ -335,11 +335,9 @@ namespace Audio2MinecraftUI.SubWindow
         }
         private void sliceLrc()
         {
-            var p = this.Owner as MainWindow;
-            var c = p.GetLyrics();
-            if (c == null || c.Keyframe.Count == 0) return;
-            DatapackSpaces.Add(new DataPackSpace() { Name = "Lyrics", mcfunctions = new Dictionary<string, List<string>>() { { "lrc", simplifyCommands(p.GetLyrics()) } } }); //New Space for Lrc
-            if (c.Keyframe.Count > StreamLength) StreamLength = c.Keyframe.Count;
+            if (lrcs == null || lrcs.Keyframe.Count == 0) return;
+            DatapackSpaces.Add(new DataPackSpace() { Name = "Lyrics", mcfunctions = new Dictionary<string, List<string>>() { { "lrc", simplifyCommands(lrcs) } } }); //New Space for Lrc
+            if (lrcs.Keyframe.Count > StreamLength) StreamLength = lrcs.Keyframe.Count;
         }
 
         private List<string> simplifyCommands(CommandLine commandLine)
@@ -366,6 +364,8 @@ namespace Audio2MinecraftUI.SubWindow
                     {
                         commands.Add(_);
                     }
+                    else if (_.StartsWith("title") || _.StartsWith("tellraw"))
+                        commands.Add(_);
                 }
             }
             return commands;
