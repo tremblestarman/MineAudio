@@ -12,13 +12,17 @@ namespace Audio2Minecraft
     /// </summary>
     public class CommandLine
     {
+        private int totalProgress = 0;
+        public int TotalProgress { get { return totalProgress; } }
+        private int currentProgress = 0;
+        public int CurrentProgress { get { return currentProgress; } }
         /// <summary>
         /// 通过时间序列生成命令序列
         /// </summary>
         /// <param name="timeLine">时间序列</param>
         /// <param name="version">游戏版本</param>
         /// <returns></returns>
-        public CommandLine Serialize(TimeLine timeLine, string version = "1.12")
+        public CommandLine Serialize(TimeLine timeLine, string version = "1.12", ShowProgress showProgress = null)
         {
             try
             {
@@ -195,6 +199,7 @@ namespace Audio2Minecraft
                         }
                     }
                     #endregion
+                    /* Update Current Progress */ this.currentProgress++; if (showProgress != null && this.totalProgress > 0) showProgress((double)this.currentProgress / this.totalProgress);
                 }
                 #endregion
                 #region End of Timeline
@@ -203,7 +208,7 @@ namespace Audio2Minecraft
                     var entity = entities[feature];
                     for (int m = 0; m < entity.Count; m++)
                     {
-                        var tags = entity.Feature + "_" + m + "," + entity.Track + "," + entity.Instrument;
+                        var tags = entity.Feature + ((entity.Feature == "GenParam") ? "" : "_" + m) + "," + entity.Track + "," + entity.Instrument;
                         commandLine.Start.Insert(0, "summon area_effect_cloud ~ ~ ~ {Tags:[" + tags + ",AudioRiptideNode],Duration:" + (commandLine.Keyframe.Count * 10).ToString() + "}");
                     }
                 }
@@ -229,7 +234,7 @@ namespace Audio2Minecraft
         /// <param name="instrumentName">乐器名(默认null)</param>
         /// <param name="version">游戏版本</param>
         /// <returns></returns>
-        public CommandLine SerializeSpecified(TimeLine timeLine, string trackName = null, string instrumentName = null, bool waveLeft = true, bool waveRight = true, string version = "1.12")
+        public CommandLine SerializeSpecified(TimeLine timeLine, string trackName = null, string instrumentName = null, bool waveLeft = true, bool waveRight = true, string version = "1.12", ShowProgress showProgress = null)
         {
             try
             {
@@ -252,6 +257,7 @@ namespace Audio2Minecraft
                     scoreboards.Add("CurrentBPM");
                 #endregion
                 #region Keyframes
+                /* Set Total Progress */ this.totalProgress = timeLine.TickNodes.Count;
                 //Command:
                 var cmdExecute = "execute "; var cmdRelative = ""; var isrun = false;
                 if (version == "1.13" || version == "1.14") { cmdExecute = "execute as "; cmdRelative = " at @s positioned"; isrun = true; }
@@ -408,6 +414,7 @@ namespace Audio2Minecraft
                         }
                     }
                     #endregion
+                    /* Update Current Progress */ this.currentProgress++; if (showProgress != null && this.totalProgress > 0) showProgress((double)this.currentProgress / this.totalProgress);
                 }
                 #endregion
                 #region End of Timeline
@@ -489,7 +496,7 @@ namespace Audio2Minecraft
         private string setCommand(string target, string score_name, int score, string version = "1.12")
         {
             if (version == "1.13")
-                return "";
+                return "scoreboard players set @e[type=minecraft:area_effect_cloud,tag=" + target + "] " + score_name + " " + score.ToString();
             else
                 return "scoreboard players set @e[type=area_effect_cloud,tag=" + target + "] " + score_name + " " + score.ToString();
         }

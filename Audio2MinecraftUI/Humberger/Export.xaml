@@ -10,6 +10,25 @@
              MinHeight="250" MinWidth="620" MaxHeight="250" MaxWidth="620"
              Initialized="UserControl_Initialized">
     <Grid Margin="10,0">
+        <Button x:Name="Switch" HorizontalAlignment="Left" Margin="372,5,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="SwitchView" PreviewMouseLeftButtonDown="SwitchView">
+            <Image x:Name="SwitchImage" Source="/img/rate_view.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-5" Y="-7"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            切换生成模式(Beat表示按节奏,Rate表示按绝对时间)
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+        </Button>
         <Button x:Name="Done" HorizontalAlignment="Left" Margin="572,5,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
             <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
                 <Image.RenderTransform>
@@ -59,7 +78,7 @@
                 </TextBlock.ToolTip>
             </TextBlock>
             <TextBox x:Name="序列宽度" Margin="50,107,50,69" Height="24" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
-            <TextBlock Text="保持区块加载" FontSize="12px" Margin="7,144,93,39">
+            <TextBlock Text="保持区块加载" FontSize="12px" Margin="4,144,93,39">
                 <TextBlock.ToolTip>
                     <ToolTip>
                         <TextBlock>
@@ -68,8 +87,8 @@
                     </ToolTip>
                 </TextBlock.ToolTip>
             </TextBlock>
-            <CheckBox x:Name="保持区块加载" Margin="82,142,18,41" Click="_Click"/>
-            <TextBlock Text="保持实体加载" FontSize="12px" Margin="106,144,-6,39">
+            <CheckBox x:Name="保持区块加载" Margin="79,142,18,41" Click="_Click"/>
+            <TextBlock Text="保持实体加载" FontSize="12px" Margin="103,144,-6,39">
                 <TextBlock.ToolTip>
                     <ToolTip>
                         <TextBlock>
@@ -78,8 +97,8 @@
                     </ToolTip>
                 </TextBlock.ToolTip>
             </TextBlock>
-            <CheckBox x:Name="保持实体加载" Margin="181,142,-81,41" Click="_Click"/>
-            <TextBlock Text="玩家自动跟进" FontSize="12px" Margin="7,170,93,13">
+            <CheckBox x:Name="保持实体加载" Margin="178,142,-81,41" Click="_Click"/>
+            <TextBlock Text="玩家自动跟进" FontSize="12px" Margin="4,170,93,13">
                 <TextBlock.ToolTip>
                     <ToolTip>
                         <TextBlock>
@@ -88,8 +107,8 @@
                     </ToolTip>
                 </TextBlock.ToolTip>
             </TextBlock>
-            <CheckBox x:Name="自动传送" Margin="82,169,18,14" Click="_Click"/>
-            <ComboBox x:Name="双声道" Uid="Stereo" Margin="107,165,5,10" Height="24" IsEditable="False" SelectionChanged="双声道_SelectionChanged">
+            <CheckBox x:Name="自动传送" Margin="79,169,18,14" Click="_Click"/>
+            <ComboBox x:Name="双声道" Uid="Stereo" Margin="104,165,5,10" Height="24" IsEditable="False" SelectionChanged="双声道_SelectionChanged">
                 <ComboBox.ToolTip>
                     <ToolTip>
                         <TextBlock>
@@ -131,7 +150,50 @@
                 </TextBlock.ToolTip>
             </TextBlock>
             <TextBlock x:Name="Midi刻长" Text="" FontSize="12px" Margin="10,107,10,69" HorizontalAlignment="Center"/>
-            <TextBlock x:Name="Midi时长" Text="" FontSize="12px" Margin="10,132,10,44" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="Midi时长" Text="" FontSize="12px" Margin="10,128,10,44" HorizontalAlignment="Center"/>
+        </Grid>
+        <Grid Margin="200,38,200,10" x:Name="Midi_Beat" Visibility="Hidden">
+            <TextBlock Text="重设节奏间隔" FontSize="12px" Margin="50,24,50,159">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock xml:space="preserve">重设节奏间隔（midt/mct）
+（midt是Midi中的绝对tick，mct是Minecraft中的tick）
+按照节奏而不是绝对时间，生成Midi序列.
+初始值为TPB(tick/beat，即每拍的tick)，不一定准确，请自行修改.</TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
+            <TextBox x:Name="重设节奏间隔" Margin="50,48,50,128" Height="24" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown"/>
+            <Border BorderThickness="1" BorderBrush="DarkGray"/>
+            <TextBlock Text="同步率" FontSize="12px" Margin="50,83,50,100">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            以该刻为间隔 与原Midi同步的音符占比
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
+            <TextBlock x:Name="Midi同步率" Text="" FontSize="12px" Margin="10,107,10,69" HorizontalAlignment="Center"/>
+            <Button x:Name="BeatList" HorizontalAlignment="Center" Margin="10,166,10,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="ShowBeatList" PreviewMouseLeftButtonDown="ShowBeatList">
+                <Image Source="/img/bpm.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-5" Y="-7"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                    <Image.ToolTip>
+                        <ToolTip>
+                            <TextBlock>
+                            节奏-BPM-Tick换算表
+                            </TextBlock>
+                        </ToolTip>
+                    </Image.ToolTip>
+                </Image>
+            </Button>
         </Grid>
         <TextBlock Text="歌词输出" FontSize="12px" Margin="400,15,0,211" HorizontalAlignment="Center">
             <TextBlock.ToolTip>

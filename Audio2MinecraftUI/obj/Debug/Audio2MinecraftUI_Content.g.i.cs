@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img/datapack.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img/beat_view.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img/rate_view.png")]
 
 

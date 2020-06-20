@@ -4,22 +4,6 @@
         <name>MahApps.Metro</name>
     </assembly>
     <members>
-        <member name="T:MahApps.Metro.Properties.Resources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Properties.Resources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Properties.Resources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
         <member name="T:MahApps.Metro.Actions.CommandTriggerAction">
             <summary>
             This CommandTriggerAction can be used to bind any event on any FrameworkElement to an <see cref="T:System.Windows.Input.ICommand" />.
@@ -5145,6 +5129,16 @@
             <param name = "bg">The bg.</param>
             <returns></returns>
         </member>
+        <member name="T:MahApps.Metro.Converters.ClockDegreeConverter">
+            <summary>
+            Converts a double representing either hour/minute/second to the corresponding angle.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Converters.IsNullConverter">
+            <summary>
+            Converts the value from true to false and false to true.
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Converters.MathOperation">
             <summary>
             The math operations which can be used at the <see cref="T:MahApps.Metro.Converters.MathConverter"/>
@@ -5181,16 +5175,6 @@
             <summary>
             MathDivideConverter provides a multi value converter as a MarkupExtension which can be used for math operations.
             This class cannot be inherited.
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Converters.ClockDegreeConverter">
-            <summary>
-            Converts a double representing either hour/minute/second to the corresponding angle.
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Converters.IsNullConverter">
-            <summary>
-            Converts the value from true to false and false to true.
             </summary>
         </member>
         <member name="T:MahApps.Metro.Converters.StringToVisibilityConverter">
@@ -5287,6 +5271,13 @@
             <param name="name">The name of the new Accent.</param>
             <param name="resourceAddress">The URI of the accent ResourceDictionary.</param>
         </member>
+        <member name="M:MahApps.Metro.Accent.#ctor(System.String,System.Windows.ResourceDictionary)">
+            <summary>
+            Initializes a new instance of the Accent class.
+            </summary>
+            <param name="name">The name of the new Accent.</param>
+            <param name="resourceDictionary">The ResourceDictionary of the accent.</param>
+        </member>
         <member name="T:MahApps.Metro.AppTheme">
             <summary>
             Represents the background theme of the application.
@@ -5307,7 +5298,14 @@
             Initializes a new instance of the AppTheme class.
             </summary>
             <param name="name">The name of the new AppTheme.</param>
-            <param name="resourceAddress">The URI of the accent ResourceDictionary.</param>
+            <param name="resourceAddress">The URI of the AppTheme ResourceDictionary.</param>
+        </member>
+        <member name="M:MahApps.Metro.AppTheme.#ctor(System.String,System.Windows.ResourceDictionary)">
+            <summary>
+            Initializes a new instance of the AppTheme class.
+            </summary>
+            <param name="name">The name of the new AppTheme.</param>
+            <param name="resourceDictionary">The ResourceDictionary of the accent.</param>
         </member>
         <member name="T:MahApps.Metro.ThemeManager">
             <summary>
@@ -5326,14 +5324,34 @@
         </member>
         <member name="M:MahApps.Metro.ThemeManager.AddAccent(System.String,System.Uri)">
             <summary>
-            Adds an accent with the given name.
+            Adds an accent with the given name and uniform resource identfier.
             </summary>
+            <param name="name">The name of the new Accent.</param>
+            <param name="resourceAddress">The URI of the accent ResourceDictionary.</param>
+            <returns>true if the accent does not exists and can be added.</returns>
+        </member>
+        <member name="M:MahApps.Metro.ThemeManager.AddAccent(System.String,System.Windows.ResourceDictionary)">
+            <summary>
+            Adds an accent with the given name and resource dictionary.
+            </summary>
+            <param name="name">The name of the new Accent.</param>
+            <param name="resourceDictionary">The ResourceDictionary of the accent.</param>
             <returns>true if the accent does not exists and can be added.</returns>
         </member>
         <member name="M:MahApps.Metro.ThemeManager.AddAppTheme(System.String,System.Uri)">
             <summary>
             Adds an app theme with the given name.
             </summary>
+            <param name="name">The name of the new AppTheme.</param>
+            <param name="resourceAddress">The URI of the AppTheme ResourceDictionary.</param>
+            <returns>true if the app theme does not exists and can be added.</returns>
+        </member>
+        <member name="M:MahApps.Metro.ThemeManager.AddAppTheme(System.String,System.Windows.ResourceDictionary)">
+            <summary>
+            Adds an app theme with the given name.
+            </summary>
+            <param name="name">The name of the new AppTheme.</param>
+            <param name="resourceDictionary">The ResourceDictionary of the accent.</param>
             <returns>true if the app theme does not exists and can be added.</returns>
         </member>
         <member name="M:MahApps.Metro.ThemeManager.GetAppTheme(System.Windows.ResourceDictionary)">

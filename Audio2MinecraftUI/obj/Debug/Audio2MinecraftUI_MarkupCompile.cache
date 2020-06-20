@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\
 Audio2MinecraftUI
 none
 false
 DEBUG;TRACE
-C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Audio2MinecraftUI\App.xaml
-12-1472736596
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\App.xaml
+13-1007008161
 
-16-581351234
-25790302006
-Humberger\Export.xaml;Humberger\LrcSetting.xaml;Humberger\MidiSetting.xaml;Humberger\PublicSetting.xaml;Humberger\WavSetting.xaml;MainWindow.xaml;SubWindow\AutoFillSelector.xaml;SubWindow\DataPackOutPut.xaml;SubWindow\Extension.xaml;SubWindow\ExtensionOption.xaml;SubWindow\VersionAlarm.xaml;SubWindow\Waiting.xaml;
+17-393505272
+251938466242
+Humberger\Export.xaml;Humberger\LrcSetting.xaml;Humberger\MidiSetting.xaml;Humberger\PublicSetting.xaml;Humberger\WavSetting.xaml;MainWindow.xaml;SubWindow\AutoFillSelector.xaml;SubWindow\DataPackOutPut.xaml;SubWindow\BeatList.xaml;SubWindow\Extension.xaml;SubWindow\ExtensionOption.xaml;SubWindow\VersionAlarm.xaml;SubWindow\Waiting.xaml;
 
 False
 

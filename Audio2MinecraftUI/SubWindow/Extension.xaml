@@ -31,7 +31,7 @@
             </DataGrid>
         </ScrollViewer>
         <Button x:Name="Done" HorizontalAlignment="Left" Margin="358,5,5,5" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="Done_MouseLeftButtonDown" PreviewMouseLeftButtonDown="Done_MouseLeftButtonDown">
-            <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+            <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-10,-14" >
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -50,7 +50,7 @@
             </Image>
         </Button>
         <Button x:Name="Add" HorizontalAlignment="Left" Margin="329,5,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="Add_MouseLeftButtonDown" PreviewMouseLeftButtonDown="Add_MouseLeftButtonDown">
-            <Image Source="/img/add.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+            <Image Source="/img/add.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-10,-14" >
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>

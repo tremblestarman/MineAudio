@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace Audio2Minecraft
 {
+    public delegate void ShowProgress(double progress);
     /// <summary>
     /// 整型参数
     /// </summary>
@@ -138,6 +139,12 @@ namespace Audio2Minecraft
     /// </summary>
     public class TimeLine
     {
+        private string serializeStage = "stopped";
+        public string SerializeStage { get { return serializeStage; } }
+        public int totalProgress = 0;
+        public int TotalProgress { get { return totalProgress; } }
+        public int currentProgress = 0;
+        public int CurrentProgress { get { return currentProgress; } }
         #region Enable
         /// <summary>
         /// 全局参数的启用
@@ -865,16 +872,54 @@ namespace Audio2Minecraft
         /// </summary>
         /// <param name="MidiFilePath">Midi文件路径</param>
         /// <param name="WaveFilePath">波形文件路径</param>
-        /// <param name="tBpm">设置Bpm(默认自动读取)</param>
+        /// <param name="rate">设置播放速率(New BPM = BPM * rate)</param>
         /// <param name="fre_count">波形频率采样数</param>
         /// <param name="vol_count">波形振幅采样数</param>
         /// <param name="tick_cycle">采样周期</param>
-        /// <returns></returns>
-        public TimeLine Serialize(string MidiFilePath = null, string WaveFilePath = null, double rate = 1.0, int fre_count = 1, int vol_count = 1, int tick_cycle = 1)
+        /// <returns>时间序列 TimeLine</returns>
+        public TimeLine SerializeByRate(string MidiFilePath = null, string WaveFilePath = null, double rate = 1.0, int fre_count = 1, int vol_count = 1, int tick_cycle = 1, ShowProgress showProgress = null)
+        {
+            return Serialize(MidiFilePath, WaveFilePath, rate, -1, fre_count, vol_count, tick_cycle);
+        }
+        /// <summary>
+        /// 生成时间序列
+        /// </summary>
+        /// <param name="MidiFilePath">Midi文件路径</param>
+        /// <param name="WaveFilePath">波形文件路径</param>
+        /// <param name="synchroTick">节奏间隔(MidiTick)</param>
+        /// <param name="fre_count">波形频率采样数</param>
+        /// <param name="vol_count">波形振幅采样数</param>
+        /// <param name="tick_cycle">采样周期</param>
+        /// <returns>时间序列 TimeLine</returns>
+        public TimeLine SerializeByBeat(string MidiFilePath = null, string WaveFilePath = null, int synchroTick = -1, int fre_count = 1, int vol_count = 1, int tick_cycle = 1, ShowProgress showProgress = null)
+        {
+            return Serialize(MidiFilePath, WaveFilePath, -1, synchroTick, fre_count, vol_count, tick_cycle);
+        }
+        /// <summary>
+        /// 生成时间序列
+        /// </summary>
+        /// <param name="MidiFilePath">Midi文件路径</param>
+        /// <param name="WaveFilePath">波形文件路径</param>
+        /// <param name="rate">设置播放速率(New BPM = BPM * rate)</param>
+        /// <param name="synchroTick">节奏间隔(MidiTick),设置此项后将忽略播放速率</param>
+        /// <param name="fre_count">波形频率采样数</param>
+        /// <param name="vol_count">波形振幅采样数</param>
+        /// <param name="tick_cycle">采样周期</param>
+        /// <returns>时间序列 TimeLine</returns>
+        public TimeLine Serialize(string MidiFilePath = null, string WaveFilePath = null, double rate = -1, int synchroTick = -1, int fre_count = 1, int vol_count = 1, int tick_cycle = 1, ShowProgress showProgress = null)
         {
             var timeLine = new TimeLine();
-            if (MidiFilePath != null && MidiFilePath != "") timeLine = new AudioStreamMidi().Serialize(MidiFilePath, timeLine, rate);
-            if (WaveFilePath != null && WaveFilePath != "") timeLine = new AudioStreamWave().Serialize(WaveFilePath, timeLine, fre_count, vol_count, tick_cycle);
+            if (MidiFilePath != null && MidiFilePath != "")
+            {
+                this.serializeStage = "midi";
+                timeLine = new AudioStreamMidi().Serialize(MidiFilePath, timeLine, rate, synchroTick, showProgress);
+            }
+            if (WaveFilePath != null && WaveFilePath != "")
+            {
+                this.serializeStage = "wave";
+                timeLine = new AudioStreamWave().Serialize(WaveFilePath, timeLine, fre_count, vol_count, tick_cycle);
+            }
+            this.serializeStage = "stopped";
             return timeLine;
         }
         /// <summary>
@@ -884,13 +929,44 @@ namespace Audio2Minecraft
         /// <param name="ExportPath">导出路径</param>
         /// <param name="MidiFilePath">Midi文件路径</param>
         /// <param name="WaveFilePath">波形文件路径</param>
-        /// <param name="tBpm">设置Bpm(默认自动读取)</param>
+        /// <param name="synchroTick">节奏间隔(MidiTick)</param>
         /// <param name="fre_count">波形频率采样数</param>
         /// <param name="vol_count">波形振幅采样数</param>
         /// <param name="tick_cycle">采样周期</param>
-        public void Export(ExportSetting SettingParam, string ExportPath = "C:\\MyAudioRiptide.schematic", string MidiFilePath = null, string WaveFilePath = null, int tBpm = 160, int fre_count = 1, int vol_count = 1, int tick_cycle = 1)
+        public void ExportByRate(ExportSetting SettingParam, string ExportPath = "C:\\MyAudioRiptide.schematic", string MidiFilePath = null, string WaveFilePath = null, int synchroTick = -1, int fre_count = 1, int vol_count = 1, int tick_cycle = 1, ShowProgress showProgress = null)
         {
-            new Schematic().ExportSchematic(new CommandLine().Serialize(Serialize(MidiFilePath, WaveFilePath, tBpm, fre_count, vol_count, tick_cycle)), SettingParam, ExportPath);
+            Export(SettingParam, ExportPath, MidiFilePath, WaveFilePath, -1, synchroTick, fre_count, vol_count, tick_cycle, showProgress);
+        }
+        /// <summary>
+        /// 导出到schematic文件
+        /// </summary>
+        /// <param name="SettingParam">导出设置</param>
+        /// <param name="ExportPath">导出路径</param>
+        /// <param name="MidiFilePath">Midi文件路径</param>
+        /// <param name="WaveFilePath">波形文件路径</param>
+        /// <param name="rate">设置播放速率(New BPM = BPM * rate)</param>
+        /// <param name="fre_count">波形频率采样数</param>
+        /// <param name="vol_count">波形振幅采样数</param>
+        /// <param name="tick_cycle">采样周期</param>
+        public void ExportByBeat(ExportSetting SettingParam, string ExportPath = "C:\\MyAudioRiptide.schematic", string MidiFilePath = null, string WaveFilePath = null, double rate = -1, int fre_count = 1, int vol_count = 1, int tick_cycle = 1, ShowProgress showProgress = null)
+        {
+            Export(SettingParam, ExportPath, MidiFilePath, WaveFilePath, rate, -1, fre_count, vol_count, tick_cycle, showProgress);
+        }
+        /// <summary>
+        /// 导出到schematic文件
+        /// </summary>
+        /// <param name="SettingParam">导出设置</param>
+        /// <param name="ExportPath">导出路径</param>
+        /// <param name="MidiFilePath">Midi文件路径</param>
+        /// <param name="WaveFilePath">波形文件路径</param>
+        /// <param name="rate">设置播放速率(New BPM = BPM * rate)</param>
+        /// <param name="synchroTick">节奏间隔(MidiTick),设置此项后将忽略播放速率</param>
+        /// <param name="fre_count">波形频率采样数</param>
+        /// <param name="vol_count">波形振幅采样数</param>
+        /// <param name="tick_cycle">采样周期</param>
+        public void Export(ExportSetting SettingParam, string ExportPath = "C:\\MyAudioRiptide.schematic", string MidiFilePath = null, string WaveFilePath = null, double rate = -1, int synchroTick = -1, int fre_count = 1, int vol_count = 1, int tick_cycle = 1, ShowProgress showProgress = null)
+        {
+            new Schematic().ExportSchematic(new CommandLine().Serialize(Serialize(MidiFilePath, WaveFilePath, rate, synchroTick, fre_count, vol_count, tick_cycle)), SettingParam, ExportPath, showProgress);
         }
         public Dictionary<string, _Node_INT> Param = new Dictionary<string, _Node_INT>()
         {
@@ -900,6 +976,10 @@ namespace Audio2Minecraft
             {"AudioFileFormat", new _Node_INT() { Name = "AudioFileFormat" } } ,
             {"TotalTicks", new _Node_INT() { Name = "TotalTicks" } } ,
         };
+        public double BeatsPerBar = 0;
+        public double TicksPerBar = 0;
+        public double TicksPerBeat = 0;
+        public double SynchronousRate = 0;
         /// <summary>
         /// 时间序列帧
         /// </summary>
@@ -1554,6 +1634,7 @@ namespace Audio2Minecraft
         /// 该帧的索引值
         /// </summary>
         public int CurrentTick = -1;
+        public int BPM = -1;
     }
     /// <summary>
     /// Midi帧

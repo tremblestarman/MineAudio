@@ -15,17 +15,21 @@ namespace Audio2Minecraft
     /// </summary>
     public class Schematic
     {
+        private int totalProgress = 0;
+        public int TotalProgress { get { return totalProgress; } }
+        private int currentProgress = 0;
+        public int CurrentProgress { get { return currentProgress; } }
         /// <summary>
         /// 通过命令序列导出schmeatic
         /// </summary>
         /// <param name="commandLine">命令序列</param>
         /// <param name="SettingParam">导出设置</param>
         /// <param name="ExportPath">导出路径</param>
-        public void ExportSchematic(CommandLine commandLine, ExportSetting SettingParam, string ExportPath = "C:\\MyAudioRiptide.schematic")
+        public void ExportSchematic(CommandLine commandLine, ExportSetting SettingParam, string ExportPath = "C:\\MyAudioRiptide.schematic", ShowProgress showProgress = null)
         {
             try
             {
-                var Schematic = Serialize(commandLine, SettingParam);
+                var Schematic = Serialize(commandLine, SettingParam, showProgress);
                 //Export Schematic
                 if (SettingParam.Type == ExportSetting.ExportType.Universal)
                     new NbtFile(Schematic).SaveToFile(ExportPath, NbtCompression.None);
@@ -35,18 +39,18 @@ namespace Audio2Minecraft
             catch { }
         }
         /// <summary>
-        /// 序列化Schmeatic序列
+        /// 序列化Schematic序列
         /// </summary>
         /// <param name="commandLine"></param>
         /// <param name="SettingParam"></param>
         /// <returns></returns>
-        public NbtCompound Serialize(CommandLine commandLine, ExportSetting SettingParam)
+        public NbtCompound Serialize(CommandLine commandLine, ExportSetting SettingParam, ShowProgress showProgress = null)
         {
             try
             {
                 var Schematic = new NbtCompound("Schematic");
                 //CommandLine -> BlockInfo
-                var blockInfo = CommandLine2SchematicInfo(commandLine, SettingParam, (SettingParam.Type == ExportSetting.ExportType.WorldEdit_113) ? "1.13" : "");
+                var blockInfo = CommandLine2SchematicInfo(commandLine, SettingParam, (SettingParam.Type == ExportSetting.ExportType.WorldEdit_113) ? "1.13" : "", showProgress);
                 //BlockInfo -> Schematic
                 Schematic.Add(blockInfo.Height);
                 Schematic.Add(blockInfo.Length);
@@ -87,7 +91,7 @@ namespace Audio2Minecraft
                 return null;
             }
         }
-        private BlockInfo CommandLine2SchematicInfo(CommandLine commandLine, ExportSetting SettingParam, string mode)
+        private BlockInfo CommandLine2SchematicInfo(CommandLine commandLine, ExportSetting SettingParam, string mode, ShowProgress showProgress = null)
         {
             //Setblock Command
             var redstone_block = "minecraft:redstone_block 0";
@@ -95,7 +99,7 @@ namespace Audio2Minecraft
             try
             {
                 var blockInfo = new BlockInfo();
-                var count = commandLine.Keyframe.Count + 4;
+                var count = commandLine.Keyframe.Count + 4; /* Set Total Progress */ this.totalProgress = count * 2;
                 /* Define the region size */
                 var n = SettingParam.Width; var l = (count % n == 0) ? count / n : count / n + 1; var h = 0;
                 /* Define a block position , data */
@@ -130,6 +134,7 @@ namespace Audio2Minecraft
                         commandLine.Keyframe[i].Commands.Add("tp @p ~" + tpdir[SettingParam.Direction][0].ToString("0.0000") + " ~ ~" + tpdir[SettingParam.Direction][1].ToString("0.0000"));
                     }
                     if (commandLine.Keyframe[i].Commands.Count > h) h = commandLine.Keyframe[i].Commands.Count;
+                    /* Update Current Progress */ this.currentProgress++; if (showProgress != null && this.totalProgress > 0) showProgress((double)this.currentProgress / this.totalProgress);
                 }
                 /* Create Arrays for block storing */
                 var blocks = new byte[0]; var datas = new byte[0];
@@ -236,6 +241,7 @@ namespace Audio2Minecraft
                             }
                         }
                     }
+                    /* Update Current Progress */ this.currentProgress++; if (showProgress != null && this.totalProgress > 0) showProgress((double)this.currentProgress / this.totalProgress);
                 }
                 blockInfo.Blocks.Value = blocks;
                 blockInfo.Data.Value = datas;

@@ -22,6 +22,7 @@ using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Audio2Minecraft;
+using ExecutiveMidi.SubWindow;
 
 namespace ExecutiveMidi
 {
@@ -36,23 +37,60 @@ namespace ExecutiveMidi
         {
             public string Midipath = "";
             public Uri rMidipath;
-            public double Rate;
+            public double Rate = 1;
+            public int SynchroTick = -1;
             public ObservableCollection<Humberger.MidiMarker> TrackMarkerList;
             public ObservableCollection<Humberger.MidiMarker> InstrumentMarkerList;
         }
         public static double Rate = 1;
+        public static int SynchroTick = -1;
         public static ExportSetting export = new ExportSetting() { Width = 16 };
-        public static bool export_cancel = false;
         public static string datapackName = "NewMusic"; //数据包名称
+        public static MainWindow main;
+        public static Export exportSetting;
 
         public MainWindow()
         {
             InitializeComponent();
+            main = this;
+            exportSetting = new SubWindow.Export();
         }
         private void MetroWindow_Initialized(object sender, EventArgs e)
         {
             save.IsEnabled = false;
             load.IsEnabled = false;
+            export_setting.IsEnabled = false;
+        }
+        public static void SetProgressBar(double progress)
+        {
+            main.Dispatcher.Invoke(() =>
+            {
+                main.TaskbarItemInfo.ProgressValue = progress;
+            });
+        }
+        private static double TotalProgressStage = 1;
+        private static double CurrentProgressStage = 0;
+        public static void SetTotalProgressStage(double totalStage)
+        {
+            TotalProgressStage = totalStage;
+        }
+        public static void ResetProgressStage()
+        {
+            TotalProgressStage = 1;
+            CurrentProgressStage = 0;
+            SetProgressBar(0);
+        }
+        public static void AddProgressStage()
+        {
+            CurrentProgressStage++;
+        }
+        public static void SetStagedProgressBar(double progress)
+        {
+            main.Dispatcher.Invoke(() =>
+            {
+                main.TaskbarItemInfo.ProgressValue = (CurrentProgressStage + progress) / TotalProgressStage;
+            });
+
         }
 
         private void MidiSelect(object sender, MouseButtonEventArgs e)
@@ -76,6 +114,7 @@ namespace ExecutiveMidi
             {
                 load.IsEnabled = false;
                 save.IsEnabled = false;
+                export_setting.IsEnabled = false;
             }
             cancel0.Visibility = Visibility.Hidden;
             MidiSetting.TracksView.ItemsSource = null;
@@ -95,7 +134,7 @@ namespace ExecutiveMidi
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        w.ShowDialog();
+                        try { w.ShowDialog(); } catch { }
                     }));
                 };
                 waiting.RunWorkerAsync();
@@ -104,8 +143,8 @@ namespace ExecutiveMidi
                 worker.WorkerReportsProgress = true;
                 worker.DoWork += (o, ea) =>
                 {
-                    if (oldMidi == m) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().Serialize(m, new TimeLine()), preTimeLine);
-                    else preTimeLine = new AudioStreamMidi().Serialize(m, new TimeLine());
+                    if (oldMidi == m) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().SerializeByRate(m, new TimeLine(), 1, SetProgressBar), preTimeLine);
+                    else preTimeLine = new AudioStreamMidi().SerializeByRate(m, new TimeLine(), 1, SetProgressBar);
                 };
                 worker.RunWorkerCompleted += (o, ea) =>
                 {
@@ -118,7 +157,17 @@ namespace ExecutiveMidi
                     MidiSetting.ItemChanged();
 
                     save.IsEnabled = true;
+                    export_setting.IsEnabled = true;
                     oldMidi = MidiPath.Text;
+                    SetProgressBar(0);
+
+                    exportSetting.SwitchBeat((int)preTimeLine.TicksPerBeat);
+                    exportSetting.SwitchRate(1);
+                    exportSetting.Ok.IsEnabled = false;
+                    exportSetting.Info2.Text = preTimeLine.Param["TotalTicks"].Value.ToString() + " ticks";
+                    var _m = preTimeLine.Param["TotalTicks"].Value / 1200;
+                    var s = preTimeLine.Param["TotalTicks"].Value % 1200 / 20;
+                    exportSetting.Info1.Text = _m.ToString() + " : " + s.ToString();
                 };
                 worker.RunWorkerAsync();
             }
@@ -126,7 +175,7 @@ namespace ExecutiveMidi
         private void Save(object sender, MouseButtonEventArgs e)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "A2M Extended Content(*.amextension)|*.amextend|ExecutiveMidi Project(*.emidiproj)|*.emidiproj|Universal Schematic(*.schematic)|*.schematic|WorldEdit Schematic(*.schematic)|*.schematic|WorldEdit 1.13 Schematic(*.schem)|*.schem";
+            fileDialog.Filter = "A2M Extended Content(*.amextension)|*.amextension|ExecutiveMidi Project(*.emidiproj)|*.emidiproj|Universal Schematic(*.schematic)|*.schematic|WorldEdit Schematic(*.schematic)|*.schematic|WorldEdit 1.13 Schematic(*.schem)|*.schem";
             fileDialog.FilterIndex = 1;
             if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
             {
@@ -138,9 +187,10 @@ namespace ExecutiveMidi
                         rMidipath = (Midipath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Midipath.Replace(" ", "*20"))) : null,
                         InstrumentMarkerList = MidiSetting.InstrumentMarkerList,
                         Rate = Rate,
+                        SynchroTick = SynchroTick,
                         TrackMarkerList = MidiSetting.TrackMarkerList
                     };
-                    File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
+                    File.WriteAllText(fileDialog.FileName, _coding.Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
                 }
                 else
                 {
@@ -155,7 +205,7 @@ namespace ExecutiveMidi
                         {
                             Dispatcher.BeginInvoke(new Action(() =>
                             {
-                                w.ShowDialog();
+                                try { w.ShowDialog(); } catch { }
                             }));
                         };
                         waiting.RunWorkerAsync();
@@ -168,49 +218,41 @@ namespace ExecutiveMidi
                         };
                         worker.RunWorkerCompleted += (o, ea) =>
                         {
-                            File.WriteAllText(fileDialog.FileName, Compress(JsonConvert.SerializeObject(commandLine))); //加密压缩并输出
+                            File.WriteAllText(fileDialog.FileName, _coding.Compress(JsonConvert.SerializeObject(commandLine))); //加密压缩并输出
                             w.Close();
                         };
                         worker.RunWorkerAsync();
                     }
                     else if (fileDialog.FilterIndex == 3 || fileDialog.FilterIndex == 4 || fileDialog.FilterIndex == 5) //Schematic
                     {
-                        var _w = new SubWindow.Export(); _w.Owner = this;
-                        _w.序列宽度.Text = export.Width.ToString();
-                        _w.保持区块加载.IsChecked = export.AlwaysLoadEntities;
-                        _w.延伸方向.SelectedIndex = export.Direction;
-                        _w.ShowDialog();
                         //Waiting...
-                        if (!export_cancel)
+                        var w = new SubWindow.Waiting(); w.Owner = this;
+                        BackgroundWorker waiting = new BackgroundWorker();
+                        waiting.DoWork += (ee, ea) => { };
+                        waiting.RunWorkerCompleted += (ee, ea) =>
                         {
-                            var w = new SubWindow.Waiting(); w.Owner = this;
-                            BackgroundWorker waiting = new BackgroundWorker();
-                            waiting.DoWork += (ee, ea) => { };
-                            waiting.RunWorkerCompleted += (ee, ea) =>
+                            Dispatcher.BeginInvoke(new Action(() =>
                             {
-                                Dispatcher.BeginInvoke(new Action(() =>
-                                {
-                                    w.ShowDialog();
-                                }));
-                            };
-                            waiting.RunWorkerAsync();
-                            //Work
-                            BackgroundWorker worker = new BackgroundWorker();
-                            worker.WorkerReportsProgress = true;
-                            worker.DoWork += (o, ea) =>
-                            {
-                                commandLine = getCommandLine();
-                            };
-                            worker.RunWorkerCompleted += (o, ea) =>
-                            {
-                                if (fileDialog.FilterIndex == 3) export.Type = ExportSetting.ExportType.Universal;
-                                if (fileDialog.FilterIndex == 4) export.Type = ExportSetting.ExportType.WorldEdit;
-                                if (fileDialog.FilterIndex == 5) export.Type = ExportSetting.ExportType.WorldEdit_113;
-                                new Schematic().ExportSchematic(commandLine, export, fileDialog.FileName);
-                                w.Close();
-                            };
-                            worker.RunWorkerAsync();
-                        }
+                                try { w.ShowDialog(); } catch { }
+                            }));
+                        };
+                        waiting.RunWorkerAsync();
+                        //Work
+                        BackgroundWorker worker = new BackgroundWorker();
+                        worker.WorkerReportsProgress = true;
+                        worker.DoWork += (o, ea) =>
+                        {
+                            commandLine = getCommandLine();
+                        };
+                        worker.RunWorkerCompleted += (o, ea) =>
+                        {
+                            if (fileDialog.FilterIndex == 3) export.Type = ExportSetting.ExportType.Universal;
+                            if (fileDialog.FilterIndex == 4) export.Type = ExportSetting.ExportType.WorldEdit;
+                            if (fileDialog.FilterIndex == 5) export.Type = ExportSetting.ExportType.WorldEdit_113;
+                            new Schematic().ExportSchematic(commandLine, export, fileDialog.FileName, SetProgressBar);
+                            w.Close();
+                        };
+                        worker.RunWorkerAsync();
                     }
                 }
             }
@@ -271,7 +313,9 @@ namespace ExecutiveMidi
                         }
                     }
                 }
+                SetProgressBar((double)(i + 1) / preTimeLine.TickNodes.Count);
             }
+            SetProgressBar(0);
             return commandLine;
         }
         private void LoadFile(object sender, MouseButtonEventArgs e)
@@ -281,7 +325,7 @@ namespace ExecutiveMidi
             fileDialog.FilterIndex = 1;
             if (fileDialog.ShowDialog() == true && fileDialog.FileName != null && fileDialog.FileName != "")
             {
-                var o = JsonConvert.DeserializeObject<Emidiproj>(Decompress(File.ReadAllText(fileDialog.FileName)));
+                var o = JsonConvert.DeserializeObject<Emidiproj>(_coding.Decompress(File.ReadAllText(fileDialog.FileName)));
                 //relative or absolute or cancel
                 var msg = MessageBox.Show("是否使用相对路径导入？", "使用相对路径导入", MessageBoxButton.YesNoCancel); if (msg == MessageBoxResult.Cancel) return;
                 if (msg == MessageBoxResult.Yes)
@@ -295,6 +339,8 @@ namespace ExecutiveMidi
                     MidiSetting.IsEnabled = true;
                     MidiSetting.ItemChanged();
                     cancel0.Visibility = Visibility.Visible;
+                    Rate = o.Rate;
+                    SynchroTick = o.SynchroTick;
                     var m = o.Midipath;
                     //Waiting...
                     var w = new SubWindow.Waiting(); w.Owner = this;
@@ -304,7 +350,7 @@ namespace ExecutiveMidi
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            w.ShowDialog();
+                            try { w.ShowDialog(); } catch { }
                         }));
                     };
                     waiting.RunWorkerAsync();
@@ -313,8 +359,36 @@ namespace ExecutiveMidi
                     worker.WorkerReportsProgress = true;
                     worker.DoWork += (ou, ea) =>
                     {
-                        if (oldMidi == m) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().Serialize(m, new TimeLine()), preTimeLine);
-                        else preTimeLine = new AudioStreamMidi().Serialize(m, new TimeLine());
+                        if (o.SynchroTick <= 0)
+                        {
+                            if (oldMidi == m) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().SerializeByRate(m, new TimeLine(), o.Rate, SetProgressBar), preTimeLine);
+                            else preTimeLine = new AudioStreamMidi().SerializeByRate(m, new TimeLine(), o.Rate, SetProgressBar);
+                            SetProgressBar(0);
+                        }
+                        else
+                        {
+                            SetTotalProgressStage(2);
+                            if (oldMidi == m) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().SerializeByBeat(m, new TimeLine(), o.SynchroTick, SetProgressBar), preTimeLine);
+                            else preTimeLine = new AudioStreamMidi().SerializeByBeat(m, new TimeLine(), o.SynchroTick, SetProgressBar);
+                            AddProgressStage();
+                            int last_bpm = -1;
+                            for (int i = 0; i < preTimeLine.TickNodes.Count; i++)
+                            {
+                                if (preTimeLine.TickNodes[i].BPM >= 0 && preTimeLine.TickNodes[i].BPM != last_bpm) //BPM changed
+                                {
+                                    double tps = (double)preTimeLine.TickNodes[i].BPM * preTimeLine.TicksPerBeat / 60 / SynchroTick;
+                                    exportSetting.beatElements.Add(new SubWindow.BeatElement()
+                                    {
+                                        BPM = preTimeLine.TickNodes[i].BPM.ToString(),
+                                        TickStart = i,
+                                        TPS = tps.ToString("0.0000")
+                                    });
+                                    last_bpm = preTimeLine.TickNodes[i].BPM;
+                                }
+                                SetStagedProgressBar((double)i / preTimeLine.TickNodes.Count);
+                            }
+                            ResetProgressStage();
+                        }
                     };
                     worker.RunWorkerCompleted += (ou, ea) =>
                     {
@@ -326,6 +400,25 @@ namespace ExecutiveMidi
                         MidiSetting.TracksView.ItemsSource = MidiSetting.TrackMarkerList;
                         MidiSetting.ItemChanged();
                         save.IsEnabled = true;
+                        export_setting.IsEnabled = true;
+                        if (SynchroTick > 0)
+                        {
+                            exportSetting.SwitchBeat(SynchroTick);
+                            exportSetting.Info1.Text = (preTimeLine.SynchronousRate * 100).ToString("0.00") + "%";
+                            var toolTip = new TextBlock();
+                            toolTip.Text = "有 " + (int)((1 - preTimeLine.SynchronousRate) * preTimeLine.Param["TotalTicks"].Value) + " 个音符与原Midi不同步.\n序列总长度为 " + preTimeLine.TickNodes.Count + " .";
+                            exportSetting.Info1.ToolTip = toolTip;
+                        }
+                        else
+                        {
+                            exportSetting.SwitchRate(Rate);
+                            exportSetting.Info2.Text = preTimeLine.Param["TotalTicks"].Value.ToString() + " ticks";
+                            var _m = preTimeLine.Param["TotalTicks"].Value / 1200;
+                            var s = preTimeLine.Param["TotalTicks"].Value % 1200 / 20;
+                            exportSetting.Info1.Text = _m.ToString() + " : " + s.ToString();
+                            SynchroTick = -1;
+                        }
+                        exportSetting.Ok.IsEnabled = false;
                         oldMidi = MidiPath.Text;
                     };
                     worker.RunWorkerAsync();
@@ -422,6 +515,12 @@ namespace ExecutiveMidi
             task.Wait();
             return baseTimeline;
         }
+        private void ShowExportSetting(object sender, MouseButtonEventArgs e)
+        {
+            exportSetting.Owner = this;
+            exportSetting.markLine = preTimeLine;
+            exportSetting.ShowDialog();
+        }
 
         //DataPack操作
         public static string DataPackPath = "";
@@ -430,7 +529,7 @@ namespace ExecutiveMidi
         public static CommandLine cmdLine = new CommandLine();
         public void SaveAsDatapack(object sender, MouseButtonEventArgs e)
         {
-            if (preTimeLine == null || preTimeLine.TickNodes.Count == 0) { MessageBox.Show("你还有没有导入任何项目", "提示"); return; }
+            if (preTimeLine == null || preTimeLine.TickNodes.Count == 0) { MessageBox.Show("你还没有导入任何项目", "提示"); return; }
             #region TimeLineGenerate
             //Waiting
             var w = new SubWindow.Waiting(); w.Owner = this;
@@ -440,7 +539,7 @@ namespace ExecutiveMidi
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    w.ShowDialog();
+                    try { w.ShowDialog(); } catch { }
                 }));
             };
             waiting.RunWorkerAsync();
@@ -461,6 +560,8 @@ namespace ExecutiveMidi
             #endregion
         }
 
+        public static bool closing = false;
+        private void MetroWindow_Closing(object sender, CancelEventArgs e) => closing = true;
         #region Math
         private string mCos(string cmd)
         {
@@ -788,45 +889,51 @@ namespace ExecutiveMidi
             catch { Double.TryParse("", out result); return false; }
         }
         #endregion
+
         #region Compress
-        public static string Compress(string text)
+        public static class _coding
         {
-            byte[] buffer = Encoding.UTF8.GetBytes(text);
-            MemoryStream ms = new MemoryStream();
-            using (GZipStream zip = new GZipStream(ms, CompressionMode.Compress, true))
+            #region Compress
+            public static string Compress(string text)
             {
-                zip.Write(buffer, 0, buffer.Length);
-            }
-
-            ms.Position = 0;
-            MemoryStream outStream = new MemoryStream();
-
-            byte[] compressed = new byte[ms.Length];
-            ms.Read(compressed, 0, compressed.Length);
-
-            byte[] gzBuffer = new byte[compressed.Length + 4];
-            System.Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
-            System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
-            return Convert.ToBase64String(gzBuffer);
-        }
-        public static string Decompress(string compressedText)
-        {
-            byte[] gzBuffer = Convert.FromBase64String(compressedText);
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int msgLength = BitConverter.ToInt32(gzBuffer, 0);
-                ms.Write(gzBuffer, 4, gzBuffer.Length - 4);
-
-                byte[] buffer = new byte[msgLength];
-
-                ms.Position = 0;
-                using (GZipStream zip = new GZipStream(ms, CompressionMode.Decompress))
+                byte[] buffer = Encoding.UTF8.GetBytes(text);
+                MemoryStream ms = new MemoryStream();
+                using (GZipStream zip = new GZipStream(ms, CompressionMode.Compress, true))
                 {
-                    zip.Read(buffer, 0, buffer.Length);
+                    zip.Write(buffer, 0, buffer.Length);
                 }
 
-                return Encoding.UTF8.GetString(buffer);
+                ms.Position = 0;
+                MemoryStream outStream = new MemoryStream();
+
+                byte[] compressed = new byte[ms.Length];
+                ms.Read(compressed, 0, compressed.Length);
+
+                byte[] gzBuffer = new byte[compressed.Length + 4];
+                System.Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
+                System.Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
+                return Convert.ToBase64String(gzBuffer);
             }
+            public static string Decompress(string compressedText)
+            {
+                byte[] gzBuffer = Convert.FromBase64String(compressedText);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    int msgLength = BitConverter.ToInt32(gzBuffer, 0);
+                    ms.Write(gzBuffer, 4, gzBuffer.Length - 4);
+
+                    byte[] buffer = new byte[msgLength];
+
+                    ms.Position = 0;
+                    using (GZipStream zip = new GZipStream(ms, CompressionMode.Decompress))
+                    {
+                        zip.Read(buffer, 0, buffer.Length);
+                    }
+
+                    return Encoding.UTF8.GetString(buffer);
+                }
+            }
+            #endregion
         }
         #endregion
     }

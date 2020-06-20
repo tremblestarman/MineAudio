@@ -93,7 +93,7 @@ namespace Audio2MinecraftUI.Humberger
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        w.ShowDialog();
+                        try { w.ShowDialog(); } catch { }
                     }));
                 };
                 waiting.RunWorkerAsync();
@@ -119,6 +119,7 @@ namespace Audio2MinecraftUI.Humberger
                     最小振幅R.Text = Math.Round(lowest(wav, "r", "VolumePerTick"), 2).ToString();
                     平均频率R.Text = Math.Round(average(wav, "r", "FrequencyPerTick"), 2).ToString();
                     平均振幅R.Text = Math.Round(average(wav, "r", "VolumePerTick"), 2).ToString();
+                    MainWindow.SetProgressBar(0);
                 };
                 worker.RunWorkerAsync();
             }

@@ -59,7 +59,11 @@ namespace Audio2MinecraftUI.Humberger
                 t.Text = old_text_float;
             else if (t.Text == "")
                 t.Text = "1";
-            else old_text_float = t.Text;
+            else
+            {
+                if (old_text_float != t.Text) Done.IsEnabled = true;
+                old_text_float = t.Text;
+            }
         }
         string old_text = "";
         private void NumericOnly(object sender, TextChangedEventArgs e)
@@ -70,7 +74,11 @@ namespace Audio2MinecraftUI.Humberger
                 t.Text = old_text;
             else if (t.Text == "" || Int32.Parse(t.Text) < 1)
                 t.Text = "1";
-            else old_text = t.Text;
+            else
+            {
+                if (old_text != t.Text) Done.IsEnabled = true;
+                old_text = t.Text;
+            }
         }
         private void _KeyDownFloat(object sender, KeyEventArgs e)
         {
@@ -95,6 +103,7 @@ namespace Audio2MinecraftUI.Humberger
             Done.IsEnabled = true;
         }
 
+        public List<SubWindow.BeatElement> beatElements = new List<SubWindow.BeatElement>();
         private void DoneChanges(object sender, MouseButtonEventArgs e)
         {
             MainWindow.ExportSetting.Direction = 延伸方向.SelectedIndex;
@@ -106,45 +115,116 @@ namespace Audio2MinecraftUI.Humberger
             MainWindow.LyricMode.LyricOutSet.color1 = 已播放颜色.Text;
             MainWindow.LyricMode.LyricOutSet.color2 = 未播放颜色.Text;
             MainWindow.PublicSet.ST = 双声道.SelectedIndex;
-            if (MainWindow.Midipath != "" && MainWindow.Rate.ToString() != 重设播放倍率.Text)
+            if (MainWindow.Midipath != "" && (MainWindow.Rate.ToString() != 重设播放倍率.Text || MainWindow.SynchroTick.ToString() != 重设节奏间隔.Text))
             {
-                System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("^[0-9]+\\.$");
-                if (reg.IsMatch(重设播放倍率.Text)) 重设播放倍率.Text += "0";
-                var m_ = MainWindow.Midipath; var b = double.Parse(重设播放倍率.Text); if (b == 0) { 重设播放倍率.Text = "1"; b = 1; }
+                var m_ = MainWindow.Midipath;
                 var a = new TimeLine();
-                var w = new SubWindow.Waiting();w.Owner = Application.Current.MainWindow;
+                var w = new SubWindow.Waiting(); w.Owner = Application.Current.MainWindow;
                 BackgroundWorker waiting = new BackgroundWorker();
                 waiting.DoWork += (ee, ea) => { };
                 waiting.RunWorkerCompleted += (ee, ea) =>
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        w.ShowDialog();
+                        try { w.ShowDialog(); } catch { }
                     }));
                 };
                 waiting.RunWorkerAsync();
-                //Work
-                BackgroundWorker worker = new BackgroundWorker();
-                worker.WorkerReportsProgress = true;
-                worker.DoWork += (ee, ea) =>
+                if (Midi.IsVisible) //Using Rate
                 {
-                    a = new AudioStreamMidi().Serialize(m_, new TimeLine(), b);
-                };
-                worker.RunWorkerCompleted += (ee, ea) =>
+                    System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("^[0-9]+\\.$");
+                    if (reg.IsMatch(重设播放倍率.Text)) 重设播放倍率.Text += "0";
+                    var b = double.Parse(重设播放倍率.Text); if (b == 0) { 重设播放倍率.Text = "1"; b = 1; }
+                    //Work
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerReportsProgress = true;
+                    worker.DoWork += (ee, ea) =>
+                    {
+                        a = new AudioStreamMidi().SerializeByRate(m_, new TimeLine(), b, MainWindow.SetProgressBar);
+                    };
+                    worker.RunWorkerCompleted += (ee, ea) =>
+                    {
+                        w.Close();
+                        Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
+                        var m = a.Param["TotalTicks"].Value / 1200;
+                        var s = a.Param["TotalTicks"].Value % 1200 / 20;
+                        Midi时长.Text = m.ToString() + " : " + s.ToString();
+                        MainWindow.Rate = Double.Parse(重设播放倍率.Text);
+                        MainWindow.preTick = a.Param["TotalTicks"].Value;
+                        MainWindow.SetProgressBar(0);
+                    };
+                    worker.RunWorkerAsync();
+                }
+                else //Using Beat
                 {
-                    w.Close();
-                    Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
-                    var m = a.Param["TotalTicks"].Value / 1200;
-                    var s = a.Param["TotalTicks"].Value % 1200 / 20;
-                    Midi时长.Text = m.ToString() + " : " + s.ToString();
-                    MainWindow.Rate = Double.Parse(重设播放倍率.Text);
-                    MainWindow.preTick = a.Param["TotalTicks"].Value;
-                };
-                worker.RunWorkerAsync();
+                    beatElements.Clear();
+                    var b = Int32.Parse(重设节奏间隔.Text); if (b <= 0) { 重设节奏间隔.Text = "1"; b = 1; }
+                    //Work
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerReportsProgress = true;
+                    worker.DoWork += (ee, ea) =>
+                    {
+                        MainWindow.SetTotalProgressStage(2);
+                        a = new AudioStreamMidi().SerializeByBeat(m_, new TimeLine(), b, MainWindow.SetProgressBar);
+                        MainWindow.AddProgressStage();
+                        int last_bpm = -1;
+                        for (int i = 0; i < a.TickNodes.Count; i++)
+                        {
+                            if (a.TickNodes[i].BPM >= 0 && a.TickNodes[i].BPM != last_bpm) //BPM changed
+                            {
+                                double tps = (double)a.TickNodes[i].BPM * a.TicksPerBeat / 60 / b;
+                                beatElements.Add(new SubWindow.BeatElement()
+                                {
+                                    BPM = a.TickNodes[i].BPM.ToString(),
+                                    TickStart = i,
+                                    TPS = tps.ToString("0.0000")
+                                });
+                                last_bpm = a.TickNodes[i].BPM;
+                            }
+                            MainWindow.SetStagedProgressBar((double)i / a.TickNodes.Count);
+                        }
+                    };
+                    worker.RunWorkerCompleted += (ee, ea) =>
+                    {
+                        w.Close();
+                        Midi同步率.Text = (a.SynchronousRate * 100).ToString("0.00") + "%";
+                        var toolTip = new TextBlock();
+                        toolTip.Text = "有 " + (int)((1 - a.SynchronousRate) * a.Param["TotalTicks"].Value) + " 个音符与原Midi不同步.\n序列总长度为 " + a.TickNodes.Count + " .";
+                        Midi同步率.ToolTip = toolTip;
+                        MainWindow.preTick = a.Param["TotalTicks"].Value;
+                        MainWindow.SynchroTick = Int32.Parse(重设节奏间隔.Text);
+                        MainWindow.ResetProgressStage();
+                    };
+                    worker.RunWorkerAsync();   
+                }
             }
             Done.IsEnabled = false;
         }
 
+        public void SwitchToRate()
+        {
+            Midi.Visibility = Visibility.Visible;
+            Midi_Beat.Visibility = Visibility.Hidden;
+            Done.IsEnabled = true;
+            SwitchImage.Source = new BitmapImage(new Uri(@"\img\rate_view.png", UriKind.Relative));
+        }
+        public void SwitchToBeat()
+        {
+            Midi.Visibility = Visibility.Hidden;
+            Midi_Beat.Visibility = Visibility.Visible;
+            Done.IsEnabled = true;
+            SwitchImage.Source = new BitmapImage(new Uri(@"\img\beat_view.png", UriKind.Relative));
+        }
+        private void SwitchView(object sender, MouseButtonEventArgs e)
+        {
+            if (Midi.IsVisible) SwitchToBeat();
+            else SwitchToRate();
+        }
+        public void setBeat(int synchroTick = -1)
+        {
+            if (synchroTick > 0) 重设节奏间隔.Text = synchroTick.ToString();
+            else 重设节奏间隔.Text = "1";
+        }
         public void Update()
         {
             延伸方向.SelectedIndex = MainWindow.ExportSetting.Direction;
@@ -168,6 +248,9 @@ namespace Audio2MinecraftUI.Humberger
                 重设播放倍率.Text = "1";
                 Midi时长.Text = "";
                 Midi刻长.Text = "";
+                重设节奏间隔.Text = "1";
+                Midi同步率.ToolTip = "";
+                Midi同步率.Text = "";
             }
 
             if (MainWindow.Lrcpath != "")
@@ -182,6 +265,12 @@ namespace Audio2MinecraftUI.Humberger
                 Lrc.IsEnabled = false;
             }
             Done.IsEnabled = false;
+        }
+        private void ShowBeatList(object sender, MouseButtonEventArgs e)
+        {
+            var n = new SubWindow.BeatList(beatElements); n.Owner = MainWindow.main;
+            Console.WriteLine(beatElements.Count);
+            n.ShowDialog();
         }
     }
 }

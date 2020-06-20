@@ -42,6 +42,7 @@ namespace Audio2MinecraftUI
         public static string Wavepath = ""; //波形路径
         public static string Lrcpath = ""; //歌词路径
         public static double Rate = 1; //播放速率
+        public static int SynchroTick = -1; //节奏间隔
         public static int preTick = 0; //重设BPM后的预览序列的播放时长
         public static ExportSetting ExportSetting = new ExportSetting() //导出设置
         {
@@ -74,10 +75,12 @@ namespace Audio2MinecraftUI
         public static string autoFillRule = "无", autoFillMode = ""; //自动补全规则 & 模式
         public static List<ExtensionFile> ExtensionFiles = new List<ExtensionFile>();
         public static string datapackName = "NewMusic"; //数据包名称
+        public static MainWindow main;
 
         public MainWindow()
         {
             InitializeComponent();
+            main = this;
         }
         private void MetroWindow_Initialized(object sender, EventArgs e)
         {
@@ -148,8 +151,53 @@ namespace Audio2MinecraftUI
             int Description = 0;
             return InternetGetConnectedState(Description, 0);
         }
+        public static void SetProgressBar(double progress)
+        {
+            main.Dispatcher.Invoke(() =>
+            {
+                main.TaskbarItemInfo.ProgressValue = progress;
+            });
+        }
+        private static double TotalProgressStage = 1;
+        private static double CurrentProgressStage = 0;
+        public static void SetTotalProgressStage(double totalStage)
+        {
+            TotalProgressStage = totalStage;
+        }
+        public static void ResetProgressStage()
+        {
+            TotalProgressStage = 1;
+            CurrentProgressStage = 0;
+            SetProgressBar(0);
+        }
+        public static void AddProgressStage()
+        {
+            CurrentProgressStage++;
+        }
+        public static void SetStagedProgressBar(double progress)
+        {
+            main.Dispatcher.Invoke(() =>
+            {
+                main.TaskbarItemInfo.ProgressValue = (CurrentProgressStage + progress) / TotalProgressStage;
+            });
+
+        }
 
         //文件路径确认
+        private void CheckEmpty()
+        {
+            if (MidiPath.Text == "" && WavePath.Text == "" && LrcPath.Text == "")
+            {
+                load.IsEnabled = false;
+                A2MSave.IsEnabled = false;
+                Export.IsEnabled = false;
+                Export.Update();
+                SynchroTick = -1;
+                Export.SwitchToRate();
+                Export.setBeat(1);
+                PublicSetting.IsEnabled = false;
+            }
+        }
         private void MidiSelect(object sender, MouseButtonEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -167,11 +215,7 @@ namespace Audio2MinecraftUI
         {
             MidiPath.Text = "";
             SetFileShow();
-            if (MidiPath.Text == "" && WavePath.Text == "" && LrcPath.Text == "")
-            {
-                load.IsEnabled = false;
-                A2MSave.IsEnabled = false;
-            }
+            CheckEmpty();
             cancel0.Visibility = Visibility.Hidden;
             MidiSetting.TracksView.ItemsSource = null;
             MidiSetting.IsEnabled = false;
@@ -198,6 +242,8 @@ namespace Audio2MinecraftUI
             {
                 load.IsEnabled = false;
                 A2MSave.IsEnabled = false;
+                Export.IsEnabled = false;
+                Export.Update();
             }
             cancel1.Visibility = Visibility.Hidden;
             WavSetting.IsEnabled = false;
@@ -220,12 +266,9 @@ namespace Audio2MinecraftUI
         {
             LrcPath.Text = "";
             SetFileShow();
-            if (MidiPath.Text == "" && WavePath.Text == "" && LrcPath.Text == "")
-            {
-                load.IsEnabled = false;
-                A2MSave.IsEnabled = false;
-            }
+            CheckEmpty();
             cancel2.Visibility = Visibility.Hidden;
+            LrcSetting.IsEnabled = false;
         }
 
         //确认导入
@@ -239,6 +282,10 @@ namespace Audio2MinecraftUI
         }
         private void Load(object sender, MouseButtonEventArgs e)
         {
+            if (MidiPath.Text == "")
+            {
+                var msg = MessageBox.Show("若没有Midi文件，则无法生成红石音乐。是否继续？\n注：Wave文件仅用于生成波形可视化，Lrc文件仅用于生成歌词。\n若继续，也可成功生成相应序列，但不包含音乐。", "没有选择Midi文件", MessageBoxButton.YesNo); if (msg != MessageBoxResult.Yes) return;
+            }
             PublicSetting.IsEnabled = true;
             Export.IsEnabled = true;
             if (MidiPath.Text != "" && new FileInfo(MidiPath.Text).Exists)
@@ -252,7 +299,7 @@ namespace Audio2MinecraftUI
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        w.ShowDialog();
+                        try { w.ShowDialog(); } catch { }
                     }));
                 };
                 waiting.RunWorkerAsync();
@@ -261,8 +308,9 @@ namespace Audio2MinecraftUI
                 worker.WorkerReportsProgress = true;
                 worker.DoWork += (o, ea) =>
                 {
-                    if (oldMidi == m) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().Serialize(m, new TimeLine()), preTimeLine);
-                    else preTimeLine = new AudioStreamMidi().Serialize(m, new TimeLine());
+                    if (oldMidi == m) preTimeLine = UpdateMidiInspector(new AudioStreamMidi().SerializeByRate(m, new TimeLine(), -1, SetProgressBar), preTimeLine);
+                    else preTimeLine = new AudioStreamMidi().SerializeByRate(m, new TimeLine(), -1, SetProgressBar);
+                    MainWindow.SetProgressBar(0);
                 };
                 worker.RunWorkerCompleted += (o, ea) =>
                 {
@@ -280,6 +328,11 @@ namespace Audio2MinecraftUI
                     oldMidi = MidiPath.Text;
 
                     preTick = preTimeLine.Param["TotalTicks"].Value;
+
+                    SynchroTick = -1;
+                    Export.SwitchToRate();
+                    Export.setBeat((int)preTimeLine.TicksPerBeat);
+                    Export.Update();
                 };
                 worker.RunWorkerAsync();
             }
@@ -317,7 +370,6 @@ namespace Audio2MinecraftUI
             Export.Update();
             A2MSave.IsEnabled = true;
         }
-
         public static Dictionary<string, AutoFill> AutoFills = new Dictionary<string, AutoFill>();
         //自动补全设置
         private void OpenSetting(object sender, MouseButtonEventArgs e)
@@ -376,7 +428,7 @@ namespace Audio2MinecraftUI
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            w.ShowDialog();
+                            try { w.ShowDialog(); } catch { }
                         }));
                     };
                     waiting.RunWorkerAsync();
@@ -386,7 +438,7 @@ namespace Audio2MinecraftUI
                     var midi = MidiPath.Text;
                     worker.DoWork += (o, ea) =>
                     {
-                        new MidiInfoExcel(midi, fileDialog.FileName, Rate);
+                        new MidiInfoExcel(midi, fileDialog.FileName, Rate, SynchroTick);
                     };
                     worker.RunWorkerCompleted += (o, ea) =>
                     {
@@ -404,7 +456,7 @@ namespace Audio2MinecraftUI
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            w.ShowDialog();
+                            try { w.ShowDialog(); } catch { }
                         }));
                     };
                     waiting.RunWorkerAsync();
@@ -414,7 +466,7 @@ namespace Audio2MinecraftUI
                     var midi = MidiPath.Text;
                     worker.DoWork += (o, ea) =>
                     {
-                        new MidiInfoTxt(midi, fileDialog.FileName, Rate);
+                        new MidiInfoTxt(midi, fileDialog.FileName, Rate, SynchroTick);
                     };
                     worker.RunWorkerCompleted += (o, ea) =>
                     {
@@ -662,7 +714,7 @@ namespace Audio2MinecraftUI
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            w.ShowDialog();
+                            try { w.ShowDialog(); } catch { }
                         }));
                     };
                     waiting.RunWorkerAsync();
@@ -676,6 +728,7 @@ namespace Audio2MinecraftUI
                         {
                             ex.AbsToR(fileDialog.FileName);
                         }
+                        SetProgressBar(0.25);
                         var f = new FileOutPut() //写入文件结构
                         {
                             MidiTracks = preTimeLine.TrackList,
@@ -690,6 +743,7 @@ namespace Audio2MinecraftUI
                             rLrcpath = (Lrcpath != "") ? new Uri(fileDialog.FileName.Replace(" ", "*20")).MakeRelativeUri(new Uri(Lrcpath.Replace(" ", "*20"))) : null,
                             ExportSetting = ExportSetting,
                             Rate = Rate,
+                            SynchroTick = SynchroTick,
                             preTick = preTick,
                             PublicSetting = new FileOutPut._PublicSetting()
                             {
@@ -716,8 +770,12 @@ namespace Audio2MinecraftUI
                             ExtensionFiles = ExtensionFiles,
                             wav_COMMIT = new int[] { m_1, m_3, m_3 }
                         };
+                        SetProgressBar(0.5);
                         File.WriteAllText(fileDialog.FileName, _coding.Compress(JsonConvert.SerializeObject(f))); //加密压缩并输出
-                        projName = new FileInfo(fileDialog.FileName).Name; SetFileShow(); //更新文件显示
+                        SetProgressBar(0.75);
+                        projName = new FileInfo(fileDialog.FileName).Name; Dispatcher.Invoke(SetFileShow); //更新文件显示
+                        SetProgressBar(1);
+                        SetProgressBar(0);
                     };
                     worker.RunWorkerCompleted += (o, ea) =>
                     {
@@ -735,20 +793,22 @@ namespace Audio2MinecraftUI
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            w.ShowDialog();
+                            try { w.ShowDialog(); } catch { }
                         }));
                     };
                     waiting.RunWorkerAsync();
                     int m_1 = Int32.Parse(WavSetting.单刻频率采样数.Text), m_2 = Int32.Parse(WavSetting.单刻振幅采样数.Text), m_3 = Int32.Parse(WavSetting.采样周期.Text);
+                    //Work
                     BackgroundWorker worker = new BackgroundWorker();
                     worker.WorkerReportsProgress = true;
-                    //Work
                     worker.DoWork += (o, ea) =>
                     {
                         InheritExpression.SetCompareLists(AppDomain.CurrentDomain.BaseDirectory + "config\\compare"); //设置匹配列表 *
 
                         //命令序列实例化
-                        var commandLine = new CommandLine().Serialize(ConfirmTimeLine(m_1, m_2, m_3));
+                        SetTotalProgressStage(3);
+                        var commandLine = new CommandLine().Serialize(ConfirmTimeLine(m_1, m_2, m_3), "1.12", SetStagedProgressBar);
+                        AddProgressStage();
                         foreach (var ex in ExtensionFiles)
                         {
                             commandLine = commandLine.Combine(commandLine, ex.ToCommandLine());
@@ -762,7 +822,8 @@ namespace Audio2MinecraftUI
                         var exportSetting = new ExportSetting() { AlwaysActive = ExportSetting.AlwaysActive, AlwaysLoadEntities = ExportSetting.AlwaysLoadEntities, Direction = ExportSetting.Direction, Width = ExportSetting.Width, AutoTeleport = ExportSetting.AutoTeleport };
                         if (fileDialog.FilterIndex == 3) exportSetting.Type = ExportSetting.ExportType.WorldEdit; //For WorldEdit
                         else if (fileDialog.FilterIndex == 4) exportSetting.Type = ExportSetting.ExportType.WorldEdit_113; //For WorldEdit 1.13
-                        new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName);
+                        new Schematic().ExportSchematic(commandLine, exportSetting, fileDialog.FileName, SetStagedProgressBar);
+                        ResetProgressStage();
                     };
                     worker.RunWorkerCompleted += (o, ea) =>
                     {
@@ -774,7 +835,9 @@ namespace Audio2MinecraftUI
         }
         public static TimeLine ConfirmTimeLine(int frec, int volc, int circle)
         {
-            TimeLine exportLine = new TimeLine().Serialize(Midipath, Wavepath, Rate, frec, volc, circle); //时间序列                                                                                                                                                                                    //时间序列写入 & 更新
+            TimeLine exportLine = new TimeLine();
+            exportLine = new TimeLine().Serialize(Midipath, Wavepath, Rate, SynchroTick, frec, volc, circle, SetStagedProgressBar); //时间序列
+            //时间序列写入 & 更新
             exportLine.InstrumentList = preTimeLine.InstrumentList;
             exportLine.TrackList = preTimeLine.TrackList;
             exportLine.LeftWaveSetting = preTimeLine.LeftWaveSetting;
@@ -788,8 +851,10 @@ namespace Audio2MinecraftUI
             exportLine.Param["MidiTracksCount"].Enable = PublicSet.TC;
             exportLine.Param["MidiDeltaTicksPerQuarterNote"].Enable = PublicSet.Q;
             exportLine.Sound_Stereo(PublicSet.ST - 1);
+            AddProgressStage();
             return exportLine;
         }
+
         public void LoadFile(object sender, MouseButtonEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -864,6 +929,8 @@ namespace Audio2MinecraftUI
                 Rate = o.Rate;
                 preTick = o.preTick;
                 Export.重设播放倍率.Text = Rate.ToString();
+                Export.SwitchToRate();
+                Export.setBeat(o.SynchroTick);
                 Export.Update(); //Export
                 if (Midipath != "" && new FileInfo(Midipath).Exists) //MidiPath
                 {
@@ -874,7 +941,6 @@ namespace Audio2MinecraftUI
                     PublicSetting.MidiPlat.IsEnabled = true;
                     Export.IsEnabled = true;
                     //Export
-                    var a = new TimeLine();
                     var w = new SubWindow.Waiting(); w.Owner = this;
                     BackgroundWorker waiting = new BackgroundWorker();
                     waiting.DoWork += (ee, ea) => { };
@@ -882,7 +948,7 @@ namespace Audio2MinecraftUI
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            w.ShowDialog();
+                            try { w.ShowDialog(); } catch { }
                         }));
                     };
                     waiting.RunWorkerAsync();
@@ -891,20 +957,63 @@ namespace Audio2MinecraftUI
                     worker.WorkerReportsProgress = true;
                     worker.DoWork += (ee, ea) =>
                     {
-                        a = new AudioStreamMidi().Serialize(MainWindow.Midipath, new TimeLine(), Rate);
+                        if (o.SynchroTick <= 0) preTimeLine = new AudioStreamMidi().SerializeByRate(MainWindow.Midipath, new TimeLine(), Rate, SetProgressBar);
+                        else
+                        {
+                            SetTotalProgressStage(2);
+                            preTimeLine = new AudioStreamMidi().SerializeByBeat(MainWindow.Midipath, new TimeLine(), o.SynchroTick, SetProgressBar);
+                            AddProgressStage();
+                            int last_bpm = -1;
+                            for (int i = 0; i < preTimeLine.TickNodes.Count; i++)
+                            {
+                                if (preTimeLine.TickNodes[i].BPM >= 0 && preTimeLine.TickNodes[i].BPM != last_bpm) //BPM changed
+                                {
+                                    double tps = (double)preTimeLine.TickNodes[i].BPM * preTimeLine.TicksPerBeat / 60 / SynchroTick;
+                                    Export.beatElements.Add(new SubWindow.BeatElement()
+                                    {
+                                        BPM = preTimeLine.TickNodes[i].BPM.ToString(),
+                                        TickStart = i,
+                                        TPS = tps.ToString("0.0000")
+                                    });
+                                    last_bpm = preTimeLine.TickNodes[i].BPM;
+                                }
+                                SetStagedProgressBar((double)i / preTimeLine.TickNodes.Count);
+                            }
+                            ResetProgressStage();
+                        }
                     };
                     worker.RunWorkerCompleted += (ee, ea) =>
                     {
                         w.Close();
                         //Caculate
-                        Export.Midi刻长.Text = a.Param["TotalTicks"].Value.ToString() + " ticks";
-                        var m = a.Param["TotalTicks"].Value / 1200;
-                        var s = a.Param["TotalTicks"].Value % 1200 / 20;
-                        Export.Midi时长.Text = m.ToString() + " : " + s.ToString();
-                        preTimeLine.Param["TotalTicks"].Value = a.Param["TotalTicks"].Value;
+                        if (o.SynchroTick <= 0) //By Rate
+                        {
+                            Export.Midi刻长.Text = preTimeLine.Param["TotalTicks"].Value.ToString() + " ticks";
+                            var m = preTimeLine.Param["TotalTicks"].Value / 1200;
+                            var s = preTimeLine.Param["TotalTicks"].Value % 1200 / 20;
+                            Export.Midi时长.Text = m.ToString() + " : " + s.ToString();
+                            preTimeLine.Param["TotalTicks"].Value = preTimeLine.Param["TotalTicks"].Value;
+
+                            o.SynchroTick = -1;
+                            Export.SwitchToRate();
+                            Export.setBeat((int)preTimeLine.TicksPerBeat);
+                            Export.Update();
+                        }
+                        else //By Beat
+                        {
+                            Export.setBeat(SynchroTick);
+                            Export.Midi同步率.Text = (preTimeLine.SynchronousRate * 100).ToString("0.00") + "%";
+                            var toolTip = new TextBlock();
+                            toolTip.Text = "有 " + (int)((1 - preTimeLine.SynchronousRate) * preTimeLine.Param["TotalTicks"].Value) + " 个音符与原Midi不同步.\n序列总长度为 " + preTimeLine.TickNodes.Count + " .";
+                            Export.Midi同步率.ToolTip = toolTip;
+                            Export.SwitchToBeat();
+                            Export.Update();
+                            SynchroTick = o.SynchroTick;
+                        }
                         //PublicSetting
                         PublicSetting.TTC.Text = preTimeLine.Param["MidiTracksCount"].Value.ToString();
                         PublicSetting.TQ.Text = preTimeLine.Param["MidiDeltaTicksPerQuarterNote"].Value.ToString();
+                        MainWindow.SetProgressBar(0);
                     };
                     worker.RunWorkerAsync();
                 }
@@ -979,9 +1088,16 @@ namespace Audio2MinecraftUI
         public static bool DataPackOrderByInstruments = false;
         public void SaveAsDatapack(object sender, MouseButtonEventArgs e)
         {
-            var n = new SubWindow.DataPackOutPut(); n.Owner = this; var c = (Lrcpath != "") ? GetLyrics() : null;
-            n.frec = Int32.Parse(WavSetting.单刻频率采样数.Text); n.volc = Int32.Parse(WavSetting.单刻振幅采样数.Text); n.cycle = Int32.Parse(WavSetting.采样周期.Text); if (c != null && c.Keyframe.Count > 0) n.lrcs = c;
-            n.ShowDialog();
+            try
+            {
+                var n = new SubWindow.DataPackOutPut(); n.Owner = this; var c = (Lrcpath != "") ? GetLyrics() : null;
+                n.frec = Int32.Parse(WavSetting.单刻频率采样数.Text); n.volc = Int32.Parse(WavSetting.单刻振幅采样数.Text); n.cycle = Int32.Parse(WavSetting.采样周期.Text); if (c != null && c.Keyframe.Count > 0) n.lrcs = c;
+                n.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex + Environment.NewLine + Environment.NewLine + "也许没有设置midi?或者没有设置wav?请检查各设置是否正常且不为空", "错误");
+            }
         }
     }
     /// <summary>
@@ -1000,6 +1116,7 @@ namespace Audio2MinecraftUI
         public string Lrcpath = "";
         public Uri rLrcpath;
         public double Rate = -1;
+        public int SynchroTick = -1;
         public int preTick = 0;
         public ExportSetting ExportSetting;
         public _PublicSetting PublicSetting;
@@ -1077,9 +1194,12 @@ namespace Audio2MinecraftUI
 
     public class MidiInfoTxt
     {
-        public MidiInfoTxt(string fileName, string fileOut, double rate = -1)
+        public MidiInfoTxt(string fileName, string fileOut, double rate = -1, int synchroTick = -1)
         {
-            var midi = new AudioStreamMidi().Serialize(fileName, new TimeLine(), rate);
+            var midi = new AudioStreamMidi().Serialize(fileName, new TimeLine(), rate, synchroTick, MainWindow.SetProgressBar);
+            MainWindow.SetProgressBar(0);
+            var total = midi.TickNodes.Count;
+            var current = 0;
             foreach (var n in midi.TickNodes)
             {
                 if (n.CurrentTick > -1)
@@ -1099,8 +1219,10 @@ namespace Audio2MinecraftUI
                         }
                     }
                 }
+                if (total > 0) MainWindow.SetProgressBar((double)current++ / total);
             }
             File.WriteAllText(fileOut, Lines.ToString());
+            MainWindow.SetProgressBar(0);
         }
         public StringBuilder Lines = new StringBuilder();
 
@@ -1117,10 +1239,10 @@ namespace Audio2MinecraftUI
     }
     public class MidiInfoExcel
     {
-        public MidiInfoExcel(string fileName, string fileOut, double rate = -1)
+        public MidiInfoExcel(string fileName, string fileOut, double rate = -1, int synchroTick = -1)
         {
             var timeLine = new TimeLine();
-            var midi = new AudioStreamMidi().Serialize(fileName, timeLine, rate); //MidiFile
+            var midi = new AudioStreamMidi().Serialize(fileName, timeLine, rate, synchroTick, MainWindow.SetProgressBar); //MidiFile
             var midi_index = new Dictionary<string, int>();
             var excel = new ExcelPackage();
             //Midi
@@ -1144,7 +1266,9 @@ namespace Audio2MinecraftUI
                 wks.Row(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 wks.Row(1).Style.Font.Bold = true;
             }
-
+            MainWindow.SetProgressBar(0);
+            var total = midi.TickNodes.Count;
+            var current = 0;
             foreach (var n in midi.TickNodes)
             {
                 if (n.CurrentTick > -1)
@@ -1185,6 +1309,7 @@ namespace Audio2MinecraftUI
                         }
                     }
                 }
+                if (total > 0) MainWindow.SetProgressBar((double)current++ / total);
             }
             //Export
             foreach (var t in midi.TrackList)
@@ -1194,6 +1319,7 @@ namespace Audio2MinecraftUI
                     excel.Workbook.Worksheets[k == "" ? "default" : k].Column(m).AutoFit();
             }
             excel.SaveAs(new FileInfo(fileOut));
+            MainWindow.SetProgressBar(0);
         }
 
         private string returnNote(int pitch)
@@ -1255,7 +1381,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "A-1.5-2";
+        public string version = "A-1.6";
         public string download;
         public string log;
     }

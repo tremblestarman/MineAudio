@@ -21,7 +21,7 @@ namespace Audio2Minecraft
         /// <param name="vol_count">振幅采样数</param>
         /// <param name="tick_cycle">采样周期</param>
         /// <returns>时间序列</returns>
-        public TimeLine Serialize(string fileName, TimeLine timeLine, int fre_count = 1, int vol_count = 1, int tick_cycle = 1)
+        public TimeLine Serialize(string fileName, TimeLine timeLine, int fre_count = 1, int vol_count = 1, int tick_cycle = 1, ShowProgress showProgress = null)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Audio2Minecraft
                 float[] Peak = new float[] {/* left_min */0, /* right_min */0, /* left_max */0, /* right_max */0 };
                 #region Set Nodes' 
                 //Foreach Frequency & Peak in WaveFile
-                int _temp = -1;
+                int _temp = -1; /* Set Total Progress */ timeLine.totalProgress = samplesL.Length;
                 for (int i = 0; i < samplesL.Length; i++)
                 {
                     //Get Sample
@@ -108,6 +108,7 @@ namespace Audio2Minecraft
                             Peak[0] = 0; Peak[1] = 0; Peak[2] = 0; Peak[3] = 0;
                         }
                     }
+                    /* Update Current Progress */ timeLine.currentProgress++; if (showProgress != null && timeLine.totalProgress > 0) showProgress((double)timeLine.currentProgress / timeLine.totalProgress);
                 }
                 #endregion
                 #endregion

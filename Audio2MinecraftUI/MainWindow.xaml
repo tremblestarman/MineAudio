@@ -327,4 +327,7 @@
             </Grid>
         </Grid>
     </Grid>
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo Description="Audio2Minecraft - Redstone Music Generator" ProgressValue="{Binding ProgressBar}" ProgressState="Normal"/>
+    </Window.TaskbarItemInfo>
 </Controls:MetroWindow>

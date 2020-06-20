@@ -33,7 +33,6 @@ namespace Audio2MinecraftUI.SubWindow
             OK.IsEnabled = false;
             if (MainWindow.DataPackPath != "") Path.Text = MainWindow.DataPackPath;
             if (MainWindow.DataPackOrderByInstruments) Switcher.Source = new BitmapImage(new Uri(@"\img\instrument_view.png", UriKind.Relative)); //If Selected Instrument
-            //Max.Text = MainWindow.DataPackMax.ToString();
         }
 
         private void Select(object sender, MouseButtonEventArgs e)
@@ -149,7 +148,7 @@ namespace Audio2MinecraftUI.SubWindow
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    w.ShowDialog();
+                    try { w.ShowDialog(); } catch { }
                 }));
             };
             waiting.RunWorkerAsync();
@@ -158,12 +157,17 @@ namespace Audio2MinecraftUI.SubWindow
             worker.WorkerReportsProgress = true;
             worker.DoWork += (o, ea) =>
             {
+                int stage = 3;
+                if (MainWindow.Midipath != "") stage++;
+                if (MainWindow.Wavepath != "") stage++;
+                if (lrcs != null) stage++;
+                MainWindow.SetTotalProgressStage(3);
                 exportLine = MainWindow.ConfirmTimeLine(frec, volc, cycle);
             };
             worker.RunWorkerCompleted += (o, ea) =>
             {
                 w.Close();
-                if (exportLine.TickNodes.Count == 0)
+                if ((exportLine == null || exportLine.TickNodes.Count == 0) && (lrcs == null || lrcs.Keyframe.Count == 0))
                 {
                     System.Windows.MessageBox.Show("输出序列为空", "提示"); return;
                 }
@@ -184,23 +188,24 @@ namespace Audio2MinecraftUI.SubWindow
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    w.ShowDialog();
+                    try { w.ShowDialog(); } catch { }
                 }));
             };
             waiting.RunWorkerAsync();
             //Work
             var worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
+            bool error = false;
             worker.DoWork += (o, ea) =>
             {
                 if (MainWindow.Midipath != "") sliceMidi(exportLine, !MainWindow.DataPackOrderByInstruments);
                 if (MainWindow.Wavepath != "") sliceWav(exportLine);
                 if (lrcs != null) sliceLrc();
-                cutByMaximum(commandMax);
+                try { cutByMaximum(commandMax); } catch { Dispatcher.Invoke(() => { w.Close(); MainWindow.ResetProgressStage(); }); System.Windows.MessageBox.Show("问题可能由以下原因造成：\n1.导出序列不包含任何命令\n2.命令溢出，数量大于2,147,483,647", "分类错误"); error = true; }
             };
             worker.RunWorkerCompleted += (o, ea) =>
             {
-                GenerateDataPack();
+                if (!error) try { GenerateDataPack(); } catch { Dispatcher.Invoke(() => { w.Close(); MainWindow.ResetProgressStage(); }); System.Windows.MessageBox.Show("问题可能由以下原因造成：\n1.目标文件被占用\n2.目标文件夹被占用", "导出错误"); return; }
                 w.Close();
                 this.Close();
                 this.Owner.Focus();
@@ -223,6 +228,7 @@ namespace Audio2MinecraftUI.SubWindow
             File.WriteAllText(path + "\\pack.mcmeta", description); //Datapack initialization
             var runfunction = "";
 
+            int currentProgress = 0;
             foreach (var space in DatapackSpaces)
             {
                 var spaceName = Guid.NewGuid().ToString("N").Substring(0, 8);
@@ -237,7 +243,9 @@ namespace Audio2MinecraftUI.SubWindow
                     File.WriteAllText(spacePath + "\\" + functionName + ".mcfunction", String.Join(Environment.NewLine, function.Value));
                     runfunction += "execute as @a[tag=" +scoreboard + ",scores={" +scoreboard + "=" + space.timeinfos[function.Key].Start + ".." + space.timeinfos[function.Key].End + "}] run function " + spaceName + ":" + functionName + Environment.NewLine; //Run Functions
                 }
+                MainWindow.SetStagedProgressBar(((double)currentProgress++) / DatapackSpaces.Count);
             }
+            MainWindow.SetStagedProgressBar(1);
             ///Runtime :
             //Run
             runfunction += "scoreboard players add @a[tag=" +scoreboard + ",scores={" +scoreboard + "=.." + StreamLength + "}] " +scoreboard + " 1"; //Time Add
@@ -279,6 +287,7 @@ namespace Audio2MinecraftUI.SubWindow
                         "}";
             File.WriteAllText(path + "\\data\\minecraft\\tags\\functions\\load.json", load);
             File.WriteAllText(path + "\\data\\minecraft\\tags\\functions\\tick.json", tick);
+            MainWindow.ResetProgressStage();
         }
         private string getPackName()
         {
@@ -299,17 +308,17 @@ namespace Audio2MinecraftUI.SubWindow
         #endregion
         public int frec, volc, cycle = 0;
         private TimeLine exportLine = new TimeLine(); public CommandLine lrcs = new CommandLine();
-        public static int commandMax = 65536;
-        static string scoreboard = "tick";
+        public int commandMax = 65536;
+        string scoreboard = "tick";
 
         #region DataPack
         /// <summary>
         /// DataPack命名空间
         /// </summary>
-        public static List<DataPackSpace> DatapackSpaces = new List<DataPackSpace>();
-        public static List<string> TrackEnabled = new List<string>();
-        public static List<string> InstrumentEnabled = new List<string>();
-        public static int StreamLength = -1;
+        public List<DataPackSpace> DatapackSpaces = new List<DataPackSpace>();
+        public List<string> TrackEnabled = new List<string>();
+        public List<string> InstrumentEnabled = new List<string>();
+        public int StreamLength = -1;
         private void sliceMidi(TimeLine timeLine, bool isTrack = true)
         {
             TrackEnabled = new List<string>(); InstrumentEnabled = new List<string>();
@@ -324,20 +333,29 @@ namespace Audio2MinecraftUI.SubWindow
                     DatapackSpaces.Add(new DataPackSpace() { Name = instrument.Name, mcfunctions = new Dictionary<string, List<string>>() { { instrument.Name, simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, instrument.Name, false, false, "1.13")) } } }); //New Space for Instrument
             }
             if (exportLine.TickNodes.Count > StreamLength) StreamLength = exportLine.TickNodes.Count; //GetLength
+            MainWindow.AddProgressStage();
+            MainWindow.SetStagedProgressBar(0);
         }
         private void sliceWav(TimeLine timeLine)
         {
-            timeLine.EnableWave(false, -1, "");
             if (timeLine.LeftWaveSetting.Enable == true)
+            {
                 DatapackSpaces.Add(new DataPackSpace() { Name = "WaveLeftChannel", mcfunctions = new Dictionary<string, List<string>>() { { "left", simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, null, true, false, "1.13")) } } }); //New Space for WaveLeft
+            }
             if (timeLine.RightWaveSetting.Enable == true)
+            {
                 DatapackSpaces.Add(new DataPackSpace() { Name = "WaveRightChannel", mcfunctions = new Dictionary<string, List<string>>() { { "right", simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, null, false, true, "1.13")) } } }); //New Space for WaveRight
+            }
+            MainWindow.AddProgressStage();
+            MainWindow.SetStagedProgressBar(0);
         }
         private void sliceLrc()
         {
             if (lrcs == null || lrcs.Keyframe.Count == 0) return;
             DatapackSpaces.Add(new DataPackSpace() { Name = "Lyrics", mcfunctions = new Dictionary<string, List<string>>() { { "lrc", simplifyCommands(lrcs) } } }); //New Space for Lrc
             if (lrcs.Keyframe.Count > StreamLength) StreamLength = lrcs.Keyframe.Count;
+            MainWindow.AddProgressStage();
+            MainWindow.SetStagedProgressBar(0);
         }
 
         private List<string> simplifyCommands(CommandLine commandLine)
@@ -361,17 +379,16 @@ namespace Audio2MinecraftUI.SubWindow
                         else commands.Add(new Regex(regex).Replace(_, "execute as @s[scores={" + scoreboard + "=" + t + "},"));
                     }
                     else if ((_.StartsWith("scoreboard") && !_.StartsWith("scoreboard players set @e[type=area_effect_cloud,tag=GenParam] CurrentTick")))
-                    {
-                        commands.Add(_);
-                    }
+                        commands.Add("execute as @a[scores={" + scoreboard + "=" + t + "}] run " + _);
                     else if (_.StartsWith("title") || _.StartsWith("tellraw"))
-                        commands.Add(_);
+                        commands.Add("execute as @a[scores={" + scoreboard + "=" + t + "}] run " + _);
                 }
             }
             return commands;
         }//Cut MCFunction
-        private static void cutByMaximum(int commandMax) //Cut MCFunction
+        private void cutByMaximum(int commandMax) //Cut MCFunction
         {
+            int currentProgress = 0;
             foreach (var c in DatapackSpaces)
             {
                 var _adding = new Dictionary<string, List<string>>();
@@ -399,9 +416,11 @@ namespace Audio2MinecraftUI.SubWindow
                 }
                 c.mcfunctions = new Dictionary<string, List<string>>(); //Reset mcfunction
                 foreach (var _cmdl in _adding) { c.mcfunctions.Add(_cmdl.Key, _cmdl.Value); } //Add ne
+                MainWindow.SetStagedProgressBar(((double)currentProgress++) / DatapackSpaces.Count);
             }
+            MainWindow.AddProgressStage();
         }
-        private static int getTick(string command)
+        private int getTick(string command)
         {
             var regex = "(?<=(execute as @[aesp]\\[scores=\\{" + scoreboard + "=))\\d+(?=\\})";
             var tick = -1;
@@ -410,7 +429,7 @@ namespace Audio2MinecraftUI.SubWindow
         }
         #endregion
         #region Schedule
-        public static bool Scheduled = false;//ongoing
+        public bool Scheduled = false;//ongoing
         #endregion
     }
 

@@ -154,23 +154,24 @@ namespace ExecutiveMidi.SubWindow
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    w.ShowDialog();
+                    try { w.ShowDialog(); } catch { }
                 }));
             };
             waiting.RunWorkerAsync();
             //Work
             var worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
+            bool error = false;
             worker.DoWork += (o, ea) =>
             {
                 var space = new DataPackSpace();
                 space.mcfunctions.Add(getPackName(), modifyCommands(MainWindow.cmdLine));
                 DatapackSpaces.Add(space);
-                cutByMaximum(commandMax);
+                try { cutByMaximum(commandMax); } catch { Dispatcher.Invoke(() => { w.Close(); MainWindow.ResetProgressStage(); }); System.Windows.MessageBox.Show("问题可能由以下原因造成：\n1.导出序列不包含任何命令\n2.命令溢出，数量大于2,147,483,647", "分类错误"); error = true; }
             };
             worker.RunWorkerCompleted += (o, ea) =>
             {
-                GenerateDataPack();
+                if (!error) try { GenerateDataPack(); } catch { Dispatcher.Invoke(() => { w.Close(); MainWindow.ResetProgressStage(); }); System.Windows.MessageBox.Show("问题可能由以下原因造成：\n1.目标文件被占用\n2.目标文件夹被占用", "导出错误"); return; }
                 w.Close();
                 this.Close();
                 this.Owner.Focus();
@@ -267,17 +268,17 @@ namespace ExecutiveMidi.SubWindow
             return path;
         }
         #endregion
-        public static int commandMax = 65536;
-        static string scoreboard = "tick";
+        public int commandMax = 65536;
+        public string scoreboard = "tick";
 
         #region DataPack
         /// <summary>
         /// DataPack命名空间
         /// </summary>
-        public static List<DataPackSpace> DatapackSpaces = new List<DataPackSpace>();
-        public static List<string> TrackEnabled = new List<string>();
-        public static List<string> InstrumentEnabled = new List<string>();
-        public static int StreamLength = -1;
+        public List<DataPackSpace> DatapackSpaces = new List<DataPackSpace>();
+        public List<string> TrackEnabled = new List<string>();
+        public List<string> InstrumentEnabled = new List<string>();
+        public int StreamLength = -1;
 
         private List<string> modifyCommands(CommandLine commandLine)
         {
@@ -294,7 +295,7 @@ namespace ExecutiveMidi.SubWindow
             }
             return commands;
         }//Cut MCFunction
-        private static void cutByMaximum(int commandMax) //Cut MCFunction
+        private void cutByMaximum(int commandMax) //Cut MCFunction
         {
             foreach (var c in DatapackSpaces)
             {
@@ -325,11 +326,11 @@ namespace ExecutiveMidi.SubWindow
                 foreach (var _cmdl in _adding) { c.mcfunctions.Add(_cmdl.Key, _cmdl.Value); } //Add ne
             }
         }
-        private static string setTick(string command, int tick)
+        private string setTick(string command, int tick)
         {
             return "execute as @a[scores={" + scoreboard + "=" + tick + "}] run " + command;
         }
-        private static int getTick(string command)
+        private int getTick(string command)
         {
             var regex = "(?<=(execute as @[aesp]\\[scores=\\{" + scoreboard + "=))\\d+(?=\\})";
             var tick = -1;

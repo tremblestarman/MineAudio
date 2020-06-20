@@ -2,3 +2,10 @@ C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\bin\Debug\Audio2Minecraft.pdb
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\obj\Debug\Audio2Minecraft.dll
 C:\Users\Administrator\Documents\Visual Studio 2015\Projects\Audio2Minecraft\Dll\obj\Debug\Audio2Minecraft.pdb
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Dll\bin\Debug\Audio2Minecraft.dll
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Dll\bin\Debug\Audio2Minecraft.pdb
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Dll\obj\Debug\Audio2Minecraft.csproj.CopyComplete
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Dll\obj\Debug\Audio2Minecraft.dll
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Dll\obj\Debug\Audio2Minecraft.pdb
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Dll\obj\Debug\Audio2Minecraft.csprojAssemblyReference.cache
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Dll\obj\Debug\Audio2Minecraft.csproj.CoreCompileInputs.cache

@@ -83,6 +83,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SubWindow\BeatList.xaml.cs">
+      <DependentUpon>BeatList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubWindow\DataPackOutPut.xaml.cs">
       <DependentUpon>DataPackOutPut.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SubWindow\BeatList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SubWindow\DataPackOutPut.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -193,6 +200,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\datapack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\beat_view.png" />
+    <Resource Include="img\rate_view.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\bpm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\export.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

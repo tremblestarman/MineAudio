@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ExecutiveMidi"
         xmlns:ham="clr-namespace:ExecutiveMidi.Humberger"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Initialized="MetroWindow_Initialized"
+        Initialized="MetroWindow_Initialized" Closing="MetroWindow_Closing"
         Height="380" Width="640"
         Title="Executive Midi" MinHeight="380" MinWidth="640" MaxHeight="380" MaxWidth="640"
                        
@@ -114,6 +114,25 @@
                 </Image.ToolTip>
             </Image>
         </Button>
+        <Button x:Name="export_setting" HorizontalAlignment="Left" Height="24" Margin="574,45,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="ShowExportSetting" PreviewMouseLeftButtonDown="ShowExportSetting" >
+            <Image Source="img/export.png" Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-6" Y="-6"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip Placement="Right">
+                        <TextBlock>
+                            导出设置
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+        </Button>
         <Button x:Name="datapack" HorizontalAlignment="Left" Height="24" Margin="600,45,0,0" VerticalAlignment="Top" Width="24" MouseLeftButtonDown="SaveAsDatapack" PreviewMouseLeftButtonDown="SaveAsDatapack" >
             <Image Source="img/datapack.png" Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-10" >
                 <Image.RenderTransform>
@@ -133,10 +152,13 @@
                 </Image.ToolTip>
             </Image>
         </Button>
-        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,45,0,0" VerticalAlignment="Top" Width="506" Content=""/>
+        <Label x:Name="FileShow" HorizontalAlignment="Left" Height="30" Margin="89,45,0,0" VerticalAlignment="Top" Width="480" Content=""/>
         <Grid Margin="10,75,10,8">
             <Border BorderThickness="1" BorderBrush="DarkGray"/>
             <ham:MidiSetting x:Name="MidiSetting" Margin="0,10"></ham:MidiSetting>
         </Grid>
     </Grid>
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo Description="Audio2Minecraft - Redstone Music Generator" ProgressValue="{Binding ProgressBar}" ProgressState="Normal"/>
+    </Window.TaskbarItemInfo>
 </Controls:MetroWindow>

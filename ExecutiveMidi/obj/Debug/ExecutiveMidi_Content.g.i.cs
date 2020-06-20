@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("executivemidi.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("img/export.png")]
 
 

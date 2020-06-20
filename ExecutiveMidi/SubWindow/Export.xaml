@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:ExecutiveMidi.SubWindow"
         mc:Ignorable="d"
         Title="导出设置" Height="222" Width="400"
-        Initialized="Window_Initialized" Closed="MetroWindow_Closed"
+        Initialized="Window_Initialized" Closing="MetroWindow_Closing"
         MaxHeight="222" MaxWidth="400" MinHeight="222" MinWidth="400"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Icon="/img/executivemidi.ico">
@@ -42,17 +42,18 @@
             </TextBlock.ToolTip>
         </TextBlock>
         <CheckBox x:Name="保持区块加载" Margin="136,146,220,37" Click="_Click"/>
-        <TextBlock Text="重设BPM" FontSize="12px" Margin="244,28,63,155">
+        <TextBlock x:Name="Tip1" Text="重设播放倍率" FontSize="12px" Margin="244,28,63,155">
             <TextBlock.ToolTip>
                 <ToolTip>
                     <TextBlock>
-                        重设BPM 调整Midi的时长
+                        重设播放倍率 调整Midi的时长
                     </TextBlock>
                 </ToolTip>
             </TextBlock.ToolTip>
         </TextBlock>
-        <TextBox x:Name="重设播放倍率" Margin="244,50,50,125" TextChanged="FloatOnly" KeyDown="_KeyDownFloat" PreviewKeyDown="_KeyDownFloat" />
-        <TextBlock Text="Midi时长" FontSize="12px" Margin="244,87,83,96">
+        <TextBox x:Name="Textbox_float" Margin="244,50,50,125" TextChanged="FloatOnly" KeyDown="_KeyDownFloat" PreviewKeyDown="_KeyDownFloat" />
+        <TextBox x:Name="Textbox_int" Visibility="Hidden" Margin="244,50,50,125" TextChanged="NumericOnly" KeyDown="_KeyDown" PreviewKeyDown="_KeyDown" />
+        <TextBlock x:Name="Tip2" Text="Midi时长" FontSize="12px" Margin="244,87,83,96">
             <TextBlock.ToolTip>
                 <ToolTip>
                     <TextBlock>
@@ -61,10 +62,10 @@
                 </ToolTip>
             </TextBlock.ToolTip>
         </TextBlock>
-        <TextBlock x:Name="Midi刻长" Text="" FontSize="12px" Margin="252,108,2,75"/>
-        <TextBlock x:Name="Midi时长" Text="" FontSize="12px" Margin="252,128,2,55"/>
+        <TextBlock x:Name="Info1" Text="" FontSize="12px" Margin="252,108,2,75"/>
+        <TextBlock x:Name="Info2" Text="" FontSize="12px" Margin="252,128,2,55"/>
         <Button x:Name="Ok" HorizontalAlignment="Left" Margin="357,52,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="OK" PreviewMouseLeftButtonDown="OK">
-            <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+            <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-10,-14" >
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -75,8 +76,8 @@
                 </Image.RenderTransform>
             </Image>
         </Button>
-        <Button x:Name="Done" HorizontalAlignment="Left" Margin="196,174,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
-            <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="0,0,-10,-14" >
+        <Button x:Name="BeatList" Visibility="Hidden" HorizontalAlignment="Center" Margin="242,174,10,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="ShowBeatList" PreviewMouseLeftButtonDown="ShowBeatList">
+            <Image Source="/img/bpm.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-10,-14" >
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -85,6 +86,44 @@
                         <TranslateTransform X="-5" Y="-7"/>
                     </TransformGroup>
                 </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            节奏-BPM-Tick换算表
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+        </Button>
+        <Button x:Name="Done" HorizontalAlignment="Left" Margin="196,174,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="DoneChanges" PreviewMouseLeftButtonDown="DoneChanges">
+            <Image Source="/img/done.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-10,-14" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-5" Y="-7"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Button>
+        <Button x:Name="Switch" HorizontalAlignment="Left" Margin="357,24,0,0" VerticalAlignment="Top" Height="24" Width="24" MouseLeftButtonDown="SwitchView" PreviewMouseLeftButtonDown="SwitchView">
+            <Image x:Name="SwitchImage" Source="/img/rate_view.png"  Stretch="Fill" Height="24" Width="24" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-10,-14" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-5" Y="-7"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                            切换生成模式(Beat表示按节奏,Rate表示按绝对时间)
+                        </TextBlock>
+                    </ToolTip>
+                </Image.ToolTip>
             </Image>
         </Button>
     </Grid>

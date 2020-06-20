@@ -18,7 +18,30 @@ namespace Audio2Minecraft
         /// <param name="timeLine">时间序列</param>
         /// <param name="rate">播放速率(New BPM = BPM * rate)</param>
         /// <returns>时间序列</returns>
-        public TimeLine Serialize(string fileName, TimeLine timeLine, double rate = -1)
+        public TimeLine SerializeByRate(string fileName, TimeLine timeLine, double rate = -1, ShowProgress showProgress = null)
+        {
+            return Serialize(fileName, timeLine, rate, -1, showProgress);
+        }
+        /// <summary>
+        /// 通过Midi生成时间序列
+        /// </summary>
+        /// <param name="fileName">Midi文件路径</param>
+        /// <param name="timeLine">时间序列</param>
+        /// <param name="synchroTick">节奏间隔(MidiTick)</param>
+        /// <returns>时间序列</returns>
+        public TimeLine SerializeByBeat(string fileName, TimeLine timeLine, int synchroTick = -1, ShowProgress showProgress = null)
+        {
+            return Serialize(fileName, timeLine, -1, synchroTick, showProgress);
+        }
+        /// <summary>
+        /// 通过Midi生成时间序列
+        /// </summary>
+        /// <param name="fileName">Midi文件路径</param>
+        /// <param name="timeLine">时间序列</param>
+        /// <param name="rate">播放速率(New BPM = BPM * rate)</param>
+        /// <param name="synchroTick">节奏间隔(MidiTick),设置此项后将忽略播放速率</param>
+        /// <returns>时间序列</returns>
+        public TimeLine Serialize(string fileName, TimeLine timeLine, double rate = -1, int synchroTick = -1, ShowProgress showProgress = null)
         {
             try
             {
@@ -33,6 +56,9 @@ namespace Audio2Minecraft
                 //Public Event
                 var timeSignature = midiFile.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault();
                 double bpm = 0;
+                timeLine.BeatsPerBar = timeSignature == null ? 4 : timeSignature.Numerator;
+                timeLine.TicksPerBar = timeSignature == null ? midiFile.DeltaTicksPerQuarterNote * 4 : (timeSignature.Numerator * midiFile.DeltaTicksPerQuarterNote * 4) / (1 << timeSignature.Denominator);
+                timeLine.TicksPerBeat = timeLine.TicksPerBar / timeLine.BeatsPerBar;
                 #region MidiFile -> MidiNodes(Unordered)
                 List<MidiNode> MidiNodes = new List<MidiNode>();
                 //Foreach Events in MidiFile
@@ -114,12 +140,14 @@ namespace Audio2Minecraft
                 }
                 #endregion
                 #region MidiNodes in Order
+                /* Set Total Progress */ timeLine.totalProgress = MidiNodes.Count * 2;
                 bpm = 0;
                 long bpm_key_t = 0; //When BPM Changes
                 long bpm_key_mt = 0;
                 MidiNodes = (from n in MidiNodes
                              orderby n.Param["DeltaTickStart"].Value
-                             select n).ToList();
+                             select n).ToList(); //Make Nodes in Order
+                int synchroCount = 0;
                 for (int i = 0; i < MidiNodes.Count; i++) //Calculate Tick Start
                 {
                     var n = MidiNodes[i];
@@ -130,8 +158,16 @@ namespace Audio2Minecraft
                         bpm = n.Param["BeatPerMinute"].Value;
                         bpm_key_t = n.Param["DeltaTickStart"].Value;
                     }
-                    n.Param["MinecraftTickStart"].Value = (int)MinecraftTickStart(n.Param["DeltaTickStart"].Value, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm, bpm_key_t, bpm_key_mt);
+                    else n.Param["BeatPerMinute"].Value = (int)bpm;
+                    if (synchroTick <= 0) n.Param["MinecraftTickStart"].Value = (int)MinecraftTickStart(n.Param["DeltaTickStart"].Value, midiFile.DeltaTicksPerQuarterNote, timeSignature, bpm, bpm_key_t, bpm_key_mt);
+                    else
+                    { //Using synchroTick
+                        n.Param["MinecraftTickStart"].Value = n.Param["DeltaTickStart"].Value / synchroTick;
+                        if (n.Param["DeltaTickStart"].Value % synchroTick == 0) synchroCount++;
+                    }
+                    /* Update Current Progress */ timeLine.currentProgress++; if (showProgress != null && timeLine.totalProgress > 0) showProgress((double)timeLine.currentProgress / timeLine.totalProgress);
                 }
+                timeLine.SynchronousRate = (double)synchroCount / MidiNodes.Count;
                 #endregion
                 #region MidiNodes -> TickNodes
                 //Creat and Set Lenth of TickNodes
@@ -151,7 +187,9 @@ namespace Audio2Minecraft
                     if (timeLine.TickNodes[index].MidiTracks.ContainsKey(track) == false) timeLine.TickNodes[index].MidiTracks.Add(track, new Dictionary<string, List<MidiNode>>());
                     if (timeLine.TickNodes[index].MidiTracks[track].ContainsKey(instrument) == false) timeLine.TickNodes[index].MidiTracks[track].Add(instrument, new List<MidiNode>());
                     timeLine.TickNodes[index].MidiTracks[track][instrument].Add(node);
+                    timeLine.TickNodes[index].BPM = node.Param["BeatPerMinute"].Value;
                     timeLine.TickNodes[index].CurrentTick = index;
+                    /* Update Current Progress */ timeLine.currentProgress++; if (showProgress != null && timeLine.totalProgress > 0) showProgress((double)timeLine.currentProgress / timeLine.totalProgress);
                 }
                 #endregion
                 timeLine.Param["TotalTicks"].Value = timeLine.TickNodes.Count;
