@@ -807,7 +807,9 @@ namespace Audio2MinecraftUI
 
                         //命令序列实例化
                         SetTotalProgressStage(3);
-                        var commandLine = new CommandLine().Serialize(ConfirmTimeLine(m_1, m_2, m_3), "1.12", SetStagedProgressBar);
+                        CommandLine commandLine;
+                        if (fileDialog.FilterIndex < 4) commandLine = new CommandLine().Serialize(ConfirmTimeLine(m_1, m_2, m_3), "1.12", SetStagedProgressBar);
+                        else commandLine = new CommandLine().Serialize(ConfirmTimeLine(m_1, m_2, m_3), "1.13", SetStagedProgressBar);
                         AddProgressStage();
                         foreach (var ex in ExtensionFiles)
                         {
@@ -1381,7 +1383,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "A-1.6";
+        public string version = "A-1.6-1";
         public string download;
         public string log;
     }

@@ -198,6 +198,7 @@ namespace Audio2MinecraftUI.SubWindow
             bool error = false;
             worker.DoWork += (o, ea) =>
             {
+                StartCommands.Clear(); ResetCommands.Clear();
                 if (MainWindow.Midipath != "") sliceMidi(exportLine, !MainWindow.DataPackOrderByInstruments);
                 if (MainWindow.Wavepath != "") sliceWav(exportLine);
                 if (lrcs != null) sliceLrc();
@@ -259,9 +260,11 @@ namespace Audio2MinecraftUI.SubWindow
             ///Operations :
             //Start
             var startfunction = "tag @s add " +scoreboard + Environment.NewLine + "scoreboard players set @s " +scoreboard + " 0";
+            foreach (var c in StartCommands) startfunction += Environment.NewLine + c;
             File.WriteAllText(path + "\\data\\" + name + "\\functions\\start.mcfunction", startfunction);
             //Reset
             var resetfunction = "tag @s remove " +scoreboard + Environment.NewLine + "scoreboard players reset @s " +scoreboard;
+            foreach (var c in ResetCommands) resetfunction += Environment.NewLine + c;
             File.WriteAllText(path + "\\data\\" + name + "\\functions\\reset.mcfunction", resetfunction);
             //Pause
             var pausefunction = "tag @s remove " +scoreboard;
@@ -318,19 +321,29 @@ namespace Audio2MinecraftUI.SubWindow
         public List<DataPackSpace> DatapackSpaces = new List<DataPackSpace>();
         public List<string> TrackEnabled = new List<string>();
         public List<string> InstrumentEnabled = new List<string>();
+        public List<string> StartCommands = new List<string>();
+        public List<string> ResetCommands = new List<string>();
         public int StreamLength = -1;
         private void sliceMidi(TimeLine timeLine, bool isTrack = true)
         {
             TrackEnabled = new List<string>(); InstrumentEnabled = new List<string>();
+            CommandLine commandLine;
             if (isTrack) //Track
             {
                 foreach (var track in timeLine.TrackList)
-                    DatapackSpaces.Add(new DataPackSpace() { Name = track.Name, mcfunctions = new Dictionary<string, List<string>>() { { track.Name, simplifyCommands(new CommandLine().SerializeSpecified(timeLine, track.Name, null, false, false, "1.13")) } } }); //New Space for Track
+                {
+                    commandLine = new CommandLine().SerializeSpecified(timeLine, track.Name, null, false, false, "1.13");
+                    StartCommands = StartCommands.Union(commandLine.Start).ToList<string>(); ResetCommands = ResetCommands.Union(commandLine.End).ToList<string>();
+                    DatapackSpaces.Add(new DataPackSpace() { Name = track.Name, mcfunctions = new Dictionary<string, List<string>>() { { track.Name, simplifyCommands(commandLine) } } }); //New Space for Track
+                }
             }
             else //Instrument
             {
-                foreach (var instrument in timeLine.InstrumentList)
-                    DatapackSpaces.Add(new DataPackSpace() { Name = instrument.Name, mcfunctions = new Dictionary<string, List<string>>() { { instrument.Name, simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, instrument.Name, false, false, "1.13")) } } }); //New Space for Instrument
+                foreach (var instrument in timeLine.InstrumentList) {
+                    commandLine = new CommandLine().SerializeSpecified(timeLine, null, instrument.Name, false, false, "1.13");
+                    StartCommands = StartCommands.Union(commandLine.Start).ToList<string>(); ResetCommands = ResetCommands.Union(commandLine.End).ToList<string>();
+                    DatapackSpaces.Add(new DataPackSpace() { Name = instrument.Name, mcfunctions = new Dictionary<string, List<string>>() { { instrument.Name, simplifyCommands(commandLine) } } }); //New Space for Instrument
+                }
             }
             if (exportLine.TickNodes.Count > StreamLength) StreamLength = exportLine.TickNodes.Count; //GetLength
             MainWindow.AddProgressStage();
@@ -338,13 +351,18 @@ namespace Audio2MinecraftUI.SubWindow
         }
         private void sliceWav(TimeLine timeLine)
         {
+            CommandLine commandLine;
             if (timeLine.LeftWaveSetting.Enable == true)
             {
-                DatapackSpaces.Add(new DataPackSpace() { Name = "WaveLeftChannel", mcfunctions = new Dictionary<string, List<string>>() { { "left", simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, null, true, false, "1.13")) } } }); //New Space for WaveLeft
+                commandLine = new CommandLine().SerializeSpecified(timeLine, null, null, true, false, "1.13");
+                StartCommands = StartCommands.Union(commandLine.Start).ToList<string>(); ResetCommands = ResetCommands.Union(commandLine.End).ToList<string>();
+                DatapackSpaces.Add(new DataPackSpace() { Name = "WaveLeftChannel", mcfunctions = new Dictionary<string, List<string>>() { { "left", simplifyCommands(commandLine) } } }); //New Space for WaveLeft
             }
             if (timeLine.RightWaveSetting.Enable == true)
             {
-                DatapackSpaces.Add(new DataPackSpace() { Name = "WaveRightChannel", mcfunctions = new Dictionary<string, List<string>>() { { "right", simplifyCommands(new CommandLine().SerializeSpecified(timeLine, null, null, false, true, "1.13")) } } }); //New Space for WaveRight
+                commandLine = new CommandLine().SerializeSpecified(timeLine, null, null, false, true, "1.13");
+                StartCommands = StartCommands.Union(commandLine.Start).ToList<string>(); ResetCommands = ResetCommands.Union(commandLine.End).ToList<string>();
+                DatapackSpaces.Add(new DataPackSpace() { Name = "WaveRightChannel", mcfunctions = new Dictionary<string, List<string>>() { { "right", simplifyCommands(commandLine) } } }); //New Space for WaveRight
             }
             MainWindow.AddProgressStage();
             MainWindow.SetStagedProgressBar(0);
@@ -352,6 +370,7 @@ namespace Audio2MinecraftUI.SubWindow
         private void sliceLrc()
         {
             if (lrcs == null || lrcs.Keyframe.Count == 0) return;
+            StartCommands = StartCommands.Union(lrcs.Start).ToList<string>(); ResetCommands = ResetCommands.Union(lrcs.End).ToList<string>();
             DatapackSpaces.Add(new DataPackSpace() { Name = "Lyrics", mcfunctions = new Dictionary<string, List<string>>() { { "lrc", simplifyCommands(lrcs) } } }); //New Space for Lrc
             if (lrcs.Keyframe.Count > StreamLength) StreamLength = lrcs.Keyframe.Count;
             MainWindow.AddProgressStage();
