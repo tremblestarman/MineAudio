@@ -37,7 +37,11 @@ namespace Audio2MinecraftUI.SubWindow
 
         private void Select(object sender, MouseButtonEventArgs e)
         {
-            var fb = new FolderBrowserDialog();
+            var fb = new FolderBrowserDialog(); fb.ShowNewFolderButton = true; var saves = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.minecraft\saves";
+            if (Directory.Exists(saves))
+            {
+                fb.SelectedPath = saves;
+            }
             fb.Description = "请选择datapacks文件夹";
             if (fb.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -138,6 +142,7 @@ namespace Audio2MinecraftUI.SubWindow
             //Confirm TimeLine
             MainWindow.datapackName = Name1.Text;
             commandMax = Int32.Parse(Max.Text);
+            disableGeneralParam = 禁用全局变量.IsChecked == true;
 
             #region TimeLineGenerate
             //Waiting
@@ -163,6 +168,12 @@ namespace Audio2MinecraftUI.SubWindow
                 if (lrcs != null) stage++;
                 MainWindow.SetTotalProgressStage(3);
                 exportLine = MainWindow.ConfirmTimeLine(frec, volc, cycle);
+                if (disableGeneralParam == true) // 禁用所有使用GenParam的选项
+                {
+                    foreach (string param in exportLine.Param.Keys) exportLine.Param[param].Enable = false;
+                    exportLine.OutPutTick = false;
+                    exportLine.OutPutBPM = false;
+                }
             };
             worker.RunWorkerCompleted += (o, ea) =>
             {
@@ -242,7 +253,7 @@ namespace Audio2MinecraftUI.SubWindow
                 {
                     var functionName = Guid.NewGuid().ToString("N").Substring(0, 8);
                     File.WriteAllText(spacePath + "\\" + functionName + ".mcfunction", String.Join(Environment.NewLine, function.Value));
-                    runfunction += "execute as @a[tag=" +scoreboard + ",scores={" +scoreboard + "=" + space.timeinfos[function.Key].Start + ".." + space.timeinfos[function.Key].End + "}] run function " + spaceName + ":" + functionName + Environment.NewLine; //Run Functions
+                    runfunction += "execute if entity @a[tag=" +scoreboard + ",scores={" +scoreboard + "=" + space.timeinfos[function.Key].Start + ".." + space.timeinfos[function.Key].End + "}] run function " + spaceName + ":" + functionName + Environment.NewLine; //Run Functions
                 }
                 MainWindow.SetStagedProgressBar(((double)currentProgress++) / DatapackSpaces.Count);
             }
@@ -311,7 +322,7 @@ namespace Audio2MinecraftUI.SubWindow
         #endregion
         public int frec, volc, cycle = 0;
         private TimeLine exportLine = new TimeLine(); public CommandLine lrcs = new CommandLine();
-        public int commandMax = 65536;
+        public int commandMax = 65536; public bool disableGeneralParam = false;
         string scoreboard = "tick";
 
         #region DataPack
@@ -388,14 +399,14 @@ namespace Audio2MinecraftUI.SubWindow
                     var _ = c.Commands[i];
                     if (_.StartsWith("execute"))
                     {
-                        var regex = "^execute as @[aesp]\\[";
+                        var regex = "^execute as @([aespr])\\[";
                         var r = new Regex(regex).Match(_).Value;
                         if (r == "")
                         {
-                            regex = "^execute as @[aesp]"; r = new Regex(regex).Match(_).Value;
-                            commands.Add(new Regex(regex).Replace(_, "execute as @s[scores={" + scoreboard + "=" + t + "}]"));
+                            regex = "^execute as @([aespr])"; r = new Regex(regex).Match(_).Value;
+                            commands.Add(new Regex(regex).Replace(_, "execute as @$1[scores={" + scoreboard + "=" + t + "}]"));
                         } //without []
-                        else commands.Add(new Regex(regex).Replace(_, "execute as @s[scores={" + scoreboard + "=" + t + "},"));
+                        else commands.Add(new Regex(regex).Replace(_, "execute as @$1[scores={" + scoreboard + "=" + t + "},"));
                     }
                     else if ((_.StartsWith("scoreboard") && !_.StartsWith("scoreboard players set @e[type=area_effect_cloud,tag=GenParam] CurrentTick")))
                         commands.Add("execute as @a[scores={" + scoreboard + "=" + t + "}] run " + _);

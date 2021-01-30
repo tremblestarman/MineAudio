@@ -1383,7 +1383,7 @@ namespace Audio2MinecraftUI
 
     public class _Version
     {
-        public string version = "A-1.6-1";
+        public string version = "A-1.6-2";
         public string download;
         public string log;
     }

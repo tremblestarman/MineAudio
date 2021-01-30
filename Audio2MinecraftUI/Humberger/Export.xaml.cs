@@ -115,7 +115,7 @@ namespace Audio2MinecraftUI.Humberger
             MainWindow.LyricMode.LyricOutSet.color1 = 已播放颜色.Text;
             MainWindow.LyricMode.LyricOutSet.color2 = 未播放颜色.Text;
             MainWindow.PublicSet.ST = 双声道.SelectedIndex;
-            if (MainWindow.Midipath != "" && (MainWindow.Rate.ToString() != 重设播放倍率.Text || MainWindow.SynchroTick.ToString() != 重设节奏间隔.Text))
+            if (MainWindow.Midipath != "")
             {
                 var m_ = MainWindow.Midipath;
                 var a = new TimeLine();
@@ -152,6 +152,7 @@ namespace Audio2MinecraftUI.Humberger
                         MainWindow.Rate = Double.Parse(重设播放倍率.Text);
                         MainWindow.preTick = a.Param["TotalTicks"].Value;
                         MainWindow.SetProgressBar(0);
+                        usingRate = true;
                     };
                     worker.RunWorkerAsync();
                 }
@@ -194,6 +195,7 @@ namespace Audio2MinecraftUI.Humberger
                         MainWindow.preTick = a.Param["TotalTicks"].Value;
                         MainWindow.SynchroTick = Int32.Parse(重设节奏间隔.Text);
                         MainWindow.ResetProgressStage();
+                        usingRate = false;
                     };
                     worker.RunWorkerAsync();   
                 }
@@ -201,18 +203,19 @@ namespace Audio2MinecraftUI.Humberger
             Done.IsEnabled = false;
         }
 
+        private bool usingRate = true;
         public void SwitchToRate()
         {
+            Done.IsEnabled = !Midi.IsVisible && !usingRate;
             Midi.Visibility = Visibility.Visible;
             Midi_Beat.Visibility = Visibility.Hidden;
-            Done.IsEnabled = true;
             SwitchImage.Source = new BitmapImage(new Uri(@"\img\rate_view.png", UriKind.Relative));
         }
         public void SwitchToBeat()
         {
+            Done.IsEnabled = Midi.IsVisible && usingRate;
             Midi.Visibility = Visibility.Hidden;
             Midi_Beat.Visibility = Visibility.Visible;
-            Done.IsEnabled = true;
             SwitchImage.Source = new BitmapImage(new Uri(@"\img\beat_view.png", UriKind.Relative));
         }
         private void SwitchView(object sender, MouseButtonEventArgs e)

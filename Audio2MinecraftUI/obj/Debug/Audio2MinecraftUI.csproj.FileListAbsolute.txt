@@ -93,7 +93,7 @@ C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\De
 C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\Audio2MinecraftUI.csproj.CopyComplete
 C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\Audio2MinecraftUI.exe
 C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\Audio2MinecraftUI.pdb
-C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\bin\Debug\Audio2Minecraft.pdb
 C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\BeatList.g.cs
 C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\SubWindow\BeatList.baml
 C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\obj\Debug\Audio2MinecraftUI.csproj.CoreCompileInputs.cache
+C:\Users\11634\Desktop\ToolKit\Projects\Audio2Minecraft\Audio2MinecraftUI\bin\Debug\Audio2Minecraft.pdb

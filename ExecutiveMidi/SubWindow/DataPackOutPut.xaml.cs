@@ -38,7 +38,11 @@ namespace ExecutiveMidi.SubWindow
 
         private void Select(object sender, MouseButtonEventArgs e)
         {
-            var fb = new FolderBrowserDialog();
+            var fb = new FolderBrowserDialog(); fb.ShowNewFolderButton = true; var saves = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.minecraft\saves";
+            if (Directory.Exists(saves))
+            {
+                fb.SelectedPath = saves;
+            }
             fb.Description = "请选择datapacks文件夹";
             if (fb.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

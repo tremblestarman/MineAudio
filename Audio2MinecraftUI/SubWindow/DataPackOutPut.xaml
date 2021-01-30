@@ -17,6 +17,17 @@
         <TextBox x:Name="Name1" Controls:TextBoxHelper.Watermark="请输入数据包名称" HorizontalAlignment="Left" Height="24" Margin="63,44,0,0" VerticalAlignment="Top" Width="172" Text="" KeyDown="Name_KeyDown" PreviewKeyDown="Name_KeyDown" TextChanged="Name_TextChanged"/>
         <TextBlock Text="命令长度限制" Margin="14,82,190,11"></TextBlock>
         <TextBox x:Name="Max" Controls:TextBoxHelper.Watermark="" HorizontalAlignment="Left" Height="24" Margin="94,77,0,0" VerticalAlignment="Top" Width="73" Text="65536" KeyDown="Name_KeyDown" PreviewKeyDown="Number_KeyDown" TextChanged="Number_TextChanged"/>
+        <CheckBox x:Name="禁用全局变量" Uid="EnableLeft" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="186,80,-21,10" IsChecked="True" Width="125" Height="21">
+            <TextBlock Text="禁用全局变量">
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <TextBlock>
+                              禁用所有全局变量，包括CurrentTick(在命令流中会被强制开启)
+                        </TextBlock>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>
+        </CheckBox>
         <Button HorizontalAlignment="Left" Margin="13,41,0,0" VerticalAlignment="Top" Height="32" Width="32" MouseLeftButtonDown="Switch" PreviewMouseLeftButtonDown="Switch">
             <Image x:Name="Switcher" Source="/img/track_view.png"  Stretch="Fill" Height="32" Width="32" RenderTransformOrigin="0.5,0.5" Margin="-1,0,-11,-10">
                 <Image.RenderTransform>

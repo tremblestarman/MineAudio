@@ -32,12 +32,15 @@ namespace Audio2Minecraft
                 //List of Entities
                 var entities = new Dictionary<string, DescribeEntity>();
                 #region Head of TimeLine
-                entities.Add("GenParam", new DescribeEntity() { Feature = "GenParam", Count = 1 });
+                entities.Add("GenParam", new DescribeEntity() { Feature = "GenParam", Count = 1 }); bool hasGenParam = timeLine.OutPutTick || timeLine.OutPutBPM;
                 scoreboards = Param2ScoreboardsList(timeLine.Param, scoreboards);
                 foreach (string param in timeLine.Param.Keys)
                 {
                     if (timeLine.Param[param].Enable == true)
+                    {
+                        hasGenParam = true;
                         commandLine.Start.Add(setCommand("GenParam", timeLine.Param[param].Name, timeLine.Param[param].Value, version));
+                    }
                 }
                 if (timeLine.OutPutTick)
                     scoreboards.Add("CurrentTick");
@@ -47,7 +50,7 @@ namespace Audio2Minecraft
                 #region Keyframes
                 //Command:
                 var cmdExecute = "execute "; var cmdRelative = ""; var isrun = false;
-                if (version == "1.13" || version == "1.14") { cmdExecute = "execute as "; cmdRelative = " at @s positioned"; isrun = true; }
+                if (version == "1.13") { cmdExecute = "execute as "; cmdRelative = " at @s positioned"; isrun = true; }
                 //Create Keyframes
                 for (int c = 0; c < timeLine.TickNodes.Count; c++) commandLine.Keyframe.Add(new Command());
                 //Foreach Tick
@@ -208,8 +211,12 @@ namespace Audio2Minecraft
                     var entity = entities[feature];
                     for (int m = 0; m < entity.Count; m++)
                     {
-                        var tags = entity.Feature + ((entity.Feature == "GenParam") ? "" : "_" + m) + "," + entity.Track + "," + entity.Instrument;
-                        commandLine.Start.Insert(0, "summon area_effect_cloud ~ ~ ~ {Tags:[" + tags + ",AudioRiptideNode],Duration:" + (commandLine.Keyframe.Count * 10).ToString() + "}");
+                        if (entity.Feature == "GenParam" && !hasGenParam) continue; // No General Param
+                        var tags = (entity.Feature == "GenParam") ? "GenParam" : entity.Feature + "_" + m + "," + entity.Track + "," + entity.Instrument;
+                        if (version == "1.12")
+                            commandLine.Start.Insert(0, "summon area_effect_cloud ~ ~ ~ {Tags:[" + tags + ",AudioRiptideNode],Duration:" + (commandLine.Keyframe.Count * 10).ToString() + "}");
+                        else
+                            commandLine.End.Add("scoreboard players reset " + entity.Feature + "_" + m);
                     }
                 }
                 foreach (var scoreboard in scoreboards)
@@ -244,12 +251,15 @@ namespace Audio2Minecraft
                 //List of Entities
                 var entities = new Dictionary<string, DescribeEntity>();
                 #region Head of TimeLine
-                entities.Add("GenParam", new DescribeEntity() { Feature = "GenParam", Count = 1 });
+                entities.Add("GenParam", new DescribeEntity() { Feature = "GenParam", Count = 1 }); bool hasGenParam = timeLine.OutPutTick || timeLine.OutPutBPM;
                 scoreboards = Param2ScoreboardsList(timeLine.Param, scoreboards);
                 foreach (string param in timeLine.Param.Keys)
                 {
                     if (timeLine.Param[param].Enable == true)
+                    {
+                        hasGenParam = true;
                         commandLine.Start.Add(setCommand("GenParam", timeLine.Param[param].Name, timeLine.Param[param].Value, version));
+                    }
                 }
                 if (timeLine.OutPutTick)
                     scoreboards.Add("CurrentTick");
@@ -260,7 +270,7 @@ namespace Audio2Minecraft
                 /* Set Total Progress */ this.totalProgress = timeLine.TickNodes.Count;
                 //Command:
                 var cmdExecute = "execute "; var cmdRelative = ""; var isrun = false;
-                if (version == "1.13" || version == "1.14") { cmdExecute = "execute as "; cmdRelative = " at @s positioned"; isrun = true; }
+                if (version == "1.13") { cmdExecute = "execute as "; cmdRelative = " at @s positioned"; isrun = true; }
                 //Create Keyframes
                 for (int c = 0; c < timeLine.TickNodes.Count; c++) commandLine.Keyframe.Add(new Command());
                 //Foreach Tick
@@ -423,8 +433,12 @@ namespace Audio2Minecraft
                     var entity = entities[feature];
                     for (int m = 0; m < entity.Count; m++)
                     {
-                        var tags = entity.Feature + "_" + m + "," + entity.Track + "," + entity.Instrument;
-                        commandLine.Start.Insert(0, "summon area_effect_cloud ~ ~ ~ {Tags:[" + tags + ",AudioRiptideNode],Duration:" + (commandLine.Keyframe.Count * 10).ToString() + "}");
+                        if (entity.Feature == "GenParam" && !hasGenParam) continue; // No General Param
+                        var tags = (entity.Feature == "GenParam") ? "GenParam" : entity.Feature + "_" + m + "," + entity.Track + "," + entity.Instrument;
+                        if (version == "1.12")
+                            commandLine.Start.Insert(0, "summon area_effect_cloud ~ ~ ~ {Tags:[" + tags + ",AudioRiptideNode],Duration:" + (commandLine.Keyframe.Count * 10).ToString() + "}");
+                        else
+                            commandLine.End.Add("scoreboard players reset " + entity.Feature + "_" + m);
                     }
                 }
                 foreach (var scoreboard in scoreboards)
@@ -496,7 +510,7 @@ namespace Audio2Minecraft
         private string setCommand(string target, string score_name, int score, string version = "1.12")
         {
             if (version == "1.13")
-                return "scoreboard players set @e[type=minecraft:area_effect_cloud,tag=" + target + "] " + score_name + " " + score.ToString();
+                return "scoreboard players set " + target + " " + score_name + " " + score.ToString();
             else
                 return "scoreboard players set @e[type=area_effect_cloud,tag=" + target + "] " + score_name + " " + score.ToString();
         }
